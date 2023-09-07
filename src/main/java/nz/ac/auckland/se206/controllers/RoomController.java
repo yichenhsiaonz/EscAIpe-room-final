@@ -25,6 +25,7 @@ public class RoomController {
   @FXML private Rectangle window;
   @FXML private Rectangle vase;
   @FXML private ImageView character;
+  @FXML private ImageView running;
   @FXML private Pane room;
 
   /** Initializes the room view, it is called when the room loads. */
@@ -38,6 +39,14 @@ public class RoomController {
     // Set the dimensions of the character
     character.setFitWidth(50); // Width of character image
     character.setFitHeight(50); // Height of character image
+
+    // Set the initial position of the character within the Pane
+    running.setLayoutX(0); // Initial X position
+    running.setLayoutY(0); // Initial Y position
+
+    // Set the dimensions of the character
+    running.setFitWidth(50); // Width of character image
+    running.setFitHeight(50); // Height of character image
   }
 
   /**
@@ -115,6 +124,21 @@ public class RoomController {
 
     // Play the animation
     transition.play();
+
+    // Create a TranslateTransition to smoothly move the character
+    TranslateTransition transition2 = new TranslateTransition(Duration.seconds(0.5), running);
+    transition2.setToX(characterX);
+    transition2.setToY(characterY);
+
+    running.setOpacity(1);
+    // Play the animation
+    transition2.play();
+
+    transition2.setOnFinished(
+        e -> {
+          // Remove the circle from the pane when the animation is done
+          running.setOpacity(0);
+        });
   }
 
   /**

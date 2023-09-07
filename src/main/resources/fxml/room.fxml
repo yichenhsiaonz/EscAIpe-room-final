@@ -11,5 +11,10 @@
             <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
          </image>
       </ImageView>
+      <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="77.0" layoutY="297.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
