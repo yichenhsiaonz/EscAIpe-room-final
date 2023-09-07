@@ -4,9 +4,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="room" focusTraversable="true" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
+<Pane fx:id="room" focusTraversable="true" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" onMouseClicked="#moveCharacter" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
    <children>
-      <ImageView fitHeight="103.0" fitWidth="100.0" layoutX="83.0" layoutY="301.0">
+      <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="83.0" layoutY="301.0">
          <image>
             <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
          </image>

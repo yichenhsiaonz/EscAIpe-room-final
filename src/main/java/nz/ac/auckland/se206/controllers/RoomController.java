@@ -1,11 +1,14 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 
@@ -15,10 +18,19 @@ public class RoomController {
   @FXML private Rectangle door;
   @FXML private Rectangle window;
   @FXML private Rectangle vase;
+  @FXML private ImageView character;
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
     // Initialization code goes here
+
+    // Set the initial position of the character within the Pane
+    character.setLayoutX(0); // Initial X position
+    character.setLayoutY(0); // Initial Y position
+
+    // Set the dimensions of the character
+    character.setFitWidth(50); // Width of character image
+    character.setFitHeight(50); // Height of character image
   }
 
   /**
@@ -39,6 +51,34 @@ public class RoomController {
   @FXML
   public void onKeyReleased(KeyEvent event) {
     System.out.println("key " + event.getCode() + " released");
+  }
+
+  @FXML
+  public void moveCharacter(MouseEvent event) {
+    System.out.println("character moved");
+
+    double mouseX = event.getX();
+    double mouseY = event.getY();
+
+    System.out.println("Mouse X: " + mouseX + " Mouse Y: " + mouseY);
+
+    // Retrieve the character's width and height using fitWidth and fitHeight
+    double characterWidth = character.getFitWidth();
+    double characterHeight = character.getFitHeight();
+
+    // Calculate the character's new position relative to the Pane
+    double characterX = mouseX - characterWidth / 2; // Adjust for character's width
+    double characterY = mouseY - characterHeight / 2; // Adjust for character's height
+
+    System.out.println("Character X: " + characterX + " Character Y: " + characterY);
+
+    // Create a TranslateTransition to smoothly move the character
+    TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), character);
+    transition.setToX(characterX);
+    transition.setToY(characterY);
+
+    // Play the animation
+    transition.play();
   }
 
   /**
