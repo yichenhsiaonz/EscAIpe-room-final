@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nz.ac.auckland.se206.SceneManager.AppUi;
 
 /**
  * This is the entry point of the JavaFX application, while you can change this class, it should
@@ -19,8 +20,8 @@ public class App extends Application {
     launch();
   }
 
-  public static void setRoot(String fxml) throws IOException {
-    scene.setRoot(loadFxml(fxml));
+  public static void setRoot(AppUi window) throws IOException {
+    scene.setRoot(SceneManager.getUiRoot(window));
   }
 
   /**
@@ -31,8 +32,13 @@ public class App extends Application {
    * @return The node of the input file.
    * @throws IOException If the file is not found.
    */
-  private static Parent loadFxml(final String fxml) throws IOException {
-    return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml")).load();
+  public static Parent loadFxml(String fxml) throws IOException {
+    try {
+      return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml")).load();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   /**
@@ -43,11 +49,14 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws IOException {
-    Parent root = loadFxml("room");
-    scene = new Scene(root, 600, 470);
+    SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
+    scene = new Scene(SceneManager.getUiRoot(AppUi.MENU), 600, 400);
     stage.setScene(scene);
+    stage.setResizable(false);
     stage.show();
-    root.requestFocus();
+    SceneManager.getUiRoot(AppUi.MENU).requestFocus();
+    // TODO TEMP REMOVE LATER
+    SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
+    SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
   }
-
 }
