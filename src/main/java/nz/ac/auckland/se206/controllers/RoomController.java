@@ -149,6 +149,14 @@ public class RoomController {
     transition2.setToX(characterX);
     transition2.setToY(characterY);
 
+    if (characterX > character.getTranslateX()) {
+      running.setScaleX(1);
+      character.setScaleX(1);
+    } else {
+      running.setScaleX(-1);
+      character.setScaleX(-1);
+    }
+
     running.setOpacity(1);
     // Play the animation
     transition2.play();
