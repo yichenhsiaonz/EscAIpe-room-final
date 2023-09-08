@@ -30,7 +30,6 @@ public class RoomController {
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
-    // Initialization code goes here
 
     // Set the initial position of the character within the Pane
     character.setLayoutX(0); // Initial X position
@@ -40,13 +39,13 @@ public class RoomController {
     character.setFitWidth(50); // Width of character image
     character.setFitHeight(50); // Height of character image
 
-    // Set the initial position of the character within the Pane
+    // Set the initial position of the running gif within the Pane
     running.setLayoutX(0); // Initial X position
     running.setLayoutY(0); // Initial Y position
 
-    // Set the dimensions of the character
-    running.setFitWidth(50); // Width of character image
-    running.setFitHeight(50); // Height of character image
+    // Set the dimensions of the running gif
+    running.setFitWidth(50); // Width of running gif
+    running.setFitHeight(50); // Height of running gif
   }
 
   /**
@@ -69,19 +68,26 @@ public class RoomController {
     System.out.println("key " + event.getCode() + " released");
   }
 
+  /**
+   * 'Consumes' the mouse event, preventing it from being registered.
+   *
+   * @param event the mouse event
+   */
   @FXML
   private void consumeMouseEvent(MouseEvent event) {
     event.consume();
   }
 
+  /**
+   * Handles the mouse click event on the room, moving the character to the clicked location.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void moveCharacter(MouseEvent event) {
-    System.out.println("character moved");
 
     double mouseX = event.getX();
     double mouseY = event.getY();
-
-    System.out.println("Mouse X: " + mouseX + " Mouse Y: " + mouseY);
 
     // Create a circle for the click animation
     Circle clickCircle = new Circle(5); // Adjust the radius as needed
@@ -89,7 +95,7 @@ public class RoomController {
     clickCircle.setCenterX(mouseX);
     clickCircle.setCenterY(mouseY);
 
-    // Add the circle to your root pane (replace 'yourRootPane' with your actual pane)
+    // Add the circle to the room
     room.getChildren().add(clickCircle);
 
     // Create a fade transition for the circle
@@ -116,11 +122,9 @@ public class RoomController {
     double characterWidth = character.getFitWidth();
     double characterHeight = character.getFitHeight();
 
-    // Calculate the character's new position relative to the Pane
+    // Calculate the character's new position relative to the room
     double characterX = mouseX - characterWidth / 2; // Adjust for character's width
     double characterY = mouseY - characterHeight / 2; // Adjust for character's height
-
-    System.out.println("Character X: " + characterX + " Character Y: " + characterY);
 
     // Calculate the distance the character needs to move
     double distanceToMove =
@@ -129,7 +133,7 @@ public class RoomController {
                 + Math.pow(characterY - character.getTranslateY(), 2));
 
     // Define a constant speed
-    double constantSpeed = 300; // Adjust this value as needed
+    double constantSpeed = 300;
 
     // Calculate the duration based on constant speed and distance
     double durationSeconds = distanceToMove / constantSpeed;
@@ -149,6 +153,7 @@ public class RoomController {
     transition2.setToX(characterX);
     transition2.setToY(characterY);
 
+    // flip the character and running gif if needed
     if (characterX > character.getTranslateX()) {
       running.setScaleX(1);
       character.setScaleX(1);
