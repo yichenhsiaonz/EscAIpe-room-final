@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.MenuController">
+   <children>
+      <ImageView fitHeight="124.0" fitWidth="347.0" layoutX="102.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="18.0" layoutY="190.0" text="Difficulty" />
+      <RadioButton fx:id="hardRadioButton" layoutX="18.0" layoutY="225.0" mnemonicParsing="false" onAction="#onHardSelected" text="Hard">
+         <toggleGroup>
+            <ToggleGroup fx:id="difficulty" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="mediumRadioButton" layoutX="19.0" layoutY="259.0" mnemonicParsing="false" onAction="#onMediumSelected" selected="true" text="Medium" toggleGroup="$difficulty" />
+      <RadioButton fx:id="easyRadioButton" layoutX="19.0" layoutY="295.0" mnemonicParsing="false" onAction="#onEasySelected" text="Easy" toggleGroup="$difficulty" />
+      <Label layoutX="113.0" layoutY="190.0" text="Time limit" />
+      <RadioButton fx:id="twoRadioButton" layoutX="113.0" layoutY="225.0" mnemonicParsing="false" onAction="#onTwoSelected" text="2 Minutes">
+         <toggleGroup>
+            <ToggleGroup fx:id="time" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="fourRadioButton" layoutX="113.0" layoutY="259.0" mnemonicParsing="false" onAction="#onFourSelected" selected="true" text="4 Minutes" toggleGroup="$time" />
+      <RadioButton fx:id="sixRadioButton" layoutX="113.0" layoutY="295.0" mnemonicParsing="false" onAction="#onSixSelected" text="6 Minutes" toggleGroup="$time" />
+      <Button layoutX="18.0" layoutY="342.0" mnemonicParsing="false" onAction="#onStartGame" text="Start">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="533.0" layoutY="316.0" mnemonicParsing="false" onAction="#onCredits" text="Credits">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="534.0" layoutY="354.0" mnemonicParsing="false" onAction="#onQuitGame" text="  Quit  ">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="creditsLabel" layoutX="418.0" layoutY="247.0" prefHeight="59.0" prefWidth="168.0" text="Aurea Arlene Cheryl Saptaputra&#10;Albert Sun&#10;Yi-Chen Hsiao" textAlignment="RIGHT" visible="false" />
+   </children>
+</Pane>
