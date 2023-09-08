@@ -117,16 +117,30 @@ public class RoomController {
 
     System.out.println("Character X: " + characterX + " Character Y: " + characterY);
 
+    // Calculate the distance the character needs to move
+    double distanceToMove =
+        Math.sqrt(
+            Math.pow(characterX - character.getTranslateX(), 2)
+                + Math.pow(characterY - character.getTranslateY(), 2));
+
+    // Define a constant speed
+    double constantSpeed = 300; // Adjust this value as needed
+
+    // Calculate the duration based on constant speed and distance
+    double durationSeconds = distanceToMove / constantSpeed;
+
     // Create a TranslateTransition to smoothly move the character
-    TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), character);
+    TranslateTransition transition =
+        new TranslateTransition(Duration.seconds(durationSeconds), character);
     transition.setToX(characterX);
     transition.setToY(characterY);
 
     // Play the animation
     transition.play();
 
-    // Create a TranslateTransition to smoothly move the character
-    TranslateTransition transition2 = new TranslateTransition(Duration.seconds(0.5), running);
+    // Create a TranslateTransition to smoothly move the "running" element
+    TranslateTransition transition2 =
+        new TranslateTransition(Duration.seconds(durationSeconds), running);
     transition2.setToX(characterX);
     transition2.setToY(characterY);
 
@@ -136,7 +150,7 @@ public class RoomController {
 
     transition2.setOnFinished(
         e -> {
-          // Remove the circle from the pane when the animation is done
+          // Remove the "running" element from the pane when the animation is done
           running.setOpacity(0);
         });
   }
