@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="room" focusTraversable="true" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" onMouseClicked="#moveCharacter" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
    <children>
@@ -16,5 +18,10 @@
             <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
          </image>
       </ImageView>
+      <Label alignment="CENTER" layoutX="189.0" layoutY="123.0" onMouseClicked="#consumeMouseEvent" prefHeight="93.0" prefWidth="280.0" text="Cannot click">
+         <font>
+            <Font size="47.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

@@ -70,6 +70,11 @@ public class RoomController {
   }
 
   @FXML
+  private void consumeMouseEvent(MouseEvent event) {
+    event.consume();
+  }
+
+  @FXML
   public void moveCharacter(MouseEvent event) {
     System.out.println("character moved");
 
