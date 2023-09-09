@@ -1,11 +1,20 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
@@ -16,10 +25,28 @@ public class RoomController {
   @FXML private Rectangle door;
   @FXML private Rectangle window;
   @FXML private Rectangle vase;
+  @FXML private ImageView character;
+  @FXML private ImageView running;
+  @FXML private Pane room;
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
-    // Initialization code goes here
+
+    // Set the initial position of the character within the Pane
+    character.setLayoutX(0); // Initial X position
+    character.setLayoutY(0); // Initial Y position
+
+    // Set the dimensions of the character
+    character.setFitWidth(50); // Width of character image
+    character.setFitHeight(50); // Height of character image
+
+    // Set the initial position of the running gif within the Pane
+    running.setLayoutX(0); // Initial X position
+    running.setLayoutY(0); // Initial Y position
+
+    // Set the dimensions of the running gif
+    running.setFitWidth(50); // Width of running gif
+    running.setFitHeight(50); // Height of running gif
   }
 
   /**
@@ -40,6 +67,111 @@ public class RoomController {
   @FXML
   public void onKeyReleased(KeyEvent event) {
     System.out.println("key " + event.getCode() + " released");
+  }
+
+  /**
+   * 'Consumes' the mouse event, preventing it from being registered.
+   *
+   * @param event the mouse event
+   */
+  @FXML
+  private void consumeMouseEvent(MouseEvent event) {
+    event.consume();
+  }
+
+  /**
+   * Handles the mouse click event on the room, moving the character to the clicked location.
+   *
+   * @param event the mouse event
+   */
+  @FXML
+  public void moveCharacter(MouseEvent event) {
+
+    double mouseX = event.getX();
+    double mouseY = event.getY();
+
+    // Create a circle for the click animation
+    Circle clickCircle = new Circle(5); // Adjust the radius as needed
+    clickCircle.setFill(Color.BLUE); // Set the color of the circle
+    clickCircle.setCenterX(mouseX);
+    clickCircle.setCenterY(mouseY);
+
+    // Add the circle to the room
+    room.getChildren().add(clickCircle);
+
+    // Create a fade transition for the circle
+    FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.4), clickCircle);
+    fadeOut.setFromValue(1.0);
+    fadeOut.setToValue(0.0);
+
+    // Create a scale transition for the circle
+    ScaleTransition scale = new ScaleTransition(Duration.seconds(0.4), clickCircle);
+    scale.setToX(3.0); // Adjust the scale factor as needed
+    scale.setToY(3.0); // Adjust the scale factor as needed
+
+    // Play both the fade and scale transitions in parallel
+    ParallelTransition parallelTransition = new ParallelTransition(fadeOut, scale);
+    parallelTransition.setOnFinished(
+        e -> {
+          // Remove the circle from the pane when the animation is done
+          room.getChildren().remove(clickCircle);
+        });
+
+    parallelTransition.play();
+
+    // Retrieve the character's width and height using fitWidth and fitHeight
+    double characterWidth = character.getFitWidth();
+    double characterHeight = character.getFitHeight();
+
+    // Calculate the character's new position relative to the room
+    double characterX = mouseX - characterWidth / 2; // Adjust for character's width
+    double characterY = mouseY - characterHeight / 2; // Adjust for character's height
+
+    // Calculate the distance the character needs to move
+    double distanceToMove =
+        Math.sqrt(
+            Math.pow(characterX - character.getTranslateX(), 2)
+                + Math.pow(characterY - character.getTranslateY(), 2));
+
+    // Define a constant speed
+    double constantSpeed = 300;
+
+    // Calculate the duration based on constant speed and distance
+    double durationSeconds = distanceToMove / constantSpeed;
+
+    // Create a TranslateTransition to smoothly move the character
+    TranslateTransition transition =
+        new TranslateTransition(Duration.seconds(durationSeconds), character);
+    transition.setToX(characterX);
+    transition.setToY(characterY);
+
+    // Play the animation
+    transition.play();
+
+    // Create a TranslateTransition to smoothly move the "running" element
+    TranslateTransition transition2 =
+        new TranslateTransition(Duration.seconds(durationSeconds), running);
+    transition2.setToX(characterX);
+    transition2.setToY(characterY);
+
+    // flip the character and running gif if needed
+    if (characterX > character.getTranslateX()) {
+      running.setScaleX(1);
+      character.setScaleX(1);
+    } else {
+      running.setScaleX(-1);
+      character.setScaleX(-1);
+    }
+
+    running.setOpacity(1);
+    // Play the animation
+    transition2.play();
+
+    transition2.setOnFinished(
+        e -> {
+          // Remove the "running" element from the pane when the animation is done
+          running.setOpacity(0);
+        });
   }
 
   /**
