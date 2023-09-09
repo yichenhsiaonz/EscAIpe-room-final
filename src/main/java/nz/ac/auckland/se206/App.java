@@ -58,6 +58,7 @@ public class App extends Application {
     // TODO TEMP REMOVE LATER
     SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
     SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
+    SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad"));
 
     SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));

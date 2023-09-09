@@ -43,9 +43,12 @@ public class ControlRoomController {
    * Handles the click event on the computer.
    *
    * @param event the mouse event
+   * @throws IOException
    */
   @FXML
-  public void clickKeypad(MouseEvent event) {
+  public void clickKeypad(MouseEvent event) throws IOException {
     System.out.println("keypad clicked");
+
+    App.setRoot(AppUi.KEYPAD);
   }
 }

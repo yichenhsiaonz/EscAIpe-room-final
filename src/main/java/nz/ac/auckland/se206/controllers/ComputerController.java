@@ -10,7 +10,7 @@ import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class ComputerController {
   @FXML private TextArea riddleTextArea;
-  @FXML private TextField inpuText;
+  @FXML private TextField inputText;
   @FXML private Button enterButton;
   @FXML private Button exitButton;
 

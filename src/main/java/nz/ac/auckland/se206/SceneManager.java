@@ -11,6 +11,7 @@ public class SceneManager {
     ROOM3,
     // TODO TEMP REMOVE LATER
     COMPUTER,
+    KEYPAD,
     ROOM,
     CHAT
   }
