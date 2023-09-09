@@ -50,7 +50,7 @@ public class App extends Application {
   @Override
   public void start(final Stage stage) throws IOException {
     SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
-    scene = new Scene(SceneManager.getUiRoot(AppUi.MENU), 600, 400);
+    scene = new Scene(SceneManager.getUiRoot(AppUi.MENU), 600, 650);
     stage.setScene(scene);
     stage.setResizable(false);
     stage.show();
