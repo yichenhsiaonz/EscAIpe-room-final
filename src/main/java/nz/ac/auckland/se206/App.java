@@ -55,6 +55,11 @@ public class App extends Application {
     stage.setResizable(false);
     stage.show();
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
+    stage.setOnCloseRequest(
+        request -> {
+          // edit this if you wanna add a confirmation dialog or whatever
+          System.exit(0);
+        });
     // TODO TEMP REMOVE LATER
     SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));

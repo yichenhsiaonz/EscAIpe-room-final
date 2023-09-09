@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -23,5 +24,8 @@
             <Font size="47.0" />
          </font>
       </Label>
+      <ProgressBar fx:id="timerProgressBar" focusTraversable="false" layoutX="24.0" layoutY="32.0" prefWidth="200.0" progress="1.0" />
+      <Label fx:id="timerLabel" layoutX="231.0" layoutY="33.0" text="2:00" />
+      <Label layoutX="24.0" layoutY="14.0" text="Power Left:" />
    </children>
 </Pane>

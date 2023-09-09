@@ -7,6 +7,8 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -28,9 +30,13 @@ public class RoomController {
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
+  @FXML private Label timerLabel;
+  @FXML private ProgressBar timerProgressBar;
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
+    timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
+    timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
 
     // Set the initial position of the character within the Pane
     character.setLayoutX(0); // Initial X position
