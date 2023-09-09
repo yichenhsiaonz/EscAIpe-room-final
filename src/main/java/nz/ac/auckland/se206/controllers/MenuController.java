@@ -69,6 +69,7 @@ public class MenuController {
     GameState.setTime(time);
 
     try {
+      new Thread(GameState.timerTask).start();
       // TODO LOAD THE RIGHT ROOM
       App.setRoot(AppUi.ROOM);
     } catch (Exception e) {
