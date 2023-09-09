@@ -4,6 +4,8 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import nz.ac.auckland.se206.App;
+import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class ControlRoomController {
   @FXML private Rectangle computer;
@@ -23,16 +25,17 @@ public class ControlRoomController {
   @FXML
   public void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
+
+    App.setRoot(AppUi.COMPUTER);
   }
 
   /**
    * Handles the click event on the computer.
    *
    * @param event the mouse event
-   * @throws IOException if there is an error loading the chat view
    */
   @FXML
-  public void clickExit(MouseEvent event) throws IOException {
+  public void clickExit(MouseEvent event) {
     System.out.println("exit door clicked");
   }
 
@@ -40,10 +43,9 @@ public class ControlRoomController {
    * Handles the click event on the computer.
    *
    * @param event the mouse event
-   * @throws IOException if there is an error loading the chat view
    */
   @FXML
-  public void clickKeypad(MouseEvent event) throws IOException {
+  public void clickKeypad(MouseEvent event) {
     System.out.println("keypad clicked");
   }
 }

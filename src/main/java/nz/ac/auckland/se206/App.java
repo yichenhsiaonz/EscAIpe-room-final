@@ -57,6 +57,8 @@ public class App extends Application {
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
     // TODO TEMP REMOVE LATER
     SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
+    SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
+
     SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
   }

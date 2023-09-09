@@ -10,6 +10,7 @@ public class SceneManager {
     ROOM2,
     ROOM3,
     // TODO TEMP REMOVE LATER
+    COMPUTER,
     ROOM,
     CHAT
   }
