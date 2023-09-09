@@ -70,7 +70,7 @@ public class MenuController {
 
     try {
       // TODO LOAD THE RIGHT ROOM
-      App.setRoot(AppUi.ROOM);
+      App.setRoot(AppUi.CONTROL_ROOM);
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");

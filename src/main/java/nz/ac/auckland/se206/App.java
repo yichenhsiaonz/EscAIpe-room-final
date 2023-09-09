@@ -56,6 +56,7 @@ public class App extends Application {
     stage.show();
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
     // TODO TEMP REMOVE LATER
+    SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
     SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
   }
