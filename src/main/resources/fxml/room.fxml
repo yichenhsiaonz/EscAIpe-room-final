@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="room" focusTraversable="true" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" onMouseClicked="#moveCharacter" prefHeight="470.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
+<Pane fx:id="room" focusTraversable="true" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" onMouseClicked="#moveCharacter" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
    <children>
-      <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="83.0" layoutY="301.0">
+      <Label alignment="CENTER" layoutY="441.0" onMouseClicked="#consumeMouseEvent" prefHeight="215.0" prefWidth="600.0">
+         <font>
+            <Font size="47.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="40.0" layoutY="88.0">
          <image>
             <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="77.0" layoutY="297.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="34.0" layoutY="84.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
          </image>
@@ -27,5 +35,8 @@
       <ProgressBar fx:id="timerProgressBar" focusTraversable="false" layoutX="24.0" layoutY="32.0" prefWidth="200.0" progress="1.0" />
       <Label fx:id="timerLabel" layoutX="231.0" layoutY="33.0" text="2:00" />
       <Label layoutX="24.0" layoutY="14.0" text="Power Left:" />
+      <TextArea editable="false" layoutX="25.0" layoutY="465.0" prefHeight="119.0" prefWidth="485.0" />
+      <TextField layoutX="25.0" layoutY="597.0" prefHeight="25.0" prefWidth="485.0" />
+      <Button layoutX="521.0" layoutY="597.0" mnemonicParsing="false" text="Submit" />
    </children>
 </Pane>
