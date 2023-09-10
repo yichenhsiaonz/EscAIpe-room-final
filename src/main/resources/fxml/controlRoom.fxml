@@ -1,40 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ControlRoomController">
-   <children>
-      <ImageView fitHeight="435.0" fitWidth="604.0" layoutX="17.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Screenshot%202023-09-10%20at%204.55.58%20PM.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="204.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/computer_purple.png" />
-         </image>
-      </ImageView>
-      <Rectangle fx:id="computer" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="55.0" layoutX="209.0" layoutY="35.0" onMouseClicked="#clickComputer" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="42.0" />
-      <ImageView fitHeight="93.0" fitWidth="56.0" layoutX="426.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/exit.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="34.0" fitWidth="35.0" layoutX="517.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/keypad.png" />
-         </image>
-      </ImageView>
-      <Rectangle fx:id="exitDoor" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="93.0" layoutX="426.0" layoutY="2.0" onMouseClicked="#clickExit" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="53.0" />
-      <Rectangle fx:id="keypad" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="33.0" layoutX="520.0" layoutY="30.0" onMouseClicked="#clickKeypad" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="29.0" />
-      <TextArea editable="false" layoutX="25.0" layoutY="465.0" prefHeight="119.0" prefWidth="485.0" />
-      <TextField layoutX="25.0" layoutY="597.0" prefHeight="25.0" prefWidth="485.0" />
-      <Button layoutX="521.0" layoutY="597.0" mnemonicParsing="false" text="Submit" />
-   </children>
-</Pane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ControlRoomController">
+   <center>
+      <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_RIGHT" layoutX="602.0" layoutY="496.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <VBox alignment="BOTTOM_LEFT">
+                     <children>
+                        <Pane fx:id="room">
+                           <children>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../images/Screenshot%202023-09-10%20at%204.55.58%20PM.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="141.0" fitWidth="168.0" layoutX="489.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/computer_purple.png" />
+                                 </image>
+                              </ImageView>
+                              <Rectangle fx:id="computer" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="132.0" layoutX="501.0" layoutY="65.0" onMouseClicked="#clickComputer" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
+                              <ImageView fitHeight="189.0" fitWidth="189.0" layoutX="1087.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../images/exit.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="87.0" fitWidth="112.0" layoutX="1315.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/keypad.png" />
+                                 </image>
+                              </ImageView>
+                              <Rectangle fx:id="exitDoor" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="184.0" layoutX="1091.0" layoutY="2.0" onMouseClicked="#clickExit" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
+                              <Rectangle fx:id="keypad" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="79.0" layoutX="1326.0" layoutY="69.0" onMouseClicked="#clickKeypad" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="67.0" />
+                           </children>
+                        </Pane>
+                        <Label text="Power Left:">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <HBox>
+                           <children>
+                              <ProgressBar fx:id="timerProgressBar" focusTraversable="false" prefHeight="35.0" prefWidth="609.0" progress="1.0" />
+                              <Label fx:id="timerLabel" text="2:00">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT">
+                     <children>
+                        <TextArea editable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <HBox>
+                           <children>
+                              <TextField prefHeight="25.0" prefWidth="270.0" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Submit" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
+</BorderPane>

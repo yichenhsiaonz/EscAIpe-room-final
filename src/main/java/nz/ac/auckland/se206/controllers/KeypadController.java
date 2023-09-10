@@ -5,10 +5,12 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class KeypadController {
+  @FXML private AnchorPane contentPane;
   @FXML private TextField codeText;
   @FXML private Button oneButton;
   @FXML private Button twoButton;
@@ -28,6 +30,7 @@ public class KeypadController {
 
   public void initialize() {
     // Initialization code goes here
+    RoomFramework.scaleToScreen(contentPane);
   }
 
   @FXML

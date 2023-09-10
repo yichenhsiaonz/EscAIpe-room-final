@@ -2,18 +2,25 @@ package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class ControlRoomController {
+  @FXML private AnchorPane contentPane;
   @FXML private Rectangle computer;
   @FXML private Rectangle keypad;
   @FXML private Rectangle exitDoor;
+  @FXML private Label timerLabel;
+  @FXML private ProgressBar timerProgressBar;
 
   public void initialize() {
     // Initialization code goes here
+    RoomFramework.scaleToScreen(contentPane);
   }
 
   /**

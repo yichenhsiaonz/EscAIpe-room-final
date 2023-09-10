@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -7,46 +8,121 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.MenuController">
-   <children>
-      <ImageView fitHeight="124.0" fitWidth="347.0" layoutX="102.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/logo.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="18.0" layoutY="190.0" text="Difficulty" />
-      <RadioButton fx:id="hardRadioButton" layoutX="18.0" layoutY="225.0" mnemonicParsing="false" onAction="#onHardSelected" text="Hard">
-         <toggleGroup>
-            <ToggleGroup fx:id="difficulty" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="mediumRadioButton" layoutX="19.0" layoutY="259.0" mnemonicParsing="false" onAction="#onMediumSelected" selected="true" text="Medium" toggleGroup="$difficulty" />
-      <RadioButton fx:id="easyRadioButton" layoutX="19.0" layoutY="295.0" mnemonicParsing="false" onAction="#onEasySelected" text="Easy" toggleGroup="$difficulty" />
-      <Label layoutX="113.0" layoutY="190.0" text="Time limit" />
-      <RadioButton fx:id="twoRadioButton" layoutX="113.0" layoutY="225.0" mnemonicParsing="false" onAction="#onTwoSelected" text="2 Minutes">
-         <toggleGroup>
-            <ToggleGroup fx:id="time" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="fourRadioButton" layoutX="113.0" layoutY="259.0" mnemonicParsing="false" onAction="#onFourSelected" selected="true" text="4 Minutes" toggleGroup="$time" />
-      <RadioButton fx:id="sixRadioButton" layoutX="113.0" layoutY="295.0" mnemonicParsing="false" onAction="#onSixSelected" text="6 Minutes" toggleGroup="$time" />
-      <Button layoutX="18.0" layoutY="342.0" mnemonicParsing="false" onAction="#onStartGame" text="Start">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button layoutX="533.0" layoutY="316.0" mnemonicParsing="false" onAction="#onCredits" text="Credits">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button layoutX="534.0" layoutY="354.0" mnemonicParsing="false" onAction="#onQuitGame" text="  Quit  ">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Label fx:id="creditsLabel" layoutX="418.0" layoutY="247.0" prefHeight="59.0" prefWidth="168.0" text="Aurea Arlene Cheryl Saptaputra&#10;Albert Sun&#10;Yi-Chen Hsiao" textAlignment="RIGHT" visible="false" />
-   </children>
-</Pane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.MenuController">
+   <center>
+      <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="143.0" fitWidth="710.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+            </ImageView>
+            <GridPane alignment="BOTTOM_LEFT" prefHeight="310.0" prefWidth="575.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="129.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Difficulty">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label text="Time limit" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <RadioButton fx:id="hardRadioButton" mnemonicParsing="false" onAction="#onHardSelected" text="Hard" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="difficulty" />
+                     </toggleGroup>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="twoRadioButton" mnemonicParsing="false" onAction="#onTwoSelected" text="2 Minutes" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="time" />
+                     </toggleGroup>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="mediumRadioButton" mnemonicParsing="false" onAction="#onMediumSelected" selected="true" text="Medium" toggleGroup="$difficulty" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" />
+                     </font></RadioButton>
+                  <RadioButton fx:id="fourRadioButton" mnemonicParsing="false" onAction="#onFourSelected" selected="true" text="4 Minutes" toggleGroup="$time" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" />
+                     </font></RadioButton>
+                  <RadioButton fx:id="easyRadioButton" mnemonicParsing="false" onAction="#onEasySelected" text="Easy" toggleGroup="$difficulty" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="18.0" />
+                     </font></RadioButton>
+                  <RadioButton fx:id="sixRadioButton" mnemonicParsing="false" onAction="#onSixSelected" text="6 Minutes" toggleGroup="$time" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="18.0" />
+                     </font></RadioButton>
+                  <Button mnemonicParsing="false" onAction="#onStartGame" text="Start" GridPane.rowIndex="4">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane alignment="CENTER_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="226.0" prefWidth="306.0" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="100.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="87.0" minHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#onCredits" text="Credits" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#onQuitGame" text="  Quit  " GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="creditsLabel" alignment="CENTER_RIGHT" prefHeight="85.0" prefWidth="254.0" text="Aurea Arlene Cheryl Saptaputra&#10;Albert Sun&#10;Yi-Chen Hsiao">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+               </children>
+            </GridPane>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
+</BorderPane>
