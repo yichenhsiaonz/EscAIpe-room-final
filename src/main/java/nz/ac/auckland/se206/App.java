@@ -75,7 +75,6 @@ public class App extends Application {
 
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
     // TODO TEMP REMOVE LATER
-    SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
   }
 }

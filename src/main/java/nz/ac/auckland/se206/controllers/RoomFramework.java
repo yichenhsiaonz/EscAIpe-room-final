@@ -3,15 +3,29 @@ package nz.ac.auckland.se206.controllers;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.GameState;
 
 public class RoomFramework {
 
   public static void scaleToScreen(AnchorPane contentPane) {
+
     double scale = (double) GameState.getWidth() / 1920;
     contentPane.setScaleX(scale);
     contentPane.setScaleY(scale);
+    int verticalMargin =
+        (GameState.getHeight() - 1080) / 2
+            + (GameState.getWindowHeight() - GameState.getHeight()) / 2;
+    int horizontalMargin =
+        (GameState.getWidth() - 1920) / 2 + (GameState.getWindowWidth() - GameState.getWidth()) / 2;
+
+    System.out.println(verticalMargin);
+    System.out.println(horizontalMargin);
+    BorderPane.setMargin(
+        contentPane,
+        new javafx.geometry.Insets(
+            verticalMargin, horizontalMargin, verticalMargin, horizontalMargin));
     System.out.println(scale);
   }
 
