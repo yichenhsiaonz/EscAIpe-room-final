@@ -1,7 +1,7 @@
 package nz.ac.auckland.se206;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.DisplayMode;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -52,12 +52,13 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws IOException {
-    Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = size.getWidth();
-    double height = size.getHeight();
+    DisplayMode mode =
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+    double width = mode.getWidth();
+    double height = mode.getHeight();
     GameState.setWindowWidth((int) width);
     GameState.setWindowHeight((int) height);
-    if (height > width) {
+    if (height / 9 > width / 16) {
       height = width / 1920 * 1080;
     } else {
       width = height / 1080 * 1920;
@@ -65,13 +66,10 @@ public class App extends Application {
     GameState.setWidth((int) width);
     GameState.setHeight((int) height);
     SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
-
-    stage.setFullScreen(true);
-    stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-    stage.setResizable(false);
-
     scene = new Scene(SceneManager.getUiRoot(AppUi.MENU));
     stage.setScene(scene);
+    stage.setFullScreen(true);
+    stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     stage.show();
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
 
