@@ -5,10 +5,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ComputerController">
    <children>
-      <TextArea fx:id="riddleTextArea" layoutX="39.0" layoutY="59.0" prefHeight="473.0" prefWidth="523.0" text="Insert Riddle Here..." wrapText="true" />
+      <TextArea fx:id="riddleTextArea" editable="false" layoutX="39.0" layoutY="59.0" prefHeight="473.0" prefWidth="523.0" text="Insert Riddle Here..." wrapText="true" />
       <TextField fx:id="inputText" layoutX="39.0" layoutY="558.0" prefHeight="39.0" prefWidth="459.0" promptText="Type here..." />
       <Button fx:id="enterButton" layoutX="516.0" layoutY="565.0" mnemonicParsing="false" text="Enter" />
       <Button fx:id="exitButton" layoutX="16.0" layoutY="14.0" mnemonicParsing="false" onAction="#onExitClicked" text="Exit" />

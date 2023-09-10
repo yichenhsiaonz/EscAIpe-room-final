@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ControlRoomController">
    <children>
-      <ImageView fitHeight="401.0" fitWidth="611.0" layoutX="-3.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="435.0" fitWidth="604.0" layoutX="17.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/control.png" />
+            <Image url="@../images/Screenshot%202023-09-10%20at%204.55.58%20PM.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="111.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="204.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/computer_purple.png" />
          </image>
       </ImageView>
-      <Rectangle fx:id="computer" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="55.0" layoutX="116.0" layoutY="177.0" onMouseClicked="#clickComputer" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="42.0" />
-      <ImageView fitHeight="129.0" fitWidth="73.0" layoutX="263.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+      <Rectangle fx:id="computer" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="55.0" layoutX="209.0" layoutY="35.0" onMouseClicked="#clickComputer" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="42.0" />
+      <ImageView fitHeight="93.0" fitWidth="56.0" layoutX="426.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/exit.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="34.0" fitWidth="35.0" layoutX="337.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="34.0" fitWidth="35.0" layoutX="517.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/keypad.png" />
          </image>
       </ImageView>
-      <Rectangle fx:id="exitDoor" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="124.0" layoutX="262.0" layoutY="148.0" onMouseClicked="#clickExit" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="73.0" />
-      <Rectangle fx:id="keypad" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="33.0" layoutX="340.0" layoutY="184.0" onMouseClicked="#clickKeypad" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="29.0" />
+      <Rectangle fx:id="exitDoor" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="93.0" layoutX="426.0" layoutY="2.0" onMouseClicked="#clickExit" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="53.0" />
+      <Rectangle fx:id="keypad" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="33.0" layoutX="520.0" layoutY="30.0" onMouseClicked="#clickKeypad" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="29.0" />
+      <TextArea editable="false" layoutX="25.0" layoutY="465.0" prefHeight="119.0" prefWidth="485.0" />
+      <TextField layoutX="25.0" layoutY="597.0" prefHeight="25.0" prefWidth="485.0" />
+      <Button layoutX="521.0" layoutY="597.0" mnemonicParsing="false" text="Submit" />
    </children>
 </Pane>
