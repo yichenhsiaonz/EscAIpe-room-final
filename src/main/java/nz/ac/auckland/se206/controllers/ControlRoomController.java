@@ -37,7 +37,7 @@ public class ControlRoomController {
   }
 
   /**
-   * Handles the click event on the computer.
+   * Handles the click event on the exit door.
    *
    * @param event the mouse event
    */
@@ -47,7 +47,7 @@ public class ControlRoomController {
   }
 
   /**
-   * Handles the click event on the computer.
+   * Handles the click event on the keypad.
    *
    * @param event the mouse event
    * @throws IOException

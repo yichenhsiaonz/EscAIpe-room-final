@@ -65,7 +65,6 @@ public class App extends Application {
     }
     GameState.setWidth((int) width);
     GameState.setHeight((int) height);
-
     SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
     scene = new Scene(SceneManager.getUiRoot(AppUi.MENU));
     stage.setScene(scene);
@@ -78,7 +77,7 @@ public class App extends Application {
     // TODO TEMP REMOVE LATER
     SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
     SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
-    SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad1"));
+    SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad"));
 
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
   }

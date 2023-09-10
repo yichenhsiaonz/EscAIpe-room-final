@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -33,6 +32,7 @@ public class KeypadController {
     RoomFramework.scaleToScreen(contentPane);
   }
 
+  // Implement keypad functionality
   @FXML
   private void onOneClicked() {
     appendNumber("1");
@@ -83,6 +83,7 @@ public class KeypadController {
     appendNumber("0");
   }
 
+  /** Deletes the last entered digit of the code. */
   @FXML
   private void onDeleteClicked() {
     if (code.length() > 0) {
@@ -91,6 +92,7 @@ public class KeypadController {
     }
   }
 
+  /** Checks if the code is correct. */
   @FXML
   private void onEnterClicked() {
     System.out.println("Enter clicked");
@@ -98,6 +100,7 @@ public class KeypadController {
     codeText.clear();
   }
 
+  /** Returns to the control room screen when exit button clicked. */
   @FXML
   private void onExitClicked() throws IOException {
     System.out.println("Exit clicked");
@@ -105,6 +108,11 @@ public class KeypadController {
     App.setRoot(AppUi.CONTROL_ROOM);
   }
 
+  /**
+   * Appends the input number to the text field if the code is less than 3 digits long.
+   *
+   * @param number the number to be appended
+   */
   private void appendNumber(String number) {
     if (code.length() >= 3) {
       return;
