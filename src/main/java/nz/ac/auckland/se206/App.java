@@ -1,10 +1,13 @@
 package nz.ac.auckland.se206;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
@@ -49,19 +52,29 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws IOException {
+    DisplayMode mode =
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+    double width = mode.getWidth();
+    double height = mode.getHeight();
+    GameState.setWindowWidth((int) width);
+    GameState.setWindowHeight((int) height);
+    if (height / 9 > width / 16) {
+      height = width / 1920 * 1080;
+    } else {
+      width = height / 1080 * 1920;
+    }
+    GameState.setWidth((int) width);
+    GameState.setHeight((int) height);
     SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
-    scene = new Scene(SceneManager.getUiRoot(AppUi.MENU), 600, 650);
+    scene = new Scene(SceneManager.getUiRoot(AppUi.MENU));
     stage.setScene(scene);
-    stage.setResizable(false);
+    stage.setFullScreen(true);
+    stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     stage.show();
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
-    stage.setOnCloseRequest(
-        request -> {
-          // edit this if you wanna add a confirmation dialog or whatever
-          System.exit(0);
-        });
+
+    stage.onCloseRequestProperty().setValue(e -> System.exit(0));
     // TODO TEMP REMOVE LATER
-    SceneManager.addUi(AppUi.CHAT, loadFxml("chat"));
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
   }
 }

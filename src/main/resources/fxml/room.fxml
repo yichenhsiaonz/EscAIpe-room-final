@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -7,36 +8,77 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="room" focusTraversable="true" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" onMouseClicked="#moveCharacter" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
-   <children>
-      <Label alignment="CENTER" layoutY="441.0" onMouseClicked="#consumeMouseEvent" prefHeight="215.0" prefWidth="600.0">
-         <font>
-            <Font size="47.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="40.0" layoutY="88.0">
-         <image>
-            <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="34.0" layoutY="84.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
-         </image>
-      </ImageView>
-      <Label alignment="CENTER" layoutX="189.0" layoutY="123.0" onMouseClicked="#consumeMouseEvent" prefHeight="93.0" prefWidth="280.0" text="Cannot click">
-         <font>
-            <Font size="47.0" />
-         </font>
-      </Label>
-      <ProgressBar fx:id="timerProgressBar" focusTraversable="false" layoutX="24.0" layoutY="32.0" prefWidth="200.0" progress="1.0" />
-      <Label fx:id="timerLabel" layoutX="231.0" layoutY="33.0" text="2:00" />
-      <Label layoutX="24.0" layoutY="14.0" text="Power Left:" />
-      <TextArea editable="false" layoutX="25.0" layoutY="465.0" prefHeight="119.0" prefWidth="485.0" />
-      <TextField layoutX="25.0" layoutY="597.0" prefHeight="25.0" prefWidth="485.0" />
-      <Button layoutX="521.0" layoutY="597.0" mnemonicParsing="false" text="Submit" />
-   </children>
-</Pane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.RoomController">
+   <center>
+      <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_RIGHT" layoutX="602.0" layoutY="496.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <VBox alignment="BOTTOM_LEFT">
+                     <children>
+                        <Pane fx:id="room" onMouseClicked="#onMoveCharacter">
+                           <children>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/roombg.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="230.0" layoutY="101.0">
+                                 <image>
+                                    <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="224.0" layoutY="96.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" layoutX="505.0" layoutY="381.0" onMouseClicked="#consumeMouseEvent" prefHeight="93.0" prefWidth="280.0" text="Cannot click">
+                                 <font>
+                                    <Font size="47.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Label text="Power Left:">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <HBox>
+                           <children>
+                              <ProgressBar fx:id="timerProgressBar" focusTraversable="false" prefHeight="35.0" prefWidth="609.0" progress="1.0" />
+                              <Label fx:id="timerLabel" text="2:00">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT">
+                     <children>
+                        <TextArea editable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <HBox>
+                           <children>
+                              <TextField prefHeight="25.0" prefWidth="270.0" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Submit" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
+</BorderPane>

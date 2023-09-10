@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
@@ -11,12 +12,14 @@ import nz.ac.auckland.se206.SceneManager.AppUi;
 public class MenuController {
 
   @FXML private Label creditsLabel;
+  @FXML private AnchorPane contentPane;
   private boolean creditsVisible = false;
   private int difficulty = 2;
   private int time = 240;
 
   public void initialize() {
     // Initialization code goes here
+    RoomFramework.scaleToScreen(contentPane);
     System.out.println(difficulty);
     System.out.println(time);
   }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -12,10 +11,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
@@ -24,9 +23,7 @@ import nz.ac.auckland.se206.SceneManager.AppUi;
 /** Controller class for the room view. */
 public class RoomController {
 
-  @FXML private Rectangle door;
-  @FXML private Rectangle window;
-  @FXML private Rectangle vase;
+  @FXML private AnchorPane contentPane;
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
@@ -35,6 +32,9 @@ public class RoomController {
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
+
+    RoomFramework.scaleToScreen(contentPane);
+
     timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
 
@@ -91,7 +91,7 @@ public class RoomController {
    * @param event the mouse event
    */
   @FXML
-  public void moveCharacter(MouseEvent event) {
+  public void onMoveCharacter(MouseEvent event) {
 
     double mouseX = event.getX();
     double mouseY = event.getY();
@@ -124,60 +124,7 @@ public class RoomController {
         });
 
     parallelTransition.play();
-
-    // Retrieve the character's width and height using fitWidth and fitHeight
-    double characterWidth = character.getFitWidth();
-    double characterHeight = character.getFitHeight();
-
-    // Calculate the character's new position relative to the room
-    double characterX = mouseX - characterWidth / 2; // Adjust for character's width
-    double characterY = mouseY - characterHeight / 2; // Adjust for character's height
-
-    // Calculate the distance the character needs to move
-    double distanceToMove =
-        Math.sqrt(
-            Math.pow(characterX - character.getTranslateX(), 2)
-                + Math.pow(characterY - character.getTranslateY(), 2));
-
-    // Define a constant speed
-    double constantSpeed = 300;
-
-    // Calculate the duration based on constant speed and distance
-    double durationSeconds = distanceToMove / constantSpeed;
-
-    // Create a TranslateTransition to smoothly move the character
-    TranslateTransition transition =
-        new TranslateTransition(Duration.seconds(durationSeconds), character);
-    transition.setToX(characterX);
-    transition.setToY(characterY);
-
-    // Play the animation
-    transition.play();
-
-    // Create a TranslateTransition to smoothly move the "running" element
-    TranslateTransition transition2 =
-        new TranslateTransition(Duration.seconds(durationSeconds), running);
-    transition2.setToX(characterX);
-    transition2.setToY(characterY);
-
-    // flip the character and running gif if needed
-    if (characterX > character.getTranslateX()) {
-      running.setScaleX(1);
-      character.setScaleX(1);
-    } else {
-      running.setScaleX(-1);
-      character.setScaleX(-1);
-    }
-
-    running.setOpacity(1);
-    // Play the animation
-    transition2.play();
-
-    transition2.setOnFinished(
-        e -> {
-          // Remove the "running" element from the pane when the animation is done
-          running.setOpacity(0);
-        });
+    RoomFramework.goTo(mouseX, mouseY, character, running);
   }
 
   /**
