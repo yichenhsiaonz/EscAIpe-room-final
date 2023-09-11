@@ -22,11 +22,39 @@ public class ControlRoomController {
   @FXML private ImageView rightGlowArrow;
   @FXML private ImageView leftArrow;
   @FXML private ImageView leftGlowArrow;
+  @FXML private ImageView computerGlow;
+  @FXML private ImageView exitGlow;
+  @FXML private ImageView keypadGlow;
 
   public void initialize() {
     // Initialization code goes here
     RoomFramework.scaleToScreen(contentPane);
   }
+
+  public void onComputerHovered(MouseEvent event) {
+    computerGlow.setVisible(true);
+  }
+
+  public void onComputerUnhovered(MouseEvent event) {
+    computerGlow.setVisible(false);
+  }
+
+  public void onExitHovered(MouseEvent event) {
+    exitGlow.setVisible(true);
+  }
+
+  public void onExitUnhovered(MouseEvent event) {
+    exitGlow.setVisible(false);
+  }
+
+  public void onKeypadHovered(MouseEvent event) {
+    keypadGlow.setVisible(true);
+  }
+
+  public void onKeypadUnhovered(MouseEvent event) {
+    keypadGlow.setVisible(false);
+  }
+
 
   /**
    * Handles the click event on the computer.
