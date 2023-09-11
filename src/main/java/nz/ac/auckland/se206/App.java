@@ -76,5 +76,8 @@ public class App extends Application {
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
     // TODO TEMP REMOVE LATER
     SceneManager.addUi(AppUi.ROOM, loadFxml("room"));
+    SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
+    SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
+    SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad"));
   }
 }

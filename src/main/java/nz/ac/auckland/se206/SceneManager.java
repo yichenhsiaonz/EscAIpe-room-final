@@ -6,10 +6,12 @@ import javafx.scene.Parent;
 public class SceneManager {
   public enum AppUi {
     MENU,
-    ROOM1,
+    CONTROL_ROOM,
     ROOM2,
     ROOM3,
     // TODO TEMP REMOVE LATER
+    COMPUTER,
+    KEYPAD,
     ROOM,
     CHAT
   }
