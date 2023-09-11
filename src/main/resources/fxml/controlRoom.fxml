@@ -49,6 +49,26 @@
                               </ImageView>
                               <Rectangle fx:id="exitDoor" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="184.0" layoutX="1091.0" layoutY="2.0" onMouseClicked="#clickExit" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
                               <Rectangle fx:id="keypad" arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="79.0" layoutX="1326.0" layoutY="69.0" onMouseClicked="#clickKeypad" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="67.0" />
+                              <ImageView fx:id="rightArrow" fitHeight="143.0" fitWidth="161.0" layoutX="1301.0" layoutY="224.0" onMouseEntered="#onRightHovered" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/arrow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="rightGlowArrow" fitHeight="143.0" fitWidth="161.0" layoutX="1301.0" layoutY="224.0" onMouseClicked="#onRightClicked" onMouseExited="#onRightUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/arrowGlow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="leftArrow" fitHeight="143.0" fitWidth="161.0" layoutX="51.0" layoutY="238.0" onMouseEntered="#onLeftHovered" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/arrow-left.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="leftGlowArrow" fitHeight="143.0" fitWidth="161.0" layoutX="51.0" layoutY="238.0" onMouseClicked="#onLeftClicked" onMouseExited="#onLeftUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/arrowGlow-left.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
                         <Label text="Power Left:">
