@@ -31,31 +31,6 @@ public class ControlRoomController {
     RoomFramework.scaleToScreen(contentPane);
   }
 
-  public void onComputerHovered(MouseEvent event) {
-    computerGlow.setVisible(true);
-  }
-
-  public void onComputerUnhovered(MouseEvent event) {
-    computerGlow.setVisible(false);
-  }
-
-  public void onExitHovered(MouseEvent event) {
-    exitGlow.setVisible(true);
-  }
-
-  public void onExitUnhovered(MouseEvent event) {
-    exitGlow.setVisible(false);
-  }
-
-  public void onKeypadHovered(MouseEvent event) {
-    keypadGlow.setVisible(true);
-  }
-
-  public void onKeypadUnhovered(MouseEvent event) {
-    keypadGlow.setVisible(false);
-  }
-
-
   /**
    * Handles the click event on the computer.
    *
@@ -69,6 +44,15 @@ public class ControlRoomController {
     App.setRoot(AppUi.COMPUTER);
   }
 
+  // add glow highlight to computer when hover
+   public void onComputerHovered(MouseEvent event) {
+    computerGlow.setVisible(true);
+  }
+
+  public void onComputerUnhovered(MouseEvent event) {
+    computerGlow.setVisible(false);
+  }
+
   /**
    * Handles the click event on the exit door.
    *
@@ -77,6 +61,15 @@ public class ControlRoomController {
   @FXML
   public void clickExit(MouseEvent event) {
     System.out.println("exit door clicked");
+  }
+
+  // add glow highlight to exit door when hover
+  public void onExitHovered(MouseEvent event) {
+    exitGlow.setVisible(true);
+  }
+
+  public void onExitUnhovered(MouseEvent event) {
+    exitGlow.setVisible(false);
   }
 
   /**
@@ -92,11 +85,26 @@ public class ControlRoomController {
     App.setRoot(AppUi.KEYPAD);
   }
 
+  // add glow highlight to keypad when hover
+  public void onKeypadHovered(MouseEvent event) {
+    keypadGlow.setVisible(true);
+  }
+
+  public void onKeypadUnhovered(MouseEvent event) {
+    keypadGlow.setVisible(false);
+  }
+
+  /**
+   * Handles the click event on the right arrow.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void onRightClicked(MouseEvent event) {
     System.out.println("right arrow clicked");
   }
 
+  // add glow highlight to right arrow when hover
   @FXML
   public void onRightHovered(MouseEvent event) {
     rightGlowArrow.setVisible(true);
@@ -107,11 +115,17 @@ public class ControlRoomController {
     rightGlowArrow.setVisible(false);
   }
 
+  /**
+   * Handles the click event on the left arrow.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void onLeftClicked(MouseEvent event) {
     System.out.println("left arrow clicked");
   }
 
+  // add glow highlight to left arrow when hover
   @FXML
   public void onLeftHovered(MouseEvent event) {
     leftGlowArrow.setVisible(true);
