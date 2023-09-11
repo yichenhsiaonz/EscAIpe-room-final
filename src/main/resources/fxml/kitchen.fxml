@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.KitchenController">
+   <center>
+      <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_RIGHT" layoutX="602.0" layoutY="496.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <VBox alignment="BOTTOM_LEFT">
+                     <children>
+                        <Pane fx:id="room">
+                           <children>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/walls.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="doorGlow" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/Kitchen/doorglow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onDoorClicked" onMouseEntered="#onDoorHovered" onMouseExited="#onDoorUnhovered" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/door.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="fridgeClosedGlow" fitHeight="910.0" fitWidth="1491.0" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/Kitchen/fridgeglow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="fridgeClosed" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onFridgeClosedClicked" onMouseEntered="#onFridgeClosedHovered" onMouseExited="#onFridgeClosedUnhovered" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/fridgeclosed.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="fridgeOpenGlow" fitHeight="910.0" fitWidth="1491.0" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/Kitchen/fridgeopenglow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="fridgeOpen" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onFridgeOpenClicked" onMouseEntered="#onFridgeOpenHovered" onMouseExited="#onFridgeOpenUnhovered" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/Kitchen/fridgeopen.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="toasterGlow" fitHeight="910.0" fitWidth="1491.0" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/Kitchen/toasterglow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onToasterClicked" onMouseEntered="#onToasterHovered" onMouseExited="#onToasterUnhovered" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/toaster.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/unclickable_floor.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="floor" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onMoveCharacter" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/floor.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="523.0" layoutY="377.0">
+                                 <image>
+                                    <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="517.0" layoutY="372.0" opacity="0.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/table.png" />
+                                 </image>
+                              </ImageView>
+                              <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="864.0" layoutY="484.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="563.0" layoutY="429.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="749.0" layoutY="409.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                           </children>
+                        </Pane>
+                        <Label text="Power Left:">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <HBox>
+                           <children>
+                              <ProgressBar fx:id="timerProgressBar" focusTraversable="false" prefHeight="35.0" prefWidth="609.0" progress="1.0" />
+                              <Label fx:id="timerLabel" text="2:00">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT">
+                     <children>
+                        <TextArea fx:id="chatBox" editable="false" focusTraversable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <HBox>
+                           <children>
+                              <TextField fx:id="messageBox" focusTraversable="false" prefHeight="25.0" prefWidth="270.0" promptText="Talk to AI..." />
+                              <Button fx:id="sendMessage" focusTraversable="false" mnemonicParsing="false" onAction="#onMessageSent" prefHeight="25.0" prefWidth="60.0" text="Submit" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
+</BorderPane>

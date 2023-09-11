@@ -7,12 +7,10 @@ public class SceneManager {
   public enum AppUi {
     MENU,
     CONTROL_ROOM,
-    ROOM2,
     ROOM3,
-    // TODO TEMP REMOVE LATER
     COMPUTER,
     KEYPAD,
-    ROOM,
+    KITCHEN,
     CHAT
   }
 
