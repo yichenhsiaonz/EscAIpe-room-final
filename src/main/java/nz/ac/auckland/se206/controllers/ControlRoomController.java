@@ -45,10 +45,12 @@ public class ControlRoomController {
   }
 
   // add glow highlight to computer when hover
-   public void onComputerHovered(MouseEvent event) {
+  @FXML
+  public void onComputerHovered(MouseEvent event) {
     computerGlow.setVisible(true);
   }
 
+  @FXML
   public void onComputerUnhovered(MouseEvent event) {
     computerGlow.setVisible(false);
   }
@@ -64,10 +66,12 @@ public class ControlRoomController {
   }
 
   // add glow highlight to exit door when hover
+  @FXML
   public void onExitHovered(MouseEvent event) {
     exitGlow.setVisible(true);
   }
 
+  @FXML
   public void onExitUnhovered(MouseEvent event) {
     exitGlow.setVisible(false);
   }
@@ -86,10 +90,12 @@ public class ControlRoomController {
   }
 
   // add glow highlight to keypad when hover
+  @FXML
   public void onKeypadHovered(MouseEvent event) {
     keypadGlow.setVisible(true);
   }
 
+  @FXML
   public void onKeypadUnhovered(MouseEvent event) {
     keypadGlow.setVisible(false);
   }
@@ -100,8 +106,13 @@ public class ControlRoomController {
    * @param event the mouse event
    */
   @FXML
-  public void onRightClicked(MouseEvent event) {
-    System.out.println("right arrow clicked");
+  public void onRightClicked(MouseEvent event) throws IOException {
+    try {
+      App.setRoot(AppUi.KITCHEN);
+    } catch (Exception e) {
+      // TODO handle exception appropriately
+      System.out.println("Error");
+    }
   }
 
   // add glow highlight to right arrow when hover

@@ -1,6 +1,7 @@
 package nz.ac.auckland.se206.controllers;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -29,15 +30,19 @@ public class RoomFramework {
     System.out.println(scale);
   }
 
-  public static void goTo(
+  // this method runs a translate transition to move the character to a new position
+  // and returns the duration of the animation in seconds.
+  // use the delayRun method to run code after the animation is complete.
+  public static double goTo(
       double destinationX, double destinationY, ImageView character, ImageView running) {
+
     // Retrieve the character's width and height using fitWidth and fitHeight
     double characterWidth = character.getFitWidth();
     double characterHeight = character.getFitHeight();
 
     // Calculate the character's new position relative to the room
     double characterX = destinationX - characterWidth / 2; // Adjust for character's width
-    double characterY = destinationY - characterHeight / 2; // Adjust for character's height
+    double characterY = destinationY - characterHeight; // Adjust for character's height
 
     // Calculate the distance the character needs to move
     double distanceToMove =
@@ -84,5 +89,43 @@ public class RoomFramework {
           // Remove the "running" element from the pane when the animation is done
           running.setOpacity(0);
         });
+    return durationSeconds;
+  }
+
+  // This method is used to move the character instantly to a new position without changing
+  // direction.
+  // call this method the same way as goTo.
+  public static void goToInstant(
+      double destinationX, double destinationY, ImageView character, ImageView running) {
+    // Retrieve the character's width and height using fitWidth and fitHeight
+    double characterWidth = character.getFitWidth();
+    double characterHeight = character.getFitHeight();
+
+    // Calculate the character's new position relative to the room
+    double characterX = destinationX - characterWidth / 2; // Adjust for character's width
+    double characterY = destinationY - characterHeight; // Adjust for character's height
+
+    // Create a TranslateTransition to smoothly move the character
+    character.setTranslateX(characterX);
+    character.setTranslateY(characterY);
+    running.setTranslateX(characterX);
+    running.setTranslateY(characterY);
+  }
+
+  // put code you want to run after delay in a Runnable and pass it to this method along with the
+  // delay
+  // in seconds.
+  public static void delayRun(Runnable runnable, double delay) {
+    Thread thread =
+        new Thread(
+            () -> {
+              try {
+                Thread.sleep((int) (delay * 1000));
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+              Platform.runLater(runnable);
+            });
+    thread.start();
   }
 }
