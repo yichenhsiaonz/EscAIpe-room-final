@@ -27,17 +27,35 @@
                      <children>
                         <Pane fx:id="room">
                            <children>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" preserveRatio="true">
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/bg.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="floor" fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#onMoveCharacter" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/floor.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/unclickable_floor.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Kitchen/walls.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="doorGlow" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" preserveRatio="true" visible="false">
+                              <ImageView fx:id="doorGlow" fitHeight="910.0" fitWidth="1491.0" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/Kitchen/doorglow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onDoorClicked" onMouseEntered="#onDoorHovered" onMouseExited="#onDoorUnhovered" preserveRatio="true">
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#onDoorClicked" onMouseEntered="#onDoorHovered" onMouseExited="#onDoorUnhovered" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Kitchen/door.png" />
                                  </image>
@@ -50,7 +68,7 @@
                                     <Image url="@../images/Kitchen/fridgeglow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="fridgeClosed" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onFridgeClosedClicked" onMouseEntered="#onFridgeClosedHovered" onMouseExited="#onFridgeClosedUnhovered" preserveRatio="true">
+                              <ImageView fx:id="fridgeClosed" fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#onFridgeClosedClicked" onMouseEntered="#onFridgeClosedHovered" onMouseExited="#onFridgeClosedUnhovered" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Kitchen/fridgeclosed.png" />
                                  </image>
@@ -63,7 +81,7 @@
                                     <Image url="@../images/Kitchen/fridgeopenglow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="fridgeOpen" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onFridgeOpenClicked" onMouseEntered="#onFridgeOpenHovered" onMouseExited="#onFridgeOpenUnhovered" preserveRatio="true" visible="false">
+                              <ImageView fx:id="fridgeOpen" fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#onFridgeOpenClicked" onMouseEntered="#onFridgeOpenHovered" onMouseExited="#onFridgeOpenUnhovered" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/Kitchen/fridgeopen.png" />
                                  </image>
@@ -76,22 +94,9 @@
                                     <Image url="@../images/Kitchen/toasterglow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onToasterClicked" onMouseEntered="#onToasterHovered" onMouseExited="#onToasterUnhovered" preserveRatio="true">
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#onToasterClicked" onMouseEntered="#onToasterHovered" onMouseExited="#onToasterUnhovered" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Kitchen/toaster.png" />
-                                 </image>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ImageView>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Kitchen/unclickable_floor.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="floor" fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#onMoveCharacter" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Kitchen/floor.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -107,14 +112,14 @@
                                     <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" layoutX="3.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" mouseTransparent="true" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Kitchen/table.png" />
                                  </image>
                               </ImageView>
-                              <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="864.0" layoutY="484.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="563.0" layoutY="429.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="749.0" layoutY="409.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="863.0" layoutY="552.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="563.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="736.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                            </children>
                         </Pane>
                         <Label text="Power Left:">

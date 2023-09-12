@@ -45,6 +45,7 @@ public class KitchenController {
   @FXML private TextArea chatBox;
   @FXML private Button sendMessage;
   private boolean hasBread = false;
+  private boolean moving = false;
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
@@ -74,7 +75,7 @@ public class KitchenController {
     running.setFitWidth(150); // Width of running gif
     running.setFitHeight(150); // Height of running gif
 
-    RoomFramework.goTo(doorMarkerX, doorMarkerY, character, running);
+    RoomFramework.goToInstant(doorMarkerX, doorMarkerY, character, running);
   }
 
   /**
@@ -116,39 +117,47 @@ public class KitchenController {
    */
   @FXML
   public void onMoveCharacter(MouseEvent event) {
+    if (!moving) {
 
-    double mouseX = event.getX();
-    double mouseY = event.getY();
+      double mouseX = event.getX();
+      double mouseY = event.getY();
 
-    // Create a circle for the click animation
-    Circle clickCircle = new Circle(5); // Adjust the radius as needed
-    clickCircle.setFill(Color.BLUE); // Set the color of the circle
-    clickCircle.setCenterX(mouseX);
-    clickCircle.setCenterY(mouseY);
+      // Create a circle for the click animation
+      Circle clickCircle = new Circle(5); // Adjust the radius as needed
+      clickCircle.setFill(Color.BLUE); // Set the color of the circle
+      clickCircle.setCenterX(mouseX);
+      clickCircle.setCenterY(mouseY);
 
-    // Add the circle to the room
-    room.getChildren().add(clickCircle);
+      // Add the circle to the room
+      room.getChildren().add(clickCircle);
 
-    // Create a fade transition for the circle
-    FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.4), clickCircle);
-    fadeOut.setFromValue(1.0);
-    fadeOut.setToValue(0.0);
+      // Create a fade transition for the circle
+      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.4), clickCircle);
+      fadeOut.setFromValue(1.0);
+      fadeOut.setToValue(0.0);
 
-    // Create a scale transition for the circle
-    ScaleTransition scale = new ScaleTransition(Duration.seconds(0.4), clickCircle);
-    scale.setToX(3.0); // Adjust the scale factor as needed
-    scale.setToY(3.0); // Adjust the scale factor as needed
+      // Create a scale transition for the circle
+      ScaleTransition scale = new ScaleTransition(Duration.seconds(0.4), clickCircle);
+      scale.setToX(3.0); // Adjust the scale factor as needed
+      scale.setToY(3.0); // Adjust the scale factor as needed
 
-    // Play both the fade and scale transitions in parallel
-    ParallelTransition parallelTransition = new ParallelTransition(fadeOut, scale);
-    parallelTransition.setOnFinished(
-        e -> {
-          // Remove the circle from the pane when the animation is done
-          room.getChildren().remove(clickCircle);
-        });
+      // Play both the fade and scale transitions in parallel
+      ParallelTransition parallelTransition = new ParallelTransition(fadeOut, scale);
+      parallelTransition.setOnFinished(
+          e -> {
+            // Remove the circle from the pane when the animation is done
+            room.getChildren().remove(clickCircle);
+          });
 
-    parallelTransition.play();
-    RoomFramework.goTo(mouseX, mouseY, character, running);
+      parallelTransition.play();
+      moving = true;
+      double movementDelay = RoomFramework.goTo(mouseX, mouseY, character, running);
+      Runnable resumeMoving =
+          () -> {
+            moving = false;
+          };
+      RoomFramework.delayRun(resumeMoving, movementDelay);
+    }
   }
 
   /**
@@ -159,8 +168,21 @@ public class KitchenController {
    */
   @FXML
   public void onDoorClicked(MouseEvent event) throws IOException {
-    RoomFramework.goTo(doorMarker.getLayoutX(), doorMarker.getLayoutY(), character, running);
-    App.setRoot(AppUi.CONTROL_ROOM);
+    if (!moving) {
+      double movementDelay =
+          RoomFramework.goTo(doorMarker.getLayoutX(), doorMarker.getLayoutY(), character, running);
+      Runnable leaveRoom =
+          () -> {
+            try {
+              App.setRoot(AppUi.CONTROL_ROOM);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            moving = false;
+          };
+
+      RoomFramework.delayRun(leaveRoom, movementDelay);
+    }
   }
 
   // add glow highlight to door when hover
@@ -181,15 +203,25 @@ public class KitchenController {
    * @throws IOException if there is an error loading the chat view
    */
   @FXML
-  public void onToasterClicked(MouseEvent event) throws IOException {
-    RoomFramework.goTo(toasterMarker.getLayoutX(), toasterMarker.getLayoutY(), character, running);
-    System.out.println("toaster clicked");
-    if (hasBread) {
-      chatBox.appendText("\n[Toasta da bread]\n\n");
-      GameState.isRiddleResolved = true;
+  public void onToasterClicked(MouseEvent event) {
+    if (!moving) {
+      double movementDelay =
+          RoomFramework.goTo(
+              toasterMarker.getLayoutX(), toasterMarker.getLayoutY(), character, running);
 
-    } else {
-      chatBox.appendText("\n[Gotta gett da bread]\n\n");
+      Runnable toasterRunnable =
+          () -> {
+            System.out.println("toaster clicked");
+            if (hasBread) {
+              chatBox.appendText("\n[Toasta da bread]\n\n");
+              GameState.isRiddleResolved = true;
+
+            } else {
+              chatBox.appendText("\n[Gotta gett da bread]\n\n");
+            }
+            moving = false;
+          };
+      RoomFramework.delayRun(toasterRunnable, movementDelay);
     }
   }
 
@@ -210,10 +242,20 @@ public class KitchenController {
    * @throws IOException if there is an error loading the chat view
    */
   @FXML
-  public void onFridgeOpenClicked(MouseEvent event) throws IOException {
-    RoomFramework.goTo(fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
-    System.out.println("open fridge clicked");
-    chatBox.appendText("\n[no more bread]\n\n");
+  public void onFridgeOpenClicked(MouseEvent event) {
+    if (!moving) {
+      double movementDelay =
+          RoomFramework.goTo(
+              fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
+
+      Runnable openFridgeRunnable =
+          () -> {
+            System.out.println("open fridge clicked");
+            chatBox.appendText("\n[no more bread]\n\n");
+            moving = false;
+          };
+      RoomFramework.delayRun(openFridgeRunnable, movementDelay);
+    }
   }
 
   @FXML
@@ -233,13 +275,22 @@ public class KitchenController {
    * @throws IOException if there is an error loading the chat view
    */
   @FXML
-  public void onFridgeClosedClicked(MouseEvent event) throws IOException {
-    RoomFramework.goTo(fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
-    fridgeClosed.setVisible(false);
-    fridgeOpen.setVisible(true);
-    hasBread = true;
-    chatBox.appendText("\n[You got bread]\n\n");
-    System.out.println("closed fridge clicked");
+  public void onFridgeClosedClicked(MouseEvent event) {
+    if (!moving) {
+      double movementDelay =
+          RoomFramework.goTo(
+              fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
+      Runnable closedFridgeRunnable =
+          () -> {
+            fridgeClosed.setVisible(false);
+            fridgeOpen.setVisible(true);
+            hasBread = true;
+            chatBox.appendText("\n[You got bread]\n\n");
+            System.out.println("closed fridge clicked");
+            moving = false;
+          };
+      RoomFramework.delayRun(closedFridgeRunnable, movementDelay);
+    }
   }
 
   @FXML
