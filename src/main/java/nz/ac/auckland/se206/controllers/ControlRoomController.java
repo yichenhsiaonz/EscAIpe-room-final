@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import nz.ac.auckland.se206.App;
+import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class ControlRoomController {
@@ -29,6 +30,10 @@ public class ControlRoomController {
   public void initialize() {
     // Initialization code goes here
     RoomFramework.scaleToScreen(contentPane);
+
+    timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
+    timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
+
   }
 
   /**
