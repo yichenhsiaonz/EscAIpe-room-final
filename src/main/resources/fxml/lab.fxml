@@ -13,10 +13,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.LabController">
-   <left>
+   <center>
       <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="BOTTOM_RIGHT" layoutX="602.0" layoutY="496.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
@@ -30,6 +31,12 @@
                                     <Image url="@../images/Screenshot%202023-09-12%20171946.jpg" />
                                  </image>
                               </ImageView>
+                              <ImageView fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Screenshot%202023-09-12%20171715.png" />
+                                 </image>
+                              </ImageView>
+                              <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="131.0" layoutX="662.0" layoutY="353.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" width="167.0" />
                               <ImageView fx:id="rightArrow" fitHeight="143.0" fitWidth="161.0" layoutX="1306.0" layoutY="628.0" onMouseEntered="#onRightHovered" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/arrow.png" />
@@ -40,12 +47,7 @@
                                     <Image url="@../images/arrowGlow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="printer" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseEntered="#onPrinterHovered" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Screenshot%202023-09-12%20171715.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="printerglow" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="printerGlow" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/printerglow.png" />
                                  </image>
@@ -85,5 +87,5 @@
             <Insets />
          </BorderPane.margin>
       </AnchorPane>
-   </left>
+   </center>
 </BorderPane>

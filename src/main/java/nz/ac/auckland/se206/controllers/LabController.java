@@ -7,21 +7,37 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class LabController {
   @FXML private AnchorPane contentPane;
+  @FXML private Rectangle printer;
   @FXML private Label timerLabel;
   @FXML private ProgressBar timerProgressBar;
   @FXML private ImageView rightArrow;
   @FXML private ImageView rightGlowArrow;
-  @FXML private ImageView printer;
   @FXML private ImageView printerGlow;
 
   public void initialize() {
     // Initialization code goes here
     RoomFramework.scaleToScreen(contentPane);
+  }
+
+  @FXML
+  public void onPrinterClicked(MouseEvent event) throws IOException {
+    System.out.println("Printer clicked");
+  }
+
+  @FXML
+  public void onPrinterHovered(MouseEvent event) {
+    printerGlow.setVisible(true);
+  }
+
+  @FXML
+  public void onPrinterUnhovered(MouseEvent event) {
+    printerGlow.setVisible(false);
   }
 
   /**
@@ -48,20 +64,5 @@ public class LabController {
   @FXML
   public void onRightUnhovered(MouseEvent event) {
     rightGlowArrow.setVisible(false);
-  }
-
-  @FXML
-  public void onPrinterClicked(MouseEvent event) throws IOException {
-    System.out.println("Printer clicked");
-  }
-
-  @FXML
-  public void onPrinterHovered(MouseEvent event) {
-    printerGlow.setVisible(true);
-  }
-
-  @FXML
-  public void onPrinterUnhovered(MouseEvent event) {
-    printerGlow.setVisible(false);
   }
 }
