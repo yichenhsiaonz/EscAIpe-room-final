@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ControlRoomController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.LabController">
    <left>
       <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
@@ -40,9 +40,14 @@
                                     <Image url="@../images/arrowGlow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="printer" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseEntered="#onPrinterHovered" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/Screenshot%202023-09-12%20171715.jpg" />
+                                    <Image url="@../images/Screenshot%202023-09-12%20171715.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="printerglow" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/printerglow.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -64,7 +69,7 @@
                   </VBox>
                   <VBox alignment="CENTER_RIGHT">
                      <children>
-                        <TextArea editable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <TextArea fx:id="chatBox" editable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
                         <HBox>
                            <children>
                               <TextField prefHeight="25.0" prefWidth="270.0" />
