@@ -74,7 +74,7 @@ public class MenuController {
     try {
       new Thread(GameState.timerTask).start();
       // TODO LOAD THE RIGHT ROOM
-      App.setRoot(AppUi.CONTROL_ROOM);
+      App.setRoot(AppUi.LAB);
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
