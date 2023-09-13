@@ -138,6 +138,12 @@ public class ControlRoomController {
    */
   @FXML
   public void onLeftClicked(MouseEvent event) {
+    try {
+      App.setRoot(AppUi.LAB);
+    } catch (Exception e) {
+      // TODO handle exception appropriately
+      System.out.println("Error");
+    }
     System.out.println("left arrow clicked");
   }
 

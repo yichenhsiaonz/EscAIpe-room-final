@@ -79,5 +79,6 @@ public class App extends Application {
     SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
     SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
     SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad"));
+    SceneManager.addUi(AppUi.LAB, loadFxml("lab"));
   }
 }

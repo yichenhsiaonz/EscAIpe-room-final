@@ -11,7 +11,8 @@ public class SceneManager {
     COMPUTER,
     KEYPAD,
     KITCHEN,
-    CHAT
+    CHAT,
+    LAB
   }
 
   private static HashMap<AppUi, Parent> sceneMap = new HashMap<AppUi, Parent>();
