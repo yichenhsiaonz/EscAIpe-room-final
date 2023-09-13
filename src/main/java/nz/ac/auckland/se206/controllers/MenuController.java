@@ -19,7 +19,7 @@ public class MenuController {
 
   public void initialize() {
     // Initialization code goes here
-    RoomFramework.scaleToScreen(contentPane);
+    GameState.scaleToScreen(contentPane);
     System.out.println(difficulty);
     System.out.println(time);
   }

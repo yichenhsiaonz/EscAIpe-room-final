@@ -1,7 +1,46 @@
 package nz.ac.auckland.se206;
 
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.util.Duration;
+
 /** Represents the state of the game. */
 public class GameState {
+
+  public enum Items {
+    BREAD_TOASTED,
+    BREAD_UNTOASTED,
+    PAPER,
+    USB
+  }
+
+  private static GameState instance = new GameState();
+
+  private GameState() {}
+
+  public static GameState getInstance() {
+    return instance;
+  }
+
+  @FXML protected static HBox inventoryHBox;
+  @FXML protected TextArea chatBox;
+  @FXML protected TextField messageBox;
+  @FXML protected Button sendMessage;
+  @FXML public ProgressBar timerProgressBar;
+  @FXML public Label timerLabel;
 
   private static int chosenDifficulty = 0;
   private static int chosenTime = 0;
@@ -61,18 +100,6 @@ public class GameState {
     GameState.chosenTime = time;
   }
 
-  public static int getTime() {
-    return chosenTime;
-  }
-
-  public static int getWidth() {
-    return width;
-  }
-
-  public static int getHeight() {
-    return height;
-  }
-
   public static void setWidth(int width) {
     GameState.width = width;
   }
@@ -81,19 +108,180 @@ public class GameState {
     GameState.height = height;
   }
 
-  public static int getWindowWidth() {
-    return windowWidth;
-  }
-
-  public static int getWindowHeight() {
-    return windowHeight;
-  }
-
   public static void setWindowWidth(int width) {
     GameState.windowWidth = width;
   }
 
   public static void setWindowHeight(int height) {
     GameState.windowHeight = height;
+  }
+
+  public static void scaleToScreen(AnchorPane contentPane) {
+
+    double scale = (double) windowWidth / 1920;
+    contentPane.setScaleX(scale);
+    contentPane.setScaleY(scale);
+    int verticalMargin = (height - 1080) / 2 + (windowHeight - height) / 2;
+    int horizontalMargin = (width - 1920) / 2 + (windowWidth - width) / 2;
+
+    System.out.println(verticalMargin);
+    System.out.println(horizontalMargin);
+    BorderPane.setMargin(
+        contentPane,
+        new javafx.geometry.Insets(
+            verticalMargin, horizontalMargin, verticalMargin, horizontalMargin));
+    System.out.println(scale);
+  }
+
+  // this method runs a translate transition to move the character to a new position
+  // and returns the duration of the animation in seconds.
+  // use the delayRun method to run code after the animation is complete.
+  public static double goTo(
+      double destinationX, double destinationY, ImageView character, ImageView running) {
+
+    // Retrieve the character's width and height using fitWidth and fitHeight
+    double characterWidth = character.getFitWidth();
+    double characterHeight = character.getFitHeight();
+
+    // Calculate the character's new position relative to the room
+    double characterX = destinationX - characterWidth / 2; // Adjust for character's width
+    double characterY = destinationY - characterHeight; // Adjust for character's height
+
+    // Calculate the distance the character needs to move
+    double distanceToMove =
+        Math.sqrt(
+            Math.pow(characterX - character.getTranslateX(), 2)
+                + Math.pow(characterY - character.getTranslateY(), 2));
+
+    // Define a constant speed
+    double constantSpeed = 300;
+
+    // Calculate the duration based on constant speed and distance
+    double durationSeconds = distanceToMove / constantSpeed;
+
+    // Create a TranslateTransition to smoothly move the character
+    TranslateTransition transition =
+        new TranslateTransition(Duration.seconds(durationSeconds), character);
+    transition.setToX(characterX);
+    transition.setToY(characterY);
+
+    // Play the animation
+    transition.play();
+
+    // Create a TranslateTransition to smoothly move the "running" element
+    TranslateTransition transition2 =
+        new TranslateTransition(Duration.seconds(durationSeconds), running);
+    transition2.setToX(characterX);
+    transition2.setToY(characterY);
+
+    // flip the character and running gif if needed
+    if (characterX > character.getTranslateX()) {
+      running.setScaleX(1);
+      character.setScaleX(1);
+    } else {
+      running.setScaleX(-1);
+      character.setScaleX(-1);
+    }
+
+    running.setOpacity(1);
+    // Play the animation
+    transition2.play();
+
+    transition2.setOnFinished(
+        e -> {
+          // Remove the "running" element from the pane when the animation is done
+          running.setOpacity(0);
+        });
+    return durationSeconds;
+  }
+
+  // This method is used to move the character instantly to a new position without changing
+  // direction.
+  // call this method the same way as goTo.
+  public static void goToInstant(
+      double destinationX, double destinationY, ImageView character, ImageView running) {
+    // Retrieve the character's width and height using fitWidth and fitHeight
+    double characterWidth = character.getFitWidth();
+    double characterHeight = character.getFitHeight();
+
+    // Calculate the character's new position relative to the room
+    double characterX = destinationX - characterWidth / 2; // Adjust for character's width
+    double characterY = destinationY - characterHeight; // Adjust for character's height
+
+    // Create a TranslateTransition to smoothly move the character
+    character.setTranslateX(characterX);
+    character.setTranslateY(characterY);
+    running.setTranslateX(characterX);
+    running.setTranslateY(characterY);
+  }
+
+  // put code you want to run after delay in a Runnable and pass it to this method along with the
+  // delay
+  // in seconds.
+  public static void delayRun(Runnable runnable, double delay) {
+    Thread thread =
+        new Thread(
+            () -> {
+              try {
+                Thread.sleep((int) (delay * 1000));
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+              Platform.runLater(runnable);
+            });
+    thread.start();
+  }
+
+  public static void addItem(Items item) {
+    String itemToAdd;
+    EventHandler<MouseEvent> clickBehaviour;
+    switch (item) {
+      case BREAD_TOASTED:
+        itemToAdd = "file:/images/items/breadToasted.png";
+        clickBehaviour =
+            (event) -> {
+              System.out.println("bread toasted clicked");
+            };
+        break;
+      case BREAD_UNTOASTED:
+        itemToAdd = "file:/images/items/breadUntoasted.png";
+        clickBehaviour =
+            (event) -> {
+              System.out.println("bread untoasted clicked");
+            };
+        break;
+      case PAPER:
+        itemToAdd = "file:/images/items/paper.png";
+        clickBehaviour =
+            (event) -> {
+              System.out.println("paper clicked");
+            };
+        break;
+      case USB:
+        itemToAdd = "file:/images/items/usb.png";
+        clickBehaviour =
+            (event) -> {
+              System.out.println("usb clicked");
+            };
+        break;
+      default:
+        itemToAdd = null;
+        clickBehaviour = null;
+        break;
+    }
+    ImageView itemImage = new ImageView(new Image(itemToAdd));
+    try {
+      inventoryHBox.getChildren().add(itemImage);
+      itemImage.setOnMouseClicked(clickBehaviour);
+    } catch (Exception e) {
+      System.out.println("Error: item not found");
+    }
+  }
+
+  @FXML
+  public void onMessageSent(MouseEvent event) {
+    String message = messageBox.getText();
+    chatBox.appendText("You: " + message + "\n");
+    messageBox.clear();
   }
 }

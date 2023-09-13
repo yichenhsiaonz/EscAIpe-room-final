@@ -122,17 +122,27 @@
                               <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="736.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                            </children>
                         </Pane>
-                        <Label text="Power Left:">
-                           <font>
-                              <Font size="24.0" />
-                           </font></Label>
-                        <HBox>
+                        <HBox fx:id="inventoryHBox">
                            <children>
-                              <ProgressBar fx:id="timerProgressBar" focusTraversable="false" prefHeight="35.0" prefWidth="609.0" progress="1.0" />
-                              <Label fx:id="timerLabel" text="2:00">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font></Label>
+                              <VBox>
+                                 <children>
+                                    <Label text="Power Left:">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <ProgressBar fx:id="timerProgressBar" focusTraversable="false" prefHeight="35.0" prefWidth="609.0" progress="1.0" />
+                                          <Label fx:id="timerLabel" text="2:00">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                      </children>

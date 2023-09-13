@@ -7,6 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import nz.ac.auckland.se206.App;
+import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class ComputerController {
@@ -18,7 +19,7 @@ public class ComputerController {
 
   public void initialize() {
     // Initialization code goes here
-    RoomFramework.scaleToScreen(contentPane);
+    GameState.scaleToScreen(contentPane);
   }
 
   /** Returns to the control room screen when exit button clicked. */

@@ -23,7 +23,7 @@ public class LabController {
 
   public void initialize() {
     // Initialization code goes here
-    RoomFramework.scaleToScreen(contentPane);
+    GameState.scaleToScreen(contentPane);
 
     timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
