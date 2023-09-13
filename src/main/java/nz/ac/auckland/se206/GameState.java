@@ -1,5 +1,15 @@
 package nz.ac.auckland.se206;
 
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.concurrent.Task;
+import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult.Choice;
+
 /** Represents the state of the game. */
 public class GameState {
 
@@ -9,6 +19,9 @@ public class GameState {
   private static int windowHeight = 1080;
   private static int width = 1920;
   private static int height = 1080;
+
+  private static StringProperty chatText = new SimpleStringProperty("");
+  private static ChatCompletionRequest chatCompletionRequest;
 
   // create timer task to run in background persistently
   public static javafx.concurrent.Task<Void> timerTask =
@@ -95,5 +108,63 @@ public class GameState {
 
   public static void setWindowHeight(int height) {
     GameState.windowHeight = height;
+  }
+
+  public static void setChatCompletionRequest(ChatCompletionRequest request) {
+    GameState.chatCompletionRequest = request;
+  }
+
+  public static StringProperty chatTextProperty() {
+    return chatText;
+  }
+
+  public static String getChatText() {
+    return chatText.get();
+  }
+
+  public static void setChatText(String text) {
+    chatText.set(text);
+  }
+
+  // update the chat message in the UI
+  public static void appendChatMessage(ChatMessage msg) {
+    String updateText = chatText.get() + msg.getRole() + ": " + msg.getContent() + "\n\n";
+    setChatText(updateText);
+  }
+
+  // get gpt response
+  public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
+    chatCompletionRequest.addMessage(msg);
+
+    Task<ChatMessage> gptTask =
+        new Task<ChatMessage>() {
+          @Override
+          protected ChatMessage call() throws Exception {
+            try {
+              // get response from gpt
+              ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+
+              Choice result = chatCompletionResult.getChoices().iterator().next();
+              chatCompletionRequest.addMessage(result.getChatMessage());
+
+              // update UI when thread is done
+              Platform.runLater(
+                  () -> {
+                    appendChatMessage(result.getChatMessage());
+                  });
+
+              return result.getChatMessage();
+            } catch (ApiProxyException e) {
+              e.printStackTrace();
+              return null;
+            }
+          }
+        };
+
+    // starts the task on a separate thread
+    Thread gptThread = new Thread(gptTask, "Chat Thread");
+    gptThread.start();
+
+    return gptTask.getValue();
   }
 }

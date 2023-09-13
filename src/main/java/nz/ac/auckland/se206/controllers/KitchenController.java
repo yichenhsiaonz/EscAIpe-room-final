@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,6 +22,8 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /** Controller class for the room view. */
 public class KitchenController {
@@ -54,6 +57,8 @@ public class KitchenController {
 
     timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
+    
+    chatBox.textProperty().bind(GameState.chatTextProperty());
 
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();
@@ -303,10 +308,21 @@ public class KitchenController {
     fridgeClosedGlow.setVisible(false);
   }
 
+  /**
+   * Sends the typed message by the user to gpt.
+   *
+   * @param event the mouse event
+   */
   @FXML
-  public void onMessageSent(MouseEvent event) {
+  public void onMessageSent(ActionEvent event) throws ApiProxyException {
     String message = messageBox.getText();
-    chatBox.appendText("You: " + message + "\n");
+    if (message.trim().isEmpty()) {
+      return;
+    }
     messageBox.clear();
+    ChatMessage msg = new ChatMessage("user", message);
+    GameState.appendChatMessage(msg);
+
+    GameState.runGpt(msg);
   }
 }
