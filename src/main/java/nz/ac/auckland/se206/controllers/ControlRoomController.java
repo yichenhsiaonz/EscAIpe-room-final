@@ -186,6 +186,18 @@ public class ControlRoomController {
   }
 
   /**
+   * 'Consumes' the mouse event, preventing it from being registered.
+   *
+   * @param event the mouse event
+   */
+  @FXML
+  public void consumeMouseEvent(MouseEvent event) {
+    System.out.println("mouse event consumed");
+    System.out.println(event.getSource());
+    event.consume();
+  }
+
+  /**
    * Handles the mouse click event on the room, moving the character to the clicked location.
    *
    * @param event the mouse event

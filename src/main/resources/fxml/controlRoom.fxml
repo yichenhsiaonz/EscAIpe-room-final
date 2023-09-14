@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.QuadCurve?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -31,6 +32,18 @@
                                     <Image url="@../images/Screenshot%202023-09-10%20at%204.55.58%20PM.png" />
                                  </image>
                               </ImageView>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="245.0" layoutY="-1.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="851.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="321.0" layoutX="-6.0" layoutY="379.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="216.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="190.0" layoutX="1087.0" layoutY="2.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="406.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="126.0" layoutX="798.0" layoutY="-4.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="297.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="324.0" layoutX="1443.0" layoutY="181.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="52.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="561.0" layoutX="1393.0" layoutY="379.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="211.0" layoutX="1293.0" layoutY="505.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                              <QuadCurve controlX="358.0" controlY="292.0" endX="176.0" endY="-79.0" fill="DODGERBLUE" layoutX="1231.0" layoutY="773.0" onMouseClicked="#consumeMouseEvent" startX="-123.0" startY="147.0" stroke="BLACK" strokeType="INSIDE" />
+                              <QuadCurve controlX="-731.0" controlY="679.0" endX="-107.0" endY="470.0" fill="DODGERBLUE" layoutX="481.0" layoutY="453.0" onMouseClicked="#consumeMouseEvent" startX="-446.0" startY="189.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="49.0" layoutX="285.0" layoutY="879.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="911.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="135.0" layoutX="426.0" layoutY="758.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" width="713.0" />
+                              <QuadCurve controlX="-731.0" controlY="679.0" endX="-144.3564453125" endY="474.0" fill="DODGERBLUE" layoutX="1220.0" layoutY="201.0" onMouseClicked="#consumeMouseEvent" startX="-119.3564453125" startY="556.0" stroke="BLACK" strokeType="INSIDE" />
                               <ImageView fitHeight="141.0" fitWidth="168.0" layoutX="489.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/computer_purple.png" />
