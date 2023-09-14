@@ -23,7 +23,9 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 /** Controller class for the room view. */
 public class KitchenController {
@@ -219,7 +221,17 @@ public class KitchenController {
             System.out.println("toaster clicked");
             if (hasBread) {
               chatBox.appendText("\n[Toasta da bread]\n\n");
-              GameState.isRiddleResolved = true;
+              GameState.isBreadToast = true;
+
+              // Load prompt to congratulate user on toasting bread
+              GameState.setChatCompletionRequest(
+                 new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(10));
+              try {
+                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()));
+              } catch (ApiProxyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
 
             } else {
               chatBox.appendText("\n[Gotta gett da bread]\n\n");

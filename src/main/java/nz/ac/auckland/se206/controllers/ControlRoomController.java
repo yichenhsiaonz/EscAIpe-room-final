@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +16,9 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 public class ControlRoomController {
   @FXML private AnchorPane contentPane;
@@ -37,7 +38,6 @@ public class ControlRoomController {
   @FXML private TextField messageBox;
   @FXML private Button sendMessage;
 
-
   public void initialize() throws ApiProxyException {
     // Initialization code goes here
     RoomFramework.scaleToScreen(contentPane);
@@ -46,7 +46,6 @@ public class ControlRoomController {
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
 
     chatBox.textProperty().bind(GameState.chatTextProperty());
-
   }
 
   /**
@@ -58,6 +57,19 @@ public class ControlRoomController {
   @FXML
   public void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
+
+    // TODO add riddle to computer screen
+    GameState.isRiddleResolved = true;
+
+    // Load prompt to congratulate user on solving riddle
+    GameState.setChatCompletionRequest(
+        new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(10));
+    try {
+      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()));
+    } catch (ApiProxyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     App.setRoot(AppUi.COMPUTER);
   }

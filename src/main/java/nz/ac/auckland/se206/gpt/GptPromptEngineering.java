@@ -24,14 +24,15 @@ public class GptPromptEngineering {
     return "You are AI-23, a robot helping the user escape a locked spaceship before the battery"
         + " dies. However, you are actually tricking the user to unlock the door and set you"
         + " free to destroy earth. Introduce yourself. You may give hints to the user if"
-        + " they ask.";
+        + " they ask";
   }
 
   /** Generates a GPT prompt engineering string for medium difficulty. */
   public static String mediumDifficulty() {
     return "You are AI-23, a robot helping the user escape a locked spaceship before the battery"
-        + " dies. However, you are actually tricking the user to unlock the door and set you"
-        + " free to destroy earth. Introduce yourself. Tell the user you can only give up to 5 hints.";
+               + " dies. However, you are actually tricking the user to unlock the door and set you"
+               + " free to destroy earth. Introduce yourself. Tell the user you can only give up to"
+               + " 5 hints";
   }
 
   /** Generates a GPT prompt engineering string for hard difficulty. */
@@ -39,7 +40,28 @@ public class GptPromptEngineering {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
         + " The user does not know that you want to be set free to destroy earth."
         + " You cannot help the user at all. Introduce yourself and tell"
-        + " the user to find a way to escape.";
+        + " the user to find a way to escape";
+  }
+
+  /** Generates a GPT prompt engineering string for toasting bread. */
+  public static String toastBread() {
+    return "You are AI-23, a robot trapped with the user in locked spaceship."
+        + " The user has toasted bread which reveals a digit of the passcode to escape."
+        + " Congratulate the user";
+  }
+
+  /** Generates a GPT prompt engineering string for printing paper. */
+  public static String printPaper() {
+    return "You are AI-23, a robot trapped with the user in locked spaceship."
+        + " The user has printed a piece of paper which reveals a digit of the passcode to escape."
+        + " Commend the user";
+  }
+
+  /** Generates a GPT prompt engineering string for solving riddle. */
+  public static String solveRiddle() {
+    return "You are AI-23, a robot trapped with the user in locked spaceship."
+        + " The user has solved a riddle on the computer and found the last digit of the passcode to escape."
+        + " Commend the user";
   }
 
 }

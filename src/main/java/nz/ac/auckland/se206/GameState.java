@@ -59,6 +59,12 @@ public class GameState {
   /** Indicates whether the riddle has been resolved. */
   public static boolean isRiddleResolved = false;
 
+  /** Indicates whether the bread has been toasted. */
+  public static boolean isBreadToast = false;
+
+  /** Indicates whether the paper has been printed. */
+  public static boolean isPaperPrinted = false;
+
   /** Indicates whether the key has been found. */
   public static boolean isKeyFound = false;
 

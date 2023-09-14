@@ -17,7 +17,9 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 public class LabController {
   @FXML private AnchorPane contentPane;
@@ -44,6 +46,17 @@ public class LabController {
   @FXML
   public void onPrinterClicked(MouseEvent event) throws IOException {
     System.out.println("Printer clicked");
+    GameState.isPaperPrinted = true;
+
+    // Load prompt to congratulate user on printing paper
+    GameState.setChatCompletionRequest(
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(10));  
+    try {
+      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
+    } catch (ApiProxyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @FXML
