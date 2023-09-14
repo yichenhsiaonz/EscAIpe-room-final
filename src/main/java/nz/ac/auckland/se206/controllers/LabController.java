@@ -30,7 +30,10 @@ public class LabController {
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
+
   private boolean moving = false;
+  private double startX = 0;
+  private double startY = 0;
 
   public void initialize() {
     // Initialization code goes here
@@ -40,16 +43,16 @@ public class LabController {
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
 
     // Set the initial position of the character within the Pane
-    character.setLayoutX(0); // Initial X position
-    character.setLayoutY(0); // Initial Y position
+    character.setLayoutX(startX); // Initial X position
+    character.setLayoutY(startY); // Initial Y position
 
     // Set the dimensions of the character
     character.setFitWidth(150); // Width of character image
     character.setFitHeight(150); // Height of character image
 
     // Set the initial position of the running gif within the Pane
-    running.setLayoutX(0); // Initial X position
-    running.setLayoutY(0); // Initial Y position
+    running.setLayoutX(startX); // Initial X position
+    running.setLayoutY(startY); // Initial Y position
 
     // Set the dimensions of the running gif
     running.setFitWidth(150); // Width of running gif
@@ -141,7 +144,20 @@ public class LabController {
   @FXML
   public void onRightClicked(MouseEvent event) throws IOException {
     try {
-      App.setRoot(AppUi.CONTROL_ROOM);
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(startY, startY, character, running);
+        Runnable leaveRoom =
+            () -> {
+              try {
+                App.setRoot(AppUi.CONTROL_ROOM);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");

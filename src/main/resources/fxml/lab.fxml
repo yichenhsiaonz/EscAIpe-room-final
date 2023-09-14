@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.QuadCurve?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -32,12 +31,17 @@
                                     <Image url="@../images/Screenshot%202023-09-12%20171946.jpg" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="45.0" layoutY="796.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="446.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="45.0" layoutX="65.0" layoutY="825.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="316.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="62.0" layoutX="1047.0" layoutY="780.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="445.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="45.0" layoutX="1112.0" layoutY="825.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="316.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="797.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1491.0" />
+                              <ImageView fitHeight="131.0" fitWidth="167.0" layoutX="453.0" layoutY="777.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Screenshot%202023-09-12%20171715.png" />
                                  </image>
                               </ImageView>
-                              <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="127.0" layoutX="664.0" layoutY="354.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
+                              <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="127.0" layoutX="455.0" layoutY="778.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
                               <ImageView fx:id="rightArrow" fitHeight="143.0" fitWidth="161.0" layoutX="1306.0" layoutY="628.0" onMouseEntered="#onRightHovered" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/arrow.png" />
@@ -48,7 +52,7 @@
                                     <Image url="@../images/arrowGlow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="printerGlow" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="printerGlow" fitHeight="131.0" fitWidth="167.0" layoutX="453.0" layoutY="777.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/printerglow.png" />
                                  </image>
@@ -63,17 +67,6 @@
                                     <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
                                  </image>
                               </ImageView>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="45.0" layoutY="796.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="446.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="797.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="624.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="45.0" layoutX="65.0" layoutY="825.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="316.0" />
-                              <QuadCurve controlX="-14.0" controlY="-460.0" endX="9.0" endY="336.0" fill="#1f93ff00" layoutX="614.0" layoutY="424.0" onMouseClicked="#consumeMouseEvent" startX="43.0" startY="77.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <QuadCurve controlX="-96.0" controlY="-149.0" endX="-150.0" endY="-125.0" fill="#1f93ff00" layoutX="774.0" layoutY="409.0" onMouseClicked="#consumeMouseEvent" startX="-117.0" startY="102.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="62.0" layoutX="1047.0" layoutY="780.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="445.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="799.0" layoutX="867.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="624.0" />
-                              <QuadCurve controlX="127.0" controlY="-451.0" endX="102.0" endY="324.0" fill="#1f93ff00" layoutX="767.0" layoutY="425.0" onMouseClicked="#consumeMouseEvent" startX="65.0" startY="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <QuadCurve controlX="-75.0" controlY="-112.0" endX="-30.0" endY="-93.0" fill="#1f93ff00" layoutX="896.0" layoutY="378.0" onMouseClicked="#consumeMouseEvent" startX="-64.0" startY="108.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="45.0" layoutX="1112.0" layoutY="825.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="316.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="354.0" layoutX="622.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="247.0" />
                            </children>
                         </Pane>
                         <Label text="Power Left:">
