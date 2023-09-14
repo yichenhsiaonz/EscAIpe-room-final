@@ -158,6 +158,8 @@ public class LabController {
         Runnable leaveRoom =
             () -> {
               try {
+                character.setScaleX(-1);
+                running.setScaleX(-1);
                 App.setRoot(AppUi.CONTROL_ROOM);
               } catch (IOException e) {
                 e.printStackTrace();
