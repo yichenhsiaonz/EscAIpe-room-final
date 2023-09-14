@@ -83,6 +83,7 @@ public class MenuController {
       if (GameState.getDifficulty() == 1) {
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.easyDifficulty()));
       } else if (GameState.getDifficulty() == 2) {
+        GameState.hints = 5;
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.mediumDifficulty()));
       } else if (GameState.getDifficulty() == 3) {
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.hardDifficulty()));

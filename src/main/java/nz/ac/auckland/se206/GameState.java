@@ -56,6 +56,8 @@ public class GameState {
 
   // TODO SET RIDDLES ACCORDING TO DIFFICULTY
 
+  public static int hints = 0;
+
   /** Indicates whether the riddle has been resolved. */
   public static boolean isRiddleResolved = false;
 
