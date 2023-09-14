@@ -5,16 +5,13 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -35,26 +32,22 @@ public class KitchenController {
   @FXML private ImageView fridgeOpenGlow;
   @FXML private ImageView fridgeClosed;
   @FXML private ImageView fridgeOpen;
+  @FXML private HBox dialogueHBox;
+  @FXML private VBox bottomVBox;
   @FXML private Circle doorMarker;
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
   @FXML private Pane room;
-  @FXML private Label timerLabel;
-  @FXML private ProgressBar timerProgressBar;
-  @FXML private TextField messageBox;
-  @FXML private TextArea chatBox;
-  @FXML private Button sendMessage;
   private boolean hasBread = false;
   private boolean moving = false;
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
 
-    RoomFramework.scaleToScreen(contentPane);
+    dialogueHBox.getChildren().add(SharedElements.getDialogueBox());
+    bottomVBox.getChildren().add(SharedElements.getTaskBarBox());
 
-    timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
-    timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
-
+    GameState.scaleToScreen(contentPane);
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();
     int doorMarkerY = (int) doorMarker.getLayoutY();
@@ -75,7 +68,7 @@ public class KitchenController {
     running.setFitWidth(150); // Width of running gif
     running.setFitHeight(150); // Height of running gif
 
-    RoomFramework.goToInstant(doorMarkerX, doorMarkerY, character, running);
+    GameState.goToInstant(doorMarkerX, doorMarkerY, character, running);
   }
 
   /**
@@ -151,12 +144,12 @@ public class KitchenController {
 
       parallelTransition.play();
       moving = true;
-      double movementDelay = RoomFramework.goTo(mouseX, mouseY, character, running);
+      double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
       Runnable resumeMoving =
           () -> {
             moving = false;
           };
-      RoomFramework.delayRun(resumeMoving, movementDelay);
+      GameState.delayRun(resumeMoving, movementDelay);
     }
   }
 
@@ -170,7 +163,7 @@ public class KitchenController {
   public void onDoorClicked(MouseEvent event) throws IOException {
     if (!moving) {
       double movementDelay =
-          RoomFramework.goTo(doorMarker.getLayoutX(), doorMarker.getLayoutY(), character, running);
+          GameState.goTo(doorMarker.getLayoutX(), doorMarker.getLayoutY(), character, running);
       Runnable leaveRoom =
           () -> {
             try {
@@ -181,7 +174,7 @@ public class KitchenController {
             moving = false;
           };
 
-      RoomFramework.delayRun(leaveRoom, movementDelay);
+      GameState.delayRun(leaveRoom, movementDelay);
     }
   }
 
@@ -206,22 +199,20 @@ public class KitchenController {
   public void onToasterClicked(MouseEvent event) {
     if (!moving) {
       double movementDelay =
-          RoomFramework.goTo(
+          GameState.goTo(
               toasterMarker.getLayoutX(), toasterMarker.getLayoutY(), character, running);
 
       Runnable toasterRunnable =
           () -> {
             System.out.println("toaster clicked");
             if (hasBread) {
-              chatBox.appendText("\n[Toasta da bread]\n\n");
-              GameState.isRiddleResolved = true;
-
-            } else {
-              chatBox.appendText("\n[Gotta gett da bread]\n\n");
+              GameState.addItem(GameState.Items.BREAD_TOASTED);
+              GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
+              hasBread = false;
             }
             moving = false;
           };
-      RoomFramework.delayRun(toasterRunnable, movementDelay);
+      GameState.delayRun(toasterRunnable, movementDelay);
     }
   }
 
@@ -245,16 +236,14 @@ public class KitchenController {
   public void onFridgeOpenClicked(MouseEvent event) {
     if (!moving) {
       double movementDelay =
-          RoomFramework.goTo(
-              fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
+          GameState.goTo(fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
 
       Runnable openFridgeRunnable =
           () -> {
             System.out.println("open fridge clicked");
-            chatBox.appendText("\n[no more bread]\n\n");
             moving = false;
           };
-      RoomFramework.delayRun(openFridgeRunnable, movementDelay);
+      GameState.delayRun(openFridgeRunnable, movementDelay);
     }
   }
 
@@ -276,20 +265,24 @@ public class KitchenController {
    */
   @FXML
   public void onFridgeClosedClicked(MouseEvent event) {
-    if (!moving) {
-      double movementDelay =
-          RoomFramework.goTo(
-              fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
-      Runnable closedFridgeRunnable =
-          () -> {
-            fridgeClosed.setVisible(false);
-            fridgeOpen.setVisible(true);
-            hasBread = true;
-            chatBox.appendText("\n[You got bread]\n\n");
-            System.out.println("closed fridge clicked");
-            moving = false;
-          };
-      RoomFramework.delayRun(closedFridgeRunnable, movementDelay);
+    try {
+      if (!moving) {
+        double movementDelay =
+            GameState.goTo(
+                fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
+        Runnable closedFridgeRunnable =
+            () -> {
+              fridgeClosed.setVisible(false);
+              fridgeOpen.setVisible(true);
+              hasBread = true;
+              GameState.addItem(GameState.Items.BREAD_UNTOASTED);
+              System.out.println("closed fridge clicked");
+              moving = false;
+            };
+        GameState.delayRun(closedFridgeRunnable, movementDelay);
+      }
+    } catch (Exception e) {
+      // TODO: handle exception
     }
   }
 
@@ -304,9 +297,5 @@ public class KitchenController {
   }
 
   @FXML
-  public void onMessageSent(MouseEvent event) {
-    String message = messageBox.getText();
-    chatBox.appendText("You: " + message + "\n");
-    messageBox.clear();
-  }
+  public void onMessageSent(MouseEvent event) {}
 }

@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206;
 
+import java.util.HashMap;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -9,13 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import nz.ac.auckland.se206.controllers.SharedElements;
 
 /** Represents the state of the game. */
 public class GameState {
@@ -35,11 +36,17 @@ public class GameState {
     return instance;
   }
 
-  @FXML protected static HBox inventoryHBox;
+  private static HashMap<Items, ImageView> inventoryMap = new HashMap<Items, ImageView>();
+
+  private static void inventoryMapAdd(Items item, ImageView itemImageView) {
+    inventoryMap.put(item, itemImageView);
+  }
+
+  @FXML protected HBox inventoryHBox;
   @FXML protected TextArea chatBox;
   @FXML protected TextField messageBox;
   @FXML protected Button sendMessage;
-  @FXML public ProgressBar timerProgressBar;
+  @FXML private ProgressBar timerProgressBar;
   @FXML public Label timerLabel;
 
   private static int chosenDifficulty = 0;
@@ -237,28 +244,28 @@ public class GameState {
     EventHandler<MouseEvent> clickBehaviour;
     switch (item) {
       case BREAD_TOASTED:
-        itemToAdd = "file:/images/items/breadToasted.png";
+        itemToAdd = "/images/Items/breadToasted.png";
         clickBehaviour =
             (event) -> {
               System.out.println("bread toasted clicked");
             };
         break;
       case BREAD_UNTOASTED:
-        itemToAdd = "file:/images/items/breadUntoasted.png";
+        itemToAdd = "/images/Items/breadUntoasted.png";
         clickBehaviour =
             (event) -> {
               System.out.println("bread untoasted clicked");
             };
         break;
       case PAPER:
-        itemToAdd = "file:/images/items/paper.png";
+        itemToAdd = "/images/Items/paper.png";
         clickBehaviour =
             (event) -> {
               System.out.println("paper clicked");
             };
         break;
       case USB:
-        itemToAdd = "file:/images/items/usb.png";
+        itemToAdd = "/images/Items/usb.png";
         clickBehaviour =
             (event) -> {
               System.out.println("usb clicked");
@@ -269,12 +276,25 @@ public class GameState {
         clickBehaviour = null;
         break;
     }
-    ImageView itemImage = new ImageView(new Image(itemToAdd));
+
     try {
-      inventoryHBox.getChildren().add(itemImage);
+      ImageView itemImage = new ImageView(itemToAdd);
       itemImage.setOnMouseClicked(clickBehaviour);
+      SharedElements.addInventoryItem(itemImage);
+      inventoryMapAdd(item, itemImage);
+
     } catch (Exception e) {
       System.out.println("Error: item not found");
+      System.out.println(e);
+    }
+  }
+
+  public static void removeItem(Items item) {
+    try {
+      SharedElements.removeInventoryItem(inventoryMap.get(item));
+    } catch (Exception e) {
+      System.out.println("Error: item not found");
+      System.out.println(e);
     }
   }
 
