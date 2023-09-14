@@ -129,7 +129,24 @@ public class LabController {
 
   @FXML
   public void onPrinterClicked(MouseEvent event) throws IOException {
-    System.out.println("Printer clicked");
+
+    consumeMouseEvent(event);
+
+    try {
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(660, 900, character, running);
+        Runnable goToPrinter =
+            () -> {
+              System.out.println("Printer clicked");
+              moving = false;
+            };
+
+        RoomFramework.delayRun(goToPrinter, movementDelay);
+      }
+    } catch (Exception e) {
+      // TODO handle exception appropriately
+      System.out.println("Error");
+    }
   }
 
   @FXML

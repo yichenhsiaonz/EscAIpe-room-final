@@ -80,7 +80,7 @@ public class ControlRoomController {
     try {
       if (!moving) {
         double movementDelay = RoomFramework.goTo(550, 280, character, running);
-        Runnable leaveRoom =
+        Runnable accessComputer =
             () -> {
               try {
                 App.setRoot(AppUi.COMPUTER);
@@ -90,7 +90,7 @@ public class ControlRoomController {
               moving = false;
             };
 
-        RoomFramework.delayRun(leaveRoom, movementDelay);
+        RoomFramework.delayRun(accessComputer, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -161,7 +161,7 @@ public class ControlRoomController {
     try {
       if (!moving) {
         double movementDelay = RoomFramework.goTo(1360, 210, character, running);
-        Runnable leaveRoom =
+        Runnable accessKeypad =
             () -> {
               try {
                 App.setRoot(AppUi.KEYPAD);
@@ -171,7 +171,7 @@ public class ControlRoomController {
               moving = false;
             };
 
-        RoomFramework.delayRun(leaveRoom, movementDelay);
+        RoomFramework.delayRun(accessKeypad, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -248,6 +248,8 @@ public class ControlRoomController {
         Runnable leaveRoom =
             () -> {
               try {
+                character.setScaleX(1);
+                running.setScaleX(1);
                 App.setRoot(AppUi.LAB);
               } catch (IOException e) {
                 e.printStackTrace();
