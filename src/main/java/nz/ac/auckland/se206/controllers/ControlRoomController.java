@@ -61,6 +61,8 @@ public class ControlRoomController {
     // Set the dimensions of the running gif
     running.setFitWidth(150); // Width of running gif
     running.setFitHeight(150); // Height of running gif
+
+    RoomFramework.goToInstant(780, 480, character, running);
   }
 
   /**
@@ -139,8 +141,25 @@ public class ControlRoomController {
    */
   @FXML
   public void onRightClicked(MouseEvent event) throws IOException {
+    consumeMouseEvent(event);
+
     try {
-      App.setRoot(AppUi.KITCHEN);
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(1350, 400, character, running);
+        Runnable leaveRoom =
+            () -> {
+              try {
+                character.setScaleX(-1);
+                running.setScaleX(-1);
+                App.setRoot(AppUi.KITCHEN);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
@@ -165,13 +184,27 @@ public class ControlRoomController {
    */
   @FXML
   public void onLeftClicked(MouseEvent event) {
+    consumeMouseEvent(event);
+
     try {
-      App.setRoot(AppUi.LAB);
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(140, 420, character, running);
+        Runnable leaveRoom =
+            () -> {
+              try {
+                App.setRoot(AppUi.LAB);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
     }
-    System.out.println("left arrow clicked");
   }
 
   // add glow highlight to left arrow when hover
