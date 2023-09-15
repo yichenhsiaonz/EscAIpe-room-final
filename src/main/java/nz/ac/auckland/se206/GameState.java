@@ -163,7 +163,7 @@ public class GameState {
 
               return result.getChatMessage();
             } catch (ApiProxyException e) {
-              e.printStackTrace();
+              System.out.println("API error");
               return null;
             }
           }

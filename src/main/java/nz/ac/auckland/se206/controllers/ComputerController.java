@@ -76,7 +76,7 @@ public class ComputerController {
 
               return result.getChatMessage();
             } catch (ApiProxyException e) {
-              e.printStackTrace();
+              System.out.println("API error");
               return null;
             }
           }
@@ -96,7 +96,7 @@ public class ComputerController {
                     .setN(1)
                     .setTemperature(0.2)
                     .setTopP(0.5)
-                    .setMaxTokens(10));
+                    .setMaxTokens(100));
             try {
               GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()));
             } catch (ApiProxyException e) {

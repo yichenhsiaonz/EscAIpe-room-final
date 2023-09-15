@@ -77,7 +77,7 @@ public class MenuController {
     try {
       new Thread(GameState.timerTask).start();
 
-      GameState.setChatCompletionRequest(new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(10));
+      GameState.setChatCompletionRequest(new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));
 
       // Load prompt according to difficulty
       if (GameState.getDifficulty() == 1) {
