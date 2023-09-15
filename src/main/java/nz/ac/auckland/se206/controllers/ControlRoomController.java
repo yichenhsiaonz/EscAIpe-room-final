@@ -39,12 +39,12 @@ public class ControlRoomController {
   @FXML private ImageView computerGlow;
   @FXML private ImageView exitGlow;
   @FXML private ImageView keypadGlow;
-  @FXML private TextArea chatBox;
-  @FXML private TextField messageBox;
-  @FXML private Button sendMessage;
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
+  @FXML private TextArea chatBox;
+  @FXML private TextField messageBox;
+  @FXML private Button sendMessage;
 
   private boolean moving = false;
 
@@ -54,8 +54,6 @@ public class ControlRoomController {
 
     timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
-
-    chatBox.textProperty().bind(GameState.chatTextProperty());
 
     // Set the initial position of the character within the Pane
     character.setLayoutX(0); // Initial X position
@@ -74,6 +72,8 @@ public class ControlRoomController {
     running.setFitHeight(150); // Height of running gif
 
     RoomFramework.goToInstant(780, 480, character, running);
+
+    chatBox.textProperty().bind(GameState.chatTextProperty());
   }
 
   /**
@@ -199,24 +199,6 @@ public class ControlRoomController {
   }
 
   /**
-   * Sends the typed message by the user to gpt.
-   *
-   * @param event the mouse event
-   */
-  @FXML
-  public void onMessageSent(ActionEvent event) throws ApiProxyException {
-    String message = messageBox.getText();
-    if (message.trim().isEmpty()) {
-      return;
-    }
-    messageBox.clear();
-    ChatMessage msg = new ChatMessage("user", message);
-    GameState.appendChatMessage(msg);
-
-    GameState.runGpt(msg);
-  }
-
-  /**
    * 'Consumes' the mouse event, preventing it from being registered.
    *
    * @param event the mouse event
@@ -278,5 +260,23 @@ public class ControlRoomController {
           };
       RoomFramework.delayRun(resumeMoving, movementDelay);
     }
+  }
+  
+  /**
+   * Sends the typed message by the user to gpt.
+   *
+   * @param event the mouse event
+   */
+  @FXML
+  public void onMessageSent(ActionEvent event) throws ApiProxyException {
+    String message = messageBox.getText();
+    if (message.trim().isEmpty()) {
+      return;
+    }
+    messageBox.clear();
+    ChatMessage msg = new ChatMessage("user", message);
+    GameState.appendChatMessage(msg);
+
+    GameState.runGpt(msg);
   }
 }

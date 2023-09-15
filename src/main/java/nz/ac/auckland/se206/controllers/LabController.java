@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -36,12 +35,12 @@ public class LabController {
   @FXML private ImageView rightArrow;
   @FXML private ImageView rightGlowArrow;
   @FXML private ImageView printerGlow;
-  @FXML private TextArea chatBox;
-  @FXML private TextField messageBox;
-  @FXML private Button sendMessage;
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
+  @FXML private TextArea chatBox;
+  @FXML private TextField messageBox;
+  @FXML private Button sendMessage;
 
   private boolean moving = false;
   double startX = 1400;
@@ -53,8 +52,6 @@ public class LabController {
 
     timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
     timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
-
-    chatBox.textProperty().bind(GameState.chatTextProperty());
 
     // Set the initial position of the character within the Pane
     character.setLayoutX(0); // Initial X position
@@ -75,6 +72,8 @@ public class LabController {
     running.setScaleX(-1);
     character.setScaleX(-1);
     RoomFramework.goToInstant(startX, startY, character, running);
+
+    chatBox.textProperty().bind(GameState.chatTextProperty());
   }
 
   /**
@@ -143,18 +142,6 @@ public class LabController {
 
   @FXML
   public void onPrinterClicked(MouseEvent event) throws IOException {
-    System.out.println("Printer clicked");
-    GameState.isPaperPrinted = true;
-
-    // Load prompt to congratulate user on printing paper
-    GameState.setChatCompletionRequest(
-      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));  
-    try {
-      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
-    } catch (ApiProxyException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
 
     consumeMouseEvent(event);
 
@@ -172,6 +159,18 @@ public class LabController {
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
+    }
+
+    GameState.isPaperPrinted = true;
+
+    // Load prompt to congratulate user on printing paper
+    GameState.setChatCompletionRequest(
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));  
+    try {
+      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
+    } catch (ApiProxyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 
