@@ -191,8 +191,26 @@ public class LabController {
    */
   @FXML
   public void onRightClicked(MouseEvent event) throws IOException {
+
+    consumeMouseEvent(event);
+
     try {
-      App.setRoot(AppUi.CONTROL_ROOM);
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(startX, startY, character, running);
+        Runnable leaveRoom =
+            () -> {
+              try {
+                character.setScaleX(-1);
+                running.setScaleX(-1);
+                App.setRoot(AppUi.CONTROL_ROOM);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");

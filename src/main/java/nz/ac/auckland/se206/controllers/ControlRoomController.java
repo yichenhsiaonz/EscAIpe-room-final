@@ -86,7 +86,27 @@ public class ControlRoomController {
   public void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
 
-    App.setRoot(AppUi.COMPUTER);
+    consumeMouseEvent(event);
+
+    try {
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(550, 280, character, running);
+        Runnable accessComputer =
+            () -> {
+              try {
+                App.setRoot(AppUi.COMPUTER);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(accessComputer, movementDelay);
+      }
+    } catch (Exception e) {
+      // TODO handle exception appropriately
+      System.out.println("Error");
+    }
   }
 
   // add glow highlight to computer when hover
@@ -107,7 +127,23 @@ public class ControlRoomController {
    */
   @FXML
   public void clickExit(MouseEvent event) {
-    System.out.println("exit door clicked");
+    consumeMouseEvent(event);
+
+    try {
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(1180, 221, character, running);
+        Runnable leaveRoom =
+            () -> {
+              System.out.println("exit door clicked");
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
+    } catch (Exception e) {
+      // TODO handle exception appropriately
+      System.out.println("Error");
+    }
   }
 
   // add glow highlight to exit door when hover
@@ -131,7 +167,27 @@ public class ControlRoomController {
   public void clickKeypad(MouseEvent event) throws IOException {
     System.out.println("keypad clicked");
 
-    App.setRoot(AppUi.KEYPAD);
+    consumeMouseEvent(event);
+
+    try {
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(1360, 210, character, running);
+        Runnable accessKeypad =
+            () -> {
+              try {
+                App.setRoot(AppUi.KEYPAD);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(accessKeypad, movementDelay);
+      }
+    } catch (Exception e) {
+      // TODO handle exception appropriately
+      System.out.println("Error");
+    }
   }
 
   // add glow highlight to keypad when hover
@@ -152,8 +208,25 @@ public class ControlRoomController {
    */
   @FXML
   public void onRightClicked(MouseEvent event) throws IOException {
+    consumeMouseEvent(event);
+
     try {
-      App.setRoot(AppUi.KITCHEN);
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(1350, 400, character, running);
+        Runnable leaveRoom =
+            () -> {
+              try {
+                character.setScaleX(-1);
+                running.setScaleX(-1);
+                App.setRoot(AppUi.KITCHEN);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
@@ -178,13 +251,29 @@ public class ControlRoomController {
    */
   @FXML
   public void onLeftClicked(MouseEvent event) {
+    consumeMouseEvent(event);
+
     try {
-      App.setRoot(AppUi.LAB);
+      if (!moving) {
+        double movementDelay = RoomFramework.goTo(140, 420, character, running);
+        Runnable leaveRoom =
+            () -> {
+              try {
+                character.setScaleX(1);
+                running.setScaleX(1);
+                App.setRoot(AppUi.LAB);
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              moving = false;
+            };
+
+        RoomFramework.delayRun(leaveRoom, movementDelay);
+      }
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
     }
-    System.out.println("left arrow clicked");
   }
 
   // add glow highlight to left arrow when hover
@@ -261,7 +350,7 @@ public class ControlRoomController {
       RoomFramework.delayRun(resumeMoving, movementDelay);
     }
   }
-  
+
   /**
    * Sends the typed message by the user to gpt.
    *
