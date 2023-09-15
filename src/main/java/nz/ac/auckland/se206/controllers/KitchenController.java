@@ -39,6 +39,7 @@ public class KitchenController {
   @FXML private Circle fridgeMarker;
   @FXML private Pane room;
   private boolean hasBread = false;
+  private boolean hasToast = false;
   private boolean moving = false;
 
   /** Initializes the room view, it is called when the room loads. */
@@ -162,6 +163,7 @@ public class KitchenController {
   @FXML
   public void onDoorClicked(MouseEvent event) throws IOException {
     if (!moving) {
+      moving = true;
       double movementDelay =
           GameState.goTo(doorMarker.getLayoutX(), doorMarker.getLayoutY(), character, running);
       Runnable leaveRoom =
@@ -198,21 +200,51 @@ public class KitchenController {
   @FXML
   public void onToasterClicked(MouseEvent event) {
     if (!moving) {
+      moving = true;
       double movementDelay =
           GameState.goTo(
               toasterMarker.getLayoutX(), toasterMarker.getLayoutY(), character, running);
-
-      Runnable toasterRunnable =
-          () -> {
-            System.out.println("toaster clicked");
-            if (hasBread) {
-              GameState.addItem(GameState.Items.BREAD_TOASTED);
+      if (hasBread && !hasToast) {
+        Runnable putInToast =
+            () -> {
+              System.out.println("toaster clicked");
               GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
+              SharedElements.appendChat("You put a slice of bread in the toaster");
               hasBread = false;
-            }
-            moving = false;
-          };
-      GameState.delayRun(toasterRunnable, movementDelay);
+            };
+        Runnable waitForToast =
+            () -> {
+              SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
+            };
+        Runnable ToastFinish =
+            () -> {
+              System.out.println("toaster clicked");
+              GameState.addItem(GameState.Items.BREAD_TOASTED);
+              SharedElements.appendChat("A charred slice of toast pops out of the toaster");
+              hasToast = true;
+              moving = false;
+            };
+
+        GameState.delayRun(putInToast, movementDelay);
+        GameState.delayRun(waitForToast, 2);
+        GameState.delayRun(ToastFinish, 4);
+      } else if (hasToast) {
+        Runnable toasterRunnable =
+            () -> {
+              System.out.println("toaster clicked");
+              SharedElements.appendChat("Looks like the toaster is toast.");
+              moving = false;
+            };
+        GameState.delayRun(toasterRunnable, movementDelay);
+      } else {
+        Runnable toasterRunnable =
+            () -> {
+              System.out.println("toaster clicked");
+              SharedElements.appendChat("This toaster looks like it's been tampered with");
+              moving = false;
+            };
+        GameState.delayRun(toasterRunnable, movementDelay);
+      }
     }
   }
 
@@ -235,12 +267,14 @@ public class KitchenController {
   @FXML
   public void onFridgeOpenClicked(MouseEvent event) {
     if (!moving) {
+      moving = true;
       double movementDelay =
           GameState.goTo(fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
 
       Runnable openFridgeRunnable =
           () -> {
             System.out.println("open fridge clicked");
+            SharedElements.appendChat("There's nothing left in the fridge.");
             moving = false;
           };
       GameState.delayRun(openFridgeRunnable, movementDelay);
@@ -267,6 +301,7 @@ public class KitchenController {
   public void onFridgeClosedClicked(MouseEvent event) {
     try {
       if (!moving) {
+        moving = true;
         double movementDelay =
             GameState.goTo(
                 fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
@@ -276,6 +311,7 @@ public class KitchenController {
               fridgeOpen.setVisible(true);
               hasBread = true;
               GameState.addItem(GameState.Items.BREAD_UNTOASTED);
+              SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
               System.out.println("closed fridge clicked");
               moving = false;
             };
@@ -295,7 +331,4 @@ public class KitchenController {
   public void onFridgeClosedUnhovered(MouseEvent event) {
     fridgeClosedGlow.setVisible(false);
   }
-
-  @FXML
-  public void onMessageSent(MouseEvent event) {}
 }

@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import nz.ac.auckland.se206.GameState;
 
 public class SharedElements {
-  private static final SharedElements INSTANCE = new SharedElements();
+  private static SharedElements instance = new SharedElements();
 
   @FXML private VBox dialogueBox;
   @FXML private HBox sendBox;
@@ -40,6 +40,9 @@ public class SharedElements {
     chatBox = new TextArea();
     chatBox.setPrefWidth(330);
     chatBox.setPrefHeight(935);
+    chatBox.setEditable(false);
+    chatBox.setWrapText(true);
+    chatBox.setFocusTraversable(false);
     sendMessage = new Button();
     sendMessage.setText("Submit");
     sendMessage.setPrefWidth(60);
@@ -71,19 +74,27 @@ public class SharedElements {
     timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
   }
 
+  public static void newGame() {
+    instance = new SharedElements();
+  }
+
   public static VBox getDialogueBox() {
-    return INSTANCE.dialogueBox;
+    return instance.dialogueBox;
   }
 
   public static HBox getTaskBarBox() {
-    return INSTANCE.taskBarHBox;
+    return instance.taskBarHBox;
   }
 
   public static void addInventoryItem(ImageView item) {
-    INSTANCE.inventoryHBox.getChildren().add(item);
+    instance.inventoryHBox.getChildren().add(item);
   }
 
   public static void removeInventoryItem(ImageView item) {
-    INSTANCE.inventoryHBox.getChildren().remove(item);
+    instance.inventoryHBox.getChildren().remove(item);
+  }
+
+  public static void appendChat(String message) {
+    instance.chatBox.appendText(message + "\n");
   }
 }

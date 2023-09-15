@@ -1,6 +1,7 @@
 package nz.ac.auckland.se206;
 
 import java.util.HashMap;
+import java.util.Random;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -30,7 +31,19 @@ public class GameState {
 
   private static GameState instance = new GameState();
 
-  private GameState() {}
+  private GameState() {
+    Random rng = new Random();
+    firstDigit = rng.nextInt(1000);
+    secondDigit = rng.nextInt(1000);
+    thirdDigit = rng.nextInt(1000);
+    System.out.println(firstDigit);
+    System.out.println(secondDigit);
+    System.out.println(thirdDigit);
+  }
+
+  public static void newGame() {
+    instance = new GameState();
+  }
 
   public static GameState getInstance() {
     return instance;
@@ -55,6 +68,9 @@ public class GameState {
   private static int windowHeight = 1080;
   private static int width = 1920;
   private static int height = 1080;
+  private static int firstDigit;
+  private static int secondDigit;
+  private static int thirdDigit;
 
   // create timer task to run in background persistently
   public static javafx.concurrent.Task<Void> timerTask =
@@ -248,6 +264,8 @@ public class GameState {
         clickBehaviour =
             (event) -> {
               System.out.println("bread toasted clicked");
+              SharedElements.appendChat(
+                  "it's hard to read, but the numbers " + thirdDigit + " are burnt into the toast");
             };
         break;
       case BREAD_UNTOASTED:
@@ -255,6 +273,7 @@ public class GameState {
         clickBehaviour =
             (event) -> {
               System.out.println("bread untoasted clicked");
+              SharedElements.appendChat("It looks rather unappetising");
             };
         break;
       case PAPER:
@@ -262,6 +281,10 @@ public class GameState {
         clickBehaviour =
             (event) -> {
               System.out.println("paper clicked");
+              SharedElements.appendChat(
+                  "Within the blocks of text, you can make out the numbers "
+                      + firstDigit
+                      + " in bold");
             };
         break;
       case USB:
@@ -269,6 +292,9 @@ public class GameState {
         clickBehaviour =
             (event) -> {
               System.out.println("usb clicked");
+              SharedElements.appendChat(
+                  "You're reminded of the times they told you not to stick random USBs into your"
+                      + " computer");
             };
         break;
       default:
