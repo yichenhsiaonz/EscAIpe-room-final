@@ -139,7 +139,7 @@
                   </VBox>
                   <VBox alignment="CENTER_RIGHT">
                      <children>
-                        <TextArea fx:id="chatBox" editable="false" focusTraversable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <TextArea fx:id="chatBox" editable="false" focusTraversable="false" prefWidth="330.0" wrapText="true" VBox.vgrow="ALWAYS" />
                         <HBox>
                            <children>
                               <TextField fx:id="messageBox" focusTraversable="false" prefHeight="25.0" prefWidth="270.0" promptText="Talk to AI..." />

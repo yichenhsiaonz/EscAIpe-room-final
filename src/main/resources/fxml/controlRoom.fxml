@@ -107,6 +107,16 @@
                                     <Image url="@../images/arrowGlow.png" />
                                  </image>
                               </ImageView>
+                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="903.0" layoutY="763.0">
+                                 <image>
+                                    <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="897.0" layoutY="758.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
                         <Label text="Power Left:">
@@ -126,11 +136,11 @@
                   </VBox>
                   <VBox alignment="CENTER_RIGHT">
                      <children>
-                        <TextArea editable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <TextArea fx:id="chatBox" editable="false" prefWidth="330.0" wrapText="true" VBox.vgrow="ALWAYS" />
                         <HBox>
                            <children>
-                              <TextField prefHeight="25.0" prefWidth="270.0" />
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Submit" />
+                              <TextField fx:id="messageBox" prefHeight="25.0" prefWidth="270.0" promptText="Talk to AI..." />
+                              <Button fx:id="sendMessage" mnemonicParsing="false" onAction="#onMessageSent" prefHeight="25.0" prefWidth="60.0" text="Submit" />
                            </children>
                         </HBox>
                      </children>

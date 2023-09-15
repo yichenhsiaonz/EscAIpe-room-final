@@ -1,12 +1,16 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +22,10 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.GptPromptEngineering;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 public class LabController {
   @FXML private AnchorPane contentPane;
@@ -30,6 +38,9 @@ public class LabController {
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
+  @FXML private TextArea chatBox;
+  @FXML private TextField messageBox;
+  @FXML private Button sendMessage;
 
   private boolean moving = false;
   double startX = 1400;
@@ -61,6 +72,8 @@ public class LabController {
     running.setScaleX(-1);
     character.setScaleX(-1);
     RoomFramework.goToInstant(startX, startY, character, running);
+
+    chatBox.textProperty().bind(GameState.chatTextProperty());
   }
 
   /**
@@ -147,6 +160,18 @@ public class LabController {
       // TODO handle exception appropriately
       System.out.println("Error");
     }
+
+    GameState.isPaperPrinted = true;
+
+    // Load prompt to congratulate user on printing paper
+    GameState.setChatCompletionRequest(
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));  
+    try {
+      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
+    } catch (ApiProxyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @FXML
@@ -201,5 +226,23 @@ public class LabController {
   @FXML
   public void onRightUnhovered(MouseEvent event) {
     rightGlowArrow.setVisible(false);
+  }
+
+  /**
+   * Sends the typed message by the user to gpt.
+   *
+   * @param event the mouse event
+   */
+  @FXML
+  public void onMessageSent(ActionEvent event) throws ApiProxyException {
+    String message = messageBox.getText();
+    if (message.trim().isEmpty()) {
+      return;
+    }
+    messageBox.clear();
+    ChatMessage msg = new ChatMessage("user", message);
+    GameState.appendChatMessage(msg);
+
+    GameState.runGpt(msg);
   }
 }

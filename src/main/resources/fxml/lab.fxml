@@ -86,11 +86,11 @@
                   </VBox>
                   <VBox alignment="CENTER_RIGHT">
                      <children>
-                        <TextArea fx:id="chatBox" editable="false" prefWidth="330.0" VBox.vgrow="ALWAYS" />
+                        <TextArea fx:id="chatBox" editable="false" prefWidth="330.0" wrapText="true" VBox.vgrow="ALWAYS" />
                         <HBox>
                            <children>
-                              <TextField prefHeight="25.0" prefWidth="270.0" />
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Submit" />
+                              <TextField fx:id="messageBox" prefHeight="25.0" prefWidth="270.0" promptText="Talk to AI..." />
+                              <Button fx:id="sendMessage" mnemonicParsing="false" onAction="#onMessageSent" prefHeight="25.0" prefWidth="60.0" text="Submit" />
                            </children>
                         </HBox>
                      </children>
