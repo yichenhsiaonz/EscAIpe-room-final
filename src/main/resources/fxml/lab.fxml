@@ -24,7 +24,7 @@
                <children>
                   <VBox alignment="BOTTOM_LEFT">
                      <children>
-                        <Pane fx:id="room">
+                        <Pane fx:id="room" onMouseClicked="#onMoveCharacter">
                            <children>
                               <ImageView fitHeight="910.0" fitWidth="1491.0" pickOnBounds="true">
                                  <image>
@@ -50,6 +50,16 @@
                               <ImageView fx:id="printerGlow" fitHeight="131.0" fitWidth="167.0" layoutX="662.0" layoutY="353.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/printerglow.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="903.0" layoutY="763.0">
+                                 <image>
+                                    <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="897.0" layoutY="758.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
                                  </image>
                               </ImageView>
                            </children>
