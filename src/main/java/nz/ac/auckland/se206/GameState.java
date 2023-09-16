@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,6 +19,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.controllers.SharedElements;
+import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult.Choice;
 
 /** Represents the state of the game. */
 public class GameState {
@@ -29,16 +35,16 @@ public class GameState {
     USB
   }
 
-  private static GameState instance = new GameState();
+  private static GameState instance;
 
   private GameState() {
     Random rng = new Random();
-    firstDigit = rng.nextInt(1000);
-    secondDigit = rng.nextInt(1000);
-    thirdDigit = rng.nextInt(1000);
-    System.out.println(firstDigit);
-    System.out.println(secondDigit);
-    System.out.println(thirdDigit);
+    firstDigits = rng.nextInt(100);
+    secondDigits = rng.nextInt(100);
+    thirdDigits = rng.nextInt(100);
+    System.out.println(firstDigits);
+    System.out.println(secondDigits);
+    System.out.println(thirdDigits);
   }
 
   public static void newGame() {
@@ -49,9 +55,9 @@ public class GameState {
     return instance;
   }
 
-  private static HashMap<Items, ImageView> inventoryMap = new HashMap<Items, ImageView>();
+  private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
 
-  private static void inventoryMapAdd(Items item, ImageView itemImageView) {
+  private static void inventoryMapAdd(Items item, ImageView[] itemImageView) {
     inventoryMap.put(item, itemImageView);
   }
 
@@ -68,9 +74,11 @@ public class GameState {
   private static int windowHeight = 1080;
   private static int width = 1920;
   private static int height = 1080;
-  private static int firstDigit;
-  private static int secondDigit;
-  private static int thirdDigit;
+
+  private static ChatCompletionRequest chatCompletionRequest;
+  private static int firstDigits;
+  private static int secondDigits;
+  private static int thirdDigits;
 
   // create timer task to run in background persistently
   public static javafx.concurrent.Task<Void> timerTask =
@@ -103,14 +111,6 @@ public class GameState {
         }
       };
 
-  // TODO SET RIDDLES ACCORDING TO DIFFICULTY
-
-  /** Indicates whether the riddle has been resolved. */
-  public static boolean isRiddleResolved = false;
-
-  /** Indicates whether the key has been found. */
-  public static boolean isKeyFound = false;
-
   public static void setDifficulty(int difficulty) {
     GameState.chosenDifficulty = difficulty;
   }
@@ -137,6 +137,50 @@ public class GameState {
 
   public static void setWindowHeight(int height) {
     GameState.windowHeight = height;
+  }
+
+  public static void setChatCompletionRequest(ChatCompletionRequest chatCompletionRequest) {
+    GameState.chatCompletionRequest = chatCompletionRequest;
+  }
+
+  public static String getSecondDigits() {
+    return String.valueOf(secondDigits);
+  }
+
+  // get gpt response
+  public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
+    chatCompletionRequest.addMessage(msg);
+
+    Task<ChatMessage> gptTask =
+        new Task<ChatMessage>() {
+          @Override
+          protected ChatMessage call() throws Exception {
+            try {
+              // get response from gpt
+              ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+
+              Choice result = chatCompletionResult.getChoices().iterator().next();
+              chatCompletionRequest.addMessage(result.getChatMessage());
+
+              // update UI when thread is done
+              Platform.runLater(
+                  () -> {
+                    SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                  });
+              return result.getChatMessage();
+
+            } catch (Exception e) {
+              System.out.println("API error");
+              return null;
+            }
+          }
+        };
+
+    // starts the task on a separate thread
+    Thread gptThread = new Thread(gptTask, "Chat Thread");
+    gptThread.start();
+
+    return gptTask.getValue();
   }
 
   public static void scaleToScreen(AnchorPane contentPane) {
@@ -265,7 +309,9 @@ public class GameState {
             (event) -> {
               System.out.println("bread toasted clicked");
               SharedElements.appendChat(
-                  "it's hard to read, but the numbers " + thirdDigit + " are burnt into the toast");
+                  "it's hard to read, but the numbers "
+                      + thirdDigits
+                      + " are burnt into the toast");
             };
         break;
       case BREAD_UNTOASTED:
@@ -283,7 +329,7 @@ public class GameState {
               System.out.println("paper clicked");
               SharedElements.appendChat(
                   "Within the blocks of text, you can make out the numbers "
-                      + firstDigit
+                      + firstDigits
                       + " in bold");
             };
         break;
@@ -304,10 +350,14 @@ public class GameState {
     }
 
     try {
-      ImageView itemImage = new ImageView(itemToAdd);
-      itemImage.setOnMouseClicked(clickBehaviour);
-      SharedElements.addInventoryItem(itemImage);
-      inventoryMapAdd(item, itemImage);
+      ImageView[] itemCopies = new ImageView[3];
+      for (int i = 0; i < 3; i++) {
+        ImageView itemImage = new ImageView(itemToAdd);
+        itemImage.setOnMouseClicked(clickBehaviour);
+        itemCopies[i] = itemImage;
+      }
+      SharedElements.addInventoryItem(itemCopies);
+      inventoryMapAdd(item, itemCopies);
 
     } catch (Exception e) {
       System.out.println("Error: item not found");
@@ -324,10 +374,15 @@ public class GameState {
     }
   }
 
-  @FXML
-  public void onMessageSent(MouseEvent event) {
+  public static void onMessageSent() throws ApiProxyException {
+    TextField messageBox = SharedElements.getMessageBox();
     String message = messageBox.getText();
-    chatBox.appendText("You: " + message + "\n");
+    if (message.trim().isEmpty()) {
+      return;
+    }
+    SharedElements.appendChat("You: " + message + "\n");
     messageBox.clear();
+    ChatMessage msg = new ChatMessage("user", message);
+    GameState.runGpt(msg);
   }
 }

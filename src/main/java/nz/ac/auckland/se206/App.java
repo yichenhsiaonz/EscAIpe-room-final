@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.controllers.SharedElements;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /**
  * This is the entry point of the JavaFX application, while you can change this class, it should
@@ -51,7 +53,9 @@ public class App extends Application {
    * @throws IOException If "src/main/resources/fxml/canvas.fxml" is not found.
    */
   @Override
-  public void start(final Stage stage) throws IOException {
+  public void start(final Stage stage) throws IOException, ApiProxyException {
+    GameState.newGame();
+    SharedElements.newGame();
     DisplayMode mode =
         GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
     double width = mode.getWidth();

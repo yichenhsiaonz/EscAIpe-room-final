@@ -18,6 +18,10 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.GptPromptEngineering;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
+import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 /** Controller class for the room view. */
 public class KitchenController {
@@ -44,11 +48,16 @@ public class KitchenController {
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
-
-    dialogueHBox.getChildren().add(SharedElements.getDialogueBox());
-    bottomVBox.getChildren().add(SharedElements.getTaskBarBox());
+    HBox bottom = SharedElements.getTaskBarBox();
+    VBox dialogue = SharedElements.getDialogueBox();
+    SharedElements.incremnetLoadedScenes();
+    dialogueHBox.getChildren().addAll(dialogue);
+    bottomVBox.getChildren().addAll(bottom);
+    bottom.toFront();
+    dialogue.toFront();
 
     GameState.scaleToScreen(contentPane);
+
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();
     int doorMarkerY = (int) doorMarker.getLayoutY();
@@ -221,6 +230,19 @@ public class KitchenController {
               System.out.println("toaster clicked");
               GameState.addItem(GameState.Items.BREAD_TOASTED);
               SharedElements.appendChat("A charred slice of toast pops out of the toaster");
+              // Load prompt to congratulate user on toasting bread
+              GameState.setChatCompletionRequest(
+                  new ChatCompletionRequest()
+                      .setN(1)
+                      .setTemperature(0.2)
+                      .setTopP(0.5)
+                      .setMaxTokens(100));
+              try {
+                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()));
+              } catch (ApiProxyException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
               hasToast = true;
               moving = false;
             };
