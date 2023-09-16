@@ -42,6 +42,8 @@ public class KitchenController {
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
   @FXML private Pane room;
+  @FXML private ImageView neutralAi;
+  @FXML private ImageView loadingAi;
   private boolean hasBread = false;
   private boolean hasToast = false;
   private boolean moving = false;
@@ -352,5 +354,10 @@ public class KitchenController {
   @FXML
   public void onFridgeClosedUnhovered(MouseEvent event) {
     fridgeClosedGlow.setVisible(false);
+  }
+
+  // get image of AI
+  public ImageView getLoadingAi() {
+    return loadingAi;
   }
 }

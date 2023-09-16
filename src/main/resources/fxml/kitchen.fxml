@@ -114,6 +114,16 @@
                               <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="863.0" layoutY="552.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="563.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="736.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/AIRobot/ai-neutral.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/AIRobot/ai-loading.gif" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
                      </children>
