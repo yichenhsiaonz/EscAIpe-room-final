@@ -36,6 +36,8 @@ public class ControlRoomController {
   @FXML private Pane room;
   @FXML private HBox dialogueHBox;
   @FXML private VBox bottomVBox;
+  @FXML private ImageView neutralAi;
+  @FXML private ImageView loadingAi;
 
   private boolean moving = false;
 
@@ -338,5 +340,10 @@ public class ControlRoomController {
           };
       GameState.delayRun(resumeMoving, movementDelay);
     }
+  }
+
+  // get image of AI
+  public ImageView getLoadingAi() {
+    return loadingAi;
   }
 }

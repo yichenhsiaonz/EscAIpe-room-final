@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.controllers.ControlRoomController;
+import nz.ac.auckland.se206.controllers.LabController;
 import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
@@ -20,6 +22,8 @@ import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 public class App extends Application {
 
   private static Scene scene;
+  public static ControlRoomController controlRoomController;
+  public static LabController labController;
 
   public static void main(final String[] args) {
     launch();
@@ -78,11 +82,22 @@ public class App extends Application {
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
 
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
+
+    // get controller for control room
+    FXMLLoader controlLoader = new FXMLLoader(getClass().getResource("/fxml/controlRoom.fxml"));
+    Parent controlRoom = controlLoader.load();
+    controlRoomController = controlLoader.getController();
+
+    // get controller for lab
+    FXMLLoader labLoader = new FXMLLoader(getClass().getResource("/fxml/lab.fxml"));
+    Parent lab = labLoader.load();
+    labController = labLoader.getController();
+
     // TODO TEMP REMOVE LATER
     SceneManager.addUi(AppUi.KITCHEN, loadFxml("kitchen"));
-    SceneManager.addUi(AppUi.CONTROL_ROOM, loadFxml("controlRoom"));
+    SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
     SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
     SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad"));
-    SceneManager.addUi(AppUi.LAB, loadFxml("lab"));
+    SceneManager.addUi(AppUi.LAB, lab);
   }
 }

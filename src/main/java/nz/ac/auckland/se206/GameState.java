@@ -149,6 +149,8 @@ public class GameState {
 
   // get gpt response
   public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
+    App.controlRoomController.getLoadingAi().setVisible(true);
+    App.labController.getLoadingAi().setVisible(true);
     chatCompletionRequest.addMessage(msg);
 
     Task<ChatMessage> gptTask =
@@ -175,6 +177,12 @@ public class GameState {
             }
           }
         };
+
+    gptTask.setOnSucceeded(
+        event -> {
+          App.controlRoomController.getLoadingAi().setVisible(false);
+          App.labController.getLoadingAi().setVisible(false);
+        });
 
     // starts the task on a separate thread
     Thread gptThread = new Thread(gptTask, "Chat Thread");

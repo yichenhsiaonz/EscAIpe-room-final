@@ -34,6 +34,8 @@ public class LabController {
   @FXML private Pane room;
   @FXML private HBox dialogueHBox;
   @FXML private VBox bottomVBox;
+  @FXML private ImageView neutralAi;
+  @FXML private ImageView loadingAi;
   private boolean isPaperPrinted = false;
   private boolean moving = false;
   double startX = 1400;
@@ -226,5 +228,10 @@ public class LabController {
   @FXML
   public void onRightUnhovered(MouseEvent event) {
     rightGlowArrow.setVisible(false);
+  }
+
+  // get image of AI
+  public ImageView getLoadingAi() {
+    return loadingAi;
   }
 }
