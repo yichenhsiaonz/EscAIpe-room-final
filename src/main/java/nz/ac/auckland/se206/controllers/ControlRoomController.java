@@ -38,6 +38,7 @@ public class ControlRoomController {
   @FXML private VBox bottomVBox;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
+  @FXML private ImageView talkingAi;
 
   private boolean moving = false;
 
@@ -342,8 +343,13 @@ public class ControlRoomController {
     }
   }
 
-  // get image of AI
+  // get image of loading AI
   public ImageView getLoadingAi() {
     return loadingAi;
+  }
+
+  // get image of talking AI
+  public ImageView getTalkingAi() {
+    return talkingAi;
   }
 }

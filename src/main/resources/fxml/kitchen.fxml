@@ -124,6 +124,11 @@
                                     <Image url="@../images/AIRobot/ai-loading.gif" />
                                  </image>
                               </ImageView>
+                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/AIRobot/ai-talking.gif" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
                      </children>

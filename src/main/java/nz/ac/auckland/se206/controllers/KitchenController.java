@@ -44,6 +44,8 @@ public class KitchenController {
   @FXML private Pane room;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
+  @FXML private ImageView talkingAi;
+
   private boolean hasBread = false;
   private boolean hasToast = false;
   private boolean moving = false;
@@ -356,8 +358,13 @@ public class KitchenController {
     fridgeClosedGlow.setVisible(false);
   }
 
-  // get image of AI
+  // get image of loading AI
   public ImageView getLoadingAi() {
     return loadingAi;
+  }
+
+  // get image of talking AI
+  public ImageView getTalkingAi() {
+    return talkingAi;
   }
 }
