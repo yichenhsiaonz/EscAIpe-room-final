@@ -202,6 +202,7 @@ public class LabController {
               try {
                 character.setScaleX(-1);
                 running.setScaleX(-1);
+                running.setOpacity(0);
                 App.setRoot(AppUi.CONTROL_ROOM);
               } catch (IOException e) {
                 e.printStackTrace();

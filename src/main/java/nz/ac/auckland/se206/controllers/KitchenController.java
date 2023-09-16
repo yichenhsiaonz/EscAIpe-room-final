@@ -178,6 +178,7 @@ public class KitchenController {
       Runnable leaveRoom =
           () -> {
             try {
+              running.setOpacity(0);
               App.setRoot(AppUi.CONTROL_ROOM);
             } catch (IOException e) {
               e.printStackTrace();
@@ -295,6 +296,7 @@ public class KitchenController {
 
       Runnable openFridgeRunnable =
           () -> {
+            running.setOpacity(0);
             System.out.println("open fridge clicked");
             SharedElements.appendChat("There's nothing left in the fridge.");
             moving = false;

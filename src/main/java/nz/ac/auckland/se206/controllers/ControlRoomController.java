@@ -83,6 +83,7 @@ public class ControlRoomController {
         Runnable accessComputer =
             () -> {
               try {
+                running.setOpacity(0);
                 App.setRoot(AppUi.COMPUTER);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -164,6 +165,7 @@ public class ControlRoomController {
         Runnable accessKeypad =
             () -> {
               try {
+                running.setOpacity(0);
                 App.setRoot(AppUi.KEYPAD);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -207,6 +209,7 @@ public class ControlRoomController {
               try {
                 character.setScaleX(-1);
                 running.setScaleX(-1);
+                running.setOpacity(0);
                 App.setRoot(AppUi.KITCHEN);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -250,6 +253,7 @@ public class ControlRoomController {
               try {
                 character.setScaleX(1);
                 running.setScaleX(1);
+                running.setOpacity(0);
                 App.setRoot(AppUi.LAB);
               } catch (IOException e) {
                 e.printStackTrace();
