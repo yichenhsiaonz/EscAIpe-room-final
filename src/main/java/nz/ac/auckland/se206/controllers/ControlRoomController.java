@@ -4,17 +4,13 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -22,16 +18,12 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
-import nz.ac.auckland.se206.gpt.ChatMessage;
-import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 public class ControlRoomController {
   @FXML private AnchorPane contentPane;
   @FXML private Rectangle computer;
   @FXML private Rectangle keypad;
   @FXML private Rectangle exitDoor;
-  @FXML private Label timerLabel;
-  @FXML private ProgressBar timerProgressBar;
   @FXML private ImageView rightArrow;
   @FXML private ImageView rightGlowArrow;
   @FXML private ImageView leftArrow;
@@ -42,18 +34,17 @@ public class ControlRoomController {
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
-  @FXML private TextArea chatBox;
-  @FXML private TextField messageBox;
-  @FXML private Button sendMessage;
+  @FXML private HBox dialogueHBox;
+  @FXML private VBox bottomVBox;
 
   private boolean moving = false;
 
-  public void initialize() throws ApiProxyException {
+  public void initialize() {
     // Initialization code goes here
-    RoomFramework.scaleToScreen(contentPane);
-
-    timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
-    timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
+    dialogueHBox.getChildren().add(SharedElements.getDialogueBox());
+    bottomVBox.getChildren().add(SharedElements.getTaskBarBox());
+    SharedElements.incremnetLoadedScenes();
+    GameState.scaleToScreen(contentPane);
 
     // Set the initial position of the character within the Pane
     character.setLayoutX(0); // Initial X position
@@ -71,9 +62,7 @@ public class ControlRoomController {
     running.setFitWidth(150); // Width of running gif
     running.setFitHeight(150); // Height of running gif
 
-    RoomFramework.goToInstant(780, 480, character, running);
-
-    chatBox.textProperty().bind(GameState.chatTextProperty());
+    GameState.goToInstant(780, 480, character, running);
   }
 
   /**
@@ -90,7 +79,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
-        double movementDelay = RoomFramework.goTo(550, 280, character, running);
+        double movementDelay = GameState.goTo(550, 280, character, running);
         Runnable accessComputer =
             () -> {
               try {
@@ -101,7 +90,7 @@ public class ControlRoomController {
               moving = false;
             };
 
-        RoomFramework.delayRun(accessComputer, movementDelay);
+        GameState.delayRun(accessComputer, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -131,14 +120,14 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
-        double movementDelay = RoomFramework.goTo(1180, 221, character, running);
+        double movementDelay = GameState.goTo(1180, 221, character, running);
         Runnable leaveRoom =
             () -> {
               System.out.println("exit door clicked");
               moving = false;
             };
 
-        RoomFramework.delayRun(leaveRoom, movementDelay);
+        GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -171,7 +160,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
-        double movementDelay = RoomFramework.goTo(1360, 210, character, running);
+        double movementDelay = GameState.goTo(1360, 210, character, running);
         Runnable accessKeypad =
             () -> {
               try {
@@ -182,7 +171,7 @@ public class ControlRoomController {
               moving = false;
             };
 
-        RoomFramework.delayRun(accessKeypad, movementDelay);
+        GameState.delayRun(accessKeypad, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -212,7 +201,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
-        double movementDelay = RoomFramework.goTo(1350, 400, character, running);
+        double movementDelay = GameState.goTo(1350, 400, character, running);
         Runnable leaveRoom =
             () -> {
               try {
@@ -225,7 +214,7 @@ public class ControlRoomController {
               moving = false;
             };
 
-        RoomFramework.delayRun(leaveRoom, movementDelay);
+        GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -255,7 +244,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
-        double movementDelay = RoomFramework.goTo(140, 420, character, running);
+        double movementDelay = GameState.goTo(140, 420, character, running);
         Runnable leaveRoom =
             () -> {
               try {
@@ -268,7 +257,7 @@ public class ControlRoomController {
               moving = false;
             };
 
-        RoomFramework.delayRun(leaveRoom, movementDelay);
+        GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
       // TODO handle exception appropriately
@@ -342,30 +331,12 @@ public class ControlRoomController {
 
       parallelTransition.play();
       moving = true;
-      double movementDelay = RoomFramework.goTo(mouseX, mouseY, character, running);
+      double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
       Runnable resumeMoving =
           () -> {
             moving = false;
           };
-      RoomFramework.delayRun(resumeMoving, movementDelay);
+      GameState.delayRun(resumeMoving, movementDelay);
     }
-  }
-
-  /**
-   * Sends the typed message by the user to gpt.
-   *
-   * @param event the mouse event
-   */
-  @FXML
-  public void onMessageSent(ActionEvent event) throws ApiProxyException {
-    String message = messageBox.getText();
-    if (message.trim().isEmpty()) {
-      return;
-    }
-    messageBox.clear();
-    ChatMessage msg = new ChatMessage("user", message);
-    GameState.appendChatMessage(msg);
-
-    GameState.runGpt(msg);
   }
 }

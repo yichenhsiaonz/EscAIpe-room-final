@@ -22,7 +22,7 @@ public class MenuController {
 
   public void initialize() {
     // Initialization code goes here
-    RoomFramework.scaleToScreen(contentPane);
+    GameState.scaleToScreen(contentPane);
     System.out.println(difficulty);
     System.out.println(time);
   }
@@ -77,13 +77,13 @@ public class MenuController {
     try {
       new Thread(GameState.timerTask).start();
 
-      GameState.setChatCompletionRequest(new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));
+      GameState.setChatCompletionRequest(
+          new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));
 
       // Load prompt according to difficulty
       if (GameState.getDifficulty() == 1) {
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.easyDifficulty()));
       } else if (GameState.getDifficulty() == 2) {
-        GameState.hints = 5;
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.mediumDifficulty()));
       } else if (GameState.getDifficulty() == 3) {
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.hardDifficulty()));

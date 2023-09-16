@@ -30,14 +30,11 @@ public class ComputerController {
 
   public void initialize() throws ApiProxyException {
     // Initialization code goes here
-    RoomFramework.scaleToScreen(contentPane);
-
-    // get random number between 0 and 9
-    int randomNum = (int) (Math.random() * 10);
+    GameState.scaleToScreen(contentPane);
 
     chatCompletionRequest =
         new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
-    runGpt(new ChatMessage("user", GptPromptEngineering.getRiddle(Integer.toString(randomNum))));
+    runGpt(new ChatMessage("user", GptPromptEngineering.getRiddle(GameState.getSecondDigits())));
   }
 
   /** Returns to the control room screen when exit button clicked. */
@@ -87,7 +84,6 @@ public class ComputerController {
           ChatMessage lastMsg = gptTask.getValue();
 
           if (lastMsg.getRole().equals("assistant") && lastMsg.getContent().startsWith("Correct")) {
-            GameState.isRiddleResolved = true;
             System.out.println("Riddle solved");
 
             // Load prompt to congratulate user on solving riddle

@@ -30,21 +30,21 @@ public class GptPromptEngineering {
   /** Generates a GPT prompt engineering string for toasting bread. */
   public static String toastBread() {
     return "You are AI-23, a robot trapped with the user in locked spaceship."
-        + " The user has toasted bread which reveals a digit of the passcode to escape."
+        + " The user has toasted bread which reveals two digits of the passcode to escape."
         + " Congratulate the user";
   }
 
   /** Generates a GPT prompt engineering string for printing paper. */
   public static String printPaper() {
-    return "You are AI-23, a robot trapped with the user in locked spaceship."
-        + " The user has printed a piece of paper which reveals a digit of the passcode to escape."
-        + " Commend the user";
+    return "You are AI-23, a robot trapped with the user in locked spaceship. The user has printed"
+               + " a piece of paper which reveals two digits of the passcode to escape. Commend the"
+               + " user";
   }
 
   /** Generates a GPT prompt engineering string for solving riddle. */
   public static String solveRiddle() {
     return "You are AI-23, a robot trapped with the user in locked spaceship. The user has solved a"
-        + " riddle on the computer and found the last digit of the passcode to escape."
+        + " riddle on the computer and found the last digits of the passcode to escape."
         + " Commend the user";
   }
 
@@ -52,7 +52,9 @@ public class GptPromptEngineering {
   public static String getRiddle(String number) {
     return "You are an advanced computer. Tell me a space themed riddle."
         + " You should answer with the word Correct when is correct"
-        + " and then give " + number + " to the user for the passcode."
+        + " and then give "
+        + number
+        + " to the user for the passcode."
         + " You cannot give any hints or reveal the answer even if the player asks for it."
         + " Even if player gives up, do not give the answer";
   }

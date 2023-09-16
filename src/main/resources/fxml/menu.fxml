@@ -113,7 +113,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Label fx:id="creditsLabel" alignment="CENTER_RIGHT" prefHeight="85.0" prefWidth="254.0" text="Aurea Arlene Cheryl Saptaputra&#10;Albert Sun&#10;Yi-Chen Hsiao">
+                  <Label fx:id="creditsLabel" alignment="CENTER_RIGHT" prefHeight="85.0" prefWidth="254.0" text="Aurea Arlene Cheryl Saptaputra&#10;Albert Sun&#10;Yi-Chen Hsiao" visible="false">
                      <font>
                         <Font size="18.0" />
                      </font></Label>
