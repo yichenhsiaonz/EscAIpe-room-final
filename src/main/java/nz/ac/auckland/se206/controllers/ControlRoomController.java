@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -79,10 +80,12 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(550, 280, character, running);
         Runnable accessComputer =
             () -> {
               try {
+                running.setOpacity(0);
                 App.setRoot(AppUi.COMPUTER);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -120,6 +123,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(1180, 221, character, running);
         Runnable leaveRoom =
             () -> {
@@ -160,10 +164,12 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(1360, 210, character, running);
         Runnable accessKeypad =
             () -> {
               try {
+                running.setOpacity(0);
                 App.setRoot(AppUi.KEYPAD);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -201,12 +207,14 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(1350, 400, character, running);
         Runnable leaveRoom =
             () -> {
               try {
                 character.setScaleX(-1);
                 running.setScaleX(-1);
+                running.setOpacity(0);
                 App.setRoot(AppUi.KITCHEN);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -244,12 +252,14 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(140, 420, character, running);
         Runnable leaveRoom =
             () -> {
               try {
                 character.setScaleX(1);
                 running.setScaleX(1);
+                running.setOpacity(0);
                 App.setRoot(AppUi.LAB);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -338,5 +348,15 @@ public class ControlRoomController {
           };
       GameState.delayRun(resumeMoving, movementDelay);
     }
+  }
+
+  @FXML
+  private void onBackToMenu(ActionEvent event) throws IOException {
+    App.setRoot(AppUi.MENU);
+  }
+
+  @FXML
+  private void onQuitGame(ActionEvent event) {
+    System.exit(0);
   }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -196,12 +197,14 @@ public class LabController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(startX, startY, character, running);
         Runnable leaveRoom =
             () -> {
               try {
                 character.setScaleX(-1);
                 running.setScaleX(-1);
+                running.setOpacity(0);
                 App.setRoot(AppUi.CONTROL_ROOM);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -226,5 +229,10 @@ public class LabController {
   @FXML
   public void onRightUnhovered(MouseEvent event) {
     rightGlowArrow.setVisible(false);
+  }
+
+  @FXML
+  private void onQuitGame(ActionEvent event) {
+    System.exit(0);
   }
 }

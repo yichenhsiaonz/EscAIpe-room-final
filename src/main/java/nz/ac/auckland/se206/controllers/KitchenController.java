@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -178,6 +179,7 @@ public class KitchenController {
       Runnable leaveRoom =
           () -> {
             try {
+              running.setOpacity(0);
               App.setRoot(AppUi.CONTROL_ROOM);
             } catch (IOException e) {
               e.printStackTrace();
@@ -295,6 +297,7 @@ public class KitchenController {
 
       Runnable openFridgeRunnable =
           () -> {
+            running.setOpacity(0);
             System.out.println("open fridge clicked");
             SharedElements.appendChat("There's nothing left in the fridge.");
             moving = false;
@@ -352,5 +355,10 @@ public class KitchenController {
   @FXML
   public void onFridgeClosedUnhovered(MouseEvent event) {
     fridgeClosedGlow.setVisible(false);
+  }
+
+  @FXML
+  private void onQuitGame(ActionEvent event) {
+    System.exit(0);
   }
 }
