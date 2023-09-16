@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -354,5 +355,10 @@ public class KitchenController {
   @FXML
   public void onFridgeClosedUnhovered(MouseEvent event) {
     fridgeClosedGlow.setVisible(false);
+  }
+
+  @FXML
+  private void onQuitGame(ActionEvent event) {
+    System.exit(0);
   }
 }

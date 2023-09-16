@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -342,5 +343,15 @@ public class ControlRoomController {
           };
       GameState.delayRun(resumeMoving, movementDelay);
     }
+  }
+
+  @FXML
+  private void onBackToMenu(ActionEvent event) throws IOException {
+    App.setRoot(AppUi.MENU);
+  }
+
+  @FXML
+  private void onQuitGame(ActionEvent event) {
+    System.exit(0);
   }
 }
