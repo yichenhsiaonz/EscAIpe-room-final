@@ -80,6 +80,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(550, 280, character, running);
         Runnable accessComputer =
             () -> {
@@ -122,6 +123,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(1180, 221, character, running);
         Runnable leaveRoom =
             () -> {
@@ -162,6 +164,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(1360, 210, character, running);
         Runnable accessKeypad =
             () -> {
@@ -204,6 +207,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(1350, 400, character, running);
         Runnable leaveRoom =
             () -> {
@@ -248,6 +252,7 @@ public class ControlRoomController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(140, 420, character, running);
         Runnable leaveRoom =
             () -> {

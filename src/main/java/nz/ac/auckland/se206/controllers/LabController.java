@@ -197,6 +197,7 @@ public class LabController {
 
     try {
       if (!moving) {
+        moving = true;
         double movementDelay = GameState.goTo(startX, startY, character, running);
         Runnable leaveRoom =
             () -> {
