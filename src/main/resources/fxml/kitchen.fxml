@@ -97,12 +97,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="523.0" layoutY="377.0">
+                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="523.0" layoutY="377.0" onMouseClicked="#consumeMouseEvent">
                                  <image>
                                     <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="517.0" layoutY="372.0" opacity="0.0" preserveRatio="true">
+                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="517.0" layoutY="372.0" onMouseClicked="#consumeMouseEvent" opacity="0.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
                                  </image>

@@ -52,12 +52,12 @@
                                     <Image url="@../images/printerglow.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="903.0" layoutY="763.0">
+                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="903.0" layoutY="763.0" onMouseClicked="#consumeMouseEvent">
                                  <image>
                                     <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="897.0" layoutY="758.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="897.0" layoutY="758.0" onMouseClicked="#consumeMouseEvent" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
                                  </image>
