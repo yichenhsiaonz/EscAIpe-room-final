@@ -14,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
@@ -22,9 +21,9 @@ import nz.ac.auckland.se206.SceneManager.AppUi;
 
 public class ControlRoomController {
   @FXML private AnchorPane contentPane;
-  @FXML private Rectangle computer;
-  @FXML private Rectangle keypad;
-  @FXML private Rectangle exitDoor;
+  @FXML private ImageView computer;
+  @FXML private ImageView keypad;
+  @FXML private ImageView exitDoor;
   @FXML private ImageView rightArrow;
   @FXML private ImageView rightGlowArrow;
   @FXML private ImageView leftArrow;
@@ -40,6 +39,11 @@ public class ControlRoomController {
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
+  @FXML private Circle rightDoorMarker;
+  @FXML private Circle leftDoorMarker;
+  @FXML private Circle computerMarker;
+  @FXML private Circle keypadMarker;
+  @FXML private Circle centerDoorMarker;
 
   private boolean moving = false;
 
@@ -50,23 +54,8 @@ public class ControlRoomController {
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
-    // Set the initial position of the character within the Pane
-    character.setLayoutX(0); // Initial X position
-    character.setLayoutY(0); // Initial Y position
-
-    // Set the dimensions of the character
-    character.setFitWidth(150); // Width of character image
-    character.setFitHeight(150); // Height of character image
-
-    // Set the initial position of the running gif within the Pane
-    running.setLayoutX(0); // Initial X position
-    running.setLayoutY(0); // Initial Y position
-
-    // Set the dimensions of the running gif
-    running.setFitWidth(150); // Width of running gif
-    running.setFitHeight(150); // Height of running gif
-
-    GameState.goToInstant(780, 480, character, running);
+    GameState.goToInstant(
+        centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
   }
 
   /**
@@ -78,17 +67,15 @@ public class ControlRoomController {
   @FXML
   public void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
-
-    consumeMouseEvent(event);
-
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(550, 280, character, running);
+        double movementDelay =
+            GameState.goTo(
+                computerMarker.getLayoutX(), computerMarker.getLayoutY(), character, running);
         Runnable accessComputer =
             () -> {
               try {
-                running.setOpacity(0);
                 App.setRoot(AppUi.COMPUTER);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -127,7 +114,9 @@ public class ControlRoomController {
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(1180, 221, character, running);
+        double movementDelay =
+            GameState.goTo(
+                centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
         Runnable leaveRoom =
             () -> {
               System.out.println("exit door clicked");
@@ -162,17 +151,15 @@ public class ControlRoomController {
   @FXML
   public void clickKeypad(MouseEvent event) throws IOException {
     System.out.println("keypad clicked");
-
-    consumeMouseEvent(event);
-
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(1360, 210, character, running);
+        double movementDelay =
+            GameState.goTo(
+                keypadMarker.getLayoutX(), keypadMarker.getLayoutY(), character, running);
         Runnable accessKeypad =
             () -> {
               try {
-                running.setOpacity(0);
                 App.setRoot(AppUi.KEYPAD);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -211,13 +198,12 @@ public class ControlRoomController {
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(1350, 400, character, running);
+        double movementDelay =
+            GameState.goTo(
+                rightDoorMarker.getLayoutX(), rightDoorMarker.getLayoutY(), character, running);
         Runnable leaveRoom =
             () -> {
               try {
-                character.setScaleX(-1);
-                running.setScaleX(-1);
-                running.setOpacity(0);
                 App.setRoot(AppUi.KITCHEN);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -256,13 +242,12 @@ public class ControlRoomController {
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(140, 420, character, running);
+        double movementDelay =
+            GameState.goTo(
+                leftDoorMarker.getLayoutX(), leftDoorMarker.getLayoutY(), character, running);
         Runnable leaveRoom =
             () -> {
               try {
-                character.setScaleX(1);
-                running.setScaleX(1);
-                running.setOpacity(0);
                 App.setRoot(AppUi.LAB);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -309,6 +294,7 @@ public class ControlRoomController {
   @FXML
   public void onMoveCharacter(MouseEvent event) {
     if (!moving) {
+      moving = true;
 
       double mouseX = event.getX();
       double mouseY = event.getY();

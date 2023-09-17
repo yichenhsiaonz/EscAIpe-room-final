@@ -253,6 +253,7 @@ public class GameState {
   public static double goTo(
       double destinationX, double destinationY, ImageView character, ImageView running) {
 
+    character.setOpacity(0);
     // Retrieve the character's width and height using fitWidth and fitHeight
     double characterWidth = character.getFitWidth();
     double characterHeight = character.getFitHeight();
@@ -290,11 +291,11 @@ public class GameState {
 
     // flip the character and running gif if needed
     if (characterX > character.getTranslateX()) {
-      running.setScaleX(1);
-      character.setScaleX(1);
-    } else {
       running.setScaleX(-1);
       character.setScaleX(-1);
+    } else {
+      running.setScaleX(1);
+      character.setScaleX(1);
     }
 
     running.setOpacity(1);
@@ -305,6 +306,7 @@ public class GameState {
         e -> {
           // Remove the "running" element from the pane when the animation is done
           running.setOpacity(0);
+          character.setOpacity(1);
         });
     return durationSeconds;
   }
