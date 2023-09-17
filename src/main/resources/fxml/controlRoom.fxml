@@ -99,17 +99,17 @@
                               </ImageView>
                               <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-neutral.png" />
+                                    <Image url="@../images/AIRobot/neutral.png" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" preserveRatio="true" visible="false">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-loading.gif" />
+                                    <Image url="@../images/AIRobot/loading.gif" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" preserveRatio="true" visible="false">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-talking.gif" />
+                                    <Image url="@../images/AIRobot/talking.gif" />
                                  </image>
                               </ImageView>
                               <Circle fx:id="leftDoorMarker" fill="DODGERBLUE" layoutX="173.0" layoutY="672.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
