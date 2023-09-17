@@ -1,7 +1,11 @@
 package nz.ac.auckland.se206;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -149,6 +153,23 @@ public class GameState {
 
   // get gpt response
   public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
+    // get loading image in each room
+    ImageView loadingAiCon = App.controlRoomController.getLoadingAi();
+    ImageView loadingAiLab = App.labController.getLoadingAi();
+    ImageView loadingAiKit = App.kitchenController.getLoadingAi();
+    List<ImageView> loadingImages = Arrays.asList(loadingAiCon, loadingAiKit, loadingAiLab);
+
+    // get talking image in each room
+    ImageView talkingAiCon = App.controlRoomController.getTalkingAi();
+    ImageView talkingAiLab = App.labController.getTalkingAi();
+    ImageView talkingAiKit = App.kitchenController.getTalkingAi();
+    List<ImageView> talkingImages = Arrays.asList(talkingAiCon, talkingAiKit, talkingAiLab);
+
+    // show loading image
+    for (ImageView imageView : loadingImages) {
+      imageView.setVisible(true);
+    }
+
     chatCompletionRequest.addMessage(msg);
 
     Task<ChatMessage> gptTask =
@@ -175,6 +196,32 @@ public class GameState {
             }
           }
         };
+
+    gptTask.setOnSucceeded(
+        event -> {
+          // remove loading image
+          for (ImageView imageView : loadingImages) {
+            imageView.setVisible(false);
+          }
+
+          // show talking image for 3 seconds
+          for (ImageView imageView : talkingImages) {
+            imageView.setVisible(true);
+          }
+
+          Timeline imageVisibilityTimeline =
+              new Timeline(
+                  new KeyFrame(
+                      Duration.seconds(3),
+                      e -> {
+                        // Set all images to invisible
+                        for (ImageView imageView : talkingImages) {
+                          imageView.setVisible(false);
+                        }
+                      }));
+
+          imageVisibilityTimeline.play();
+        });
 
     // starts the task on a separate thread
     Thread gptThread = new Thread(gptTask, "Chat Thread");

@@ -35,6 +35,10 @@ public class LabController {
   @FXML private Pane room;
   @FXML private HBox dialogueHBox;
   @FXML private VBox bottomVBox;
+  @FXML private ImageView neutralAi;
+  @FXML private ImageView loadingAi;
+  @FXML private ImageView talkingAi;
+
   private boolean isPaperPrinted = false;
   private boolean moving = false;
   double startX = 1400;
@@ -231,6 +235,15 @@ public class LabController {
     rightGlowArrow.setVisible(false);
   }
 
+  // get image of loading AI
+  public ImageView getLoadingAi() {
+    return loadingAi;
+  }
+
+  // get image of talking AI
+  public ImageView getTalkingAi() {
+    return talkingAi;
+  }
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);

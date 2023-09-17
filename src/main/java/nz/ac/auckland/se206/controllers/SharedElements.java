@@ -81,6 +81,7 @@ public class SharedElements {
       timerProgressBarChild.progressProperty().bind(GameState.timerTask.progressProperty());
 
       TextField messageBoxChild = new TextField();
+      messageBoxChild.textProperty().bindBidirectional(messageBox.textProperty());
       messageBoxChild.setPrefWidth(270);
       messageBoxChild.setPrefHeight(25);
       TextArea chatBoxChild = new TextArea();
@@ -96,9 +97,6 @@ public class SharedElements {
       sendMessageChild.setPrefHeight(25);
       sendMessageChild.setOnAction(
           event -> {
-            String message = messageBox.getText();
-            chatBox.appendText("You: " + message + "\n");
-            messageBox.clear();
             try {
               GameState.onMessageSent();
             } catch (ApiProxyException e) {
