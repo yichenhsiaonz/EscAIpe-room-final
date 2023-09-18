@@ -203,7 +203,9 @@ public class GameState {
               Platform.runLater(
                   () -> {
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
-                    SharedElements.enableHintsButton();
+                    if (instance.hints != 0) {
+                      SharedElements.enableHintsButton();
+                    }
                     SharedElements.enableSendButton();
                   });
               return result.getChatMessage();
@@ -575,8 +577,10 @@ public class GameState {
                     // update UI when thread is done
                     Platform.runLater(
                         () -> {
+                          if (instance.hints != 0) {
+                            SharedElements.enableHintsButton();
+                          }
                           SharedElements.enableSendButton();
-                          SharedElements.enableHintsButton();
                           SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
                         });
                     return null;
