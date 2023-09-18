@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
@@ -35,6 +37,21 @@
                   <Font size="15.0" />
                </font>
             </Button>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="231.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/printericonnorm.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="printButton" fitHeight="150.0" fitWidth="200.0" layoutX="231.0" layoutY="151.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/printericon.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="printHighlight" fitHeight="150.0" fitWidth="200.0" layoutX="231.0" layoutY="151.0" onMouseClicked="#print" onMouseEntered="#hoverPrinter" onMouseExited="#unhoverPrinter" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/printericonhighlight.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </bottom>

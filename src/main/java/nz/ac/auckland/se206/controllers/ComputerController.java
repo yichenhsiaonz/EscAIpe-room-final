@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
@@ -25,6 +26,8 @@ public class ComputerController {
   @FXML private TextField inputText;
   @FXML private Button enterButton;
   @FXML private Button exitButton;
+  @FXML private ImageView printButton;
+  @FXML private ImageView printHighlight;
 
   private ChatCompletionRequest chatCompletionRequest;
 
@@ -39,6 +42,23 @@ public class ComputerController {
             "user",
             GptPromptEngineering.getRiddle(
                 GameState.getRiddleAnswer(), GameState.getSecondDigits())));
+  }
+
+  @FXML
+  private void print() {
+    SharedElements.printPaper();
+    printButton.setOpacity(1);
+    printHighlight.disableProperty().set(true);
+  }
+
+  @FXML
+  private void hoverPrinter() {
+    printHighlight.setOpacity(1);
+  }
+
+  @FXML
+  private void unhoverPrinter() {
+    printHighlight.setOpacity(0);
   }
 
   /** Returns to the control room screen when exit button clicked. */
