@@ -121,6 +121,7 @@ public class ControlRoomController {
         Runnable leaveRoom =
             () -> {
               System.out.println("exit door clicked");
+              SharedElements.appendChat("The exit is locked and will not budge.");
               moving = false;
             };
 
