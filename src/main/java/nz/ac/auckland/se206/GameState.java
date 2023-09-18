@@ -40,12 +40,21 @@ public class GameState {
   }
 
   private static GameState instance;
+  public static boolean hasBread = false;
+  public static boolean hasToast = false;
+  public static boolean toasterPuzzleHints = true;
+  public static boolean paperPuzzleHints = true;
+  public static boolean computerPuzzleHints = true;
 
   private GameState() {
     Random rng = new Random();
-    firstDigits = rng.nextInt(100);
-    secondDigits = rng.nextInt(100);
-    thirdDigits = rng.nextInt(100);
+    List<String> answerList =
+        List.of("Planet", "Earth", "Galaxy", "Universe", "Space", "Sun", "Star");
+    riddleAnswer = answerList.get(rng.nextInt(answerList.size()));
+    System.out.println(riddleAnswer);
+    firstDigits = String.format("%02d", rng.nextInt(100));
+    secondDigits = String.format("%02d", rng.nextInt(100));
+    thirdDigits = String.format("%02d", rng.nextInt(100));
     System.out.println(firstDigits);
     System.out.println(secondDigits);
     System.out.println(thirdDigits);
@@ -53,10 +62,6 @@ public class GameState {
 
   public static void newGame() {
     instance = new GameState();
-  }
-
-  public static GameState getInstance() {
-    return instance;
   }
 
   private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
@@ -72,17 +77,25 @@ public class GameState {
   @FXML private ProgressBar timerProgressBar;
   @FXML public Label timerLabel;
 
-  private static int chosenDifficulty = 0;
-  private static int chosenTime = 0;
-  private static int windowWidth = 1920;
-  private static int windowHeight = 1080;
-  private static int width = 1920;
-  private static int height = 1080;
+  private String riddleAnswer;
+  private String riddle;
+  private int hints;
+  private int riddleHints = 0;
+  private int currentPuzzle = 0;
+  private int chosenDifficulty = 0;
+  private int chosenTime = 0;
+  private int windowWidth = 1920;
+  private int windowHeight = 1080;
+  private int width = 1920;
+  private int height = 1080;
 
-  private static ChatCompletionRequest chatCompletionRequest;
-  private static int firstDigits;
-  private static int secondDigits;
-  private static int thirdDigits;
+  private ChatCompletionRequest chatBoxChatCompletionRequest =
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
+  private ChatCompletionRequest riddleHintChatCompletionRequest =
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
+  private String firstDigits;
+  private String secondDigits;
+  private String thirdDigits;
 
   // create timer task to run in background persistently
   public static javafx.concurrent.Task<Void> timerTask =
@@ -91,9 +104,9 @@ public class GameState {
         protected Void call() throws Exception {
 
           // set time to chosen
-          Integer timer = chosenTime;
-          Integer maxTime = chosenTime;
-          updateMessage(chosenTime / 60 + ":00");
+          Integer timer = instance.chosenTime;
+          Integer maxTime = instance.chosenTime;
+          updateMessage(instance.chosenTime / 60 + ":00");
           updateProgress(timer, maxTime);
 
           // add && to this while loop to end timer early for anything
@@ -116,39 +129,39 @@ public class GameState {
       };
 
   public static void setDifficulty(int difficulty) {
-    GameState.chosenDifficulty = difficulty;
+    instance.chosenDifficulty = difficulty;
+    instance.hints = difficulty;
+    SharedElements.setHintsText(instance.hints);
   }
 
   public static int getDifficulty() {
-    return chosenDifficulty;
+    return instance.chosenDifficulty;
   }
 
   public static void setTime(int time) {
-    GameState.chosenTime = time;
+    instance.chosenTime = time;
   }
 
   public static void setWidth(int width) {
-    GameState.width = width;
+    instance.width = width;
   }
 
   public static void setHeight(int height) {
-    GameState.height = height;
+    instance.height = height;
   }
 
   public static void setWindowWidth(int width) {
-    GameState.windowWidth = width;
+    instance.windowWidth = width;
   }
 
   public static void setWindowHeight(int height) {
-    GameState.windowHeight = height;
+    instance.windowHeight = height;
   }
 
-  public static void setChatCompletionRequest(ChatCompletionRequest chatCompletionRequest) {
-    GameState.chatCompletionRequest = chatCompletionRequest;
-  }
+  public static void setChatCompletionRequest(ChatCompletionRequest chatCompletionRequest) {}
 
   public static String getSecondDigits() {
-    return String.valueOf(secondDigits);
+    return String.valueOf(instance.secondDigits);
   }
 
   // get gpt response
@@ -170,7 +183,9 @@ public class GameState {
       imageView.setVisible(true);
     }
 
-    chatCompletionRequest.addMessage(msg);
+    instance.chatBoxChatCompletionRequest.addMessage(msg);
+    SharedElements.disableSendButton();
+    SharedElements.disableHintsButton();
 
     Task<ChatMessage> gptTask =
         new Task<ChatMessage>() {
@@ -178,15 +193,18 @@ public class GameState {
           protected ChatMessage call() throws Exception {
             try {
               // get response from gpt
-              ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+              ChatCompletionResult chatCompletionResult =
+                  instance.chatBoxChatCompletionRequest.execute();
 
               Choice result = chatCompletionResult.getChoices().iterator().next();
-              chatCompletionRequest.addMessage(result.getChatMessage());
+              instance.chatBoxChatCompletionRequest.addMessage(result.getChatMessage());
 
               // update UI when thread is done
               Platform.runLater(
                   () -> {
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                    SharedElements.enableHintsButton();
+                    SharedElements.enableSendButton();
                   });
               return result.getChatMessage();
 
@@ -232,19 +250,18 @@ public class GameState {
 
   public static void scaleToScreen(AnchorPane contentPane) {
 
-    double scale = (double) windowWidth / 1920;
+    double scale = (double) instance.windowWidth / 1920;
     contentPane.setScaleX(scale);
     contentPane.setScaleY(scale);
-    int verticalMargin = (height - 1080) / 2 + (windowHeight - height) / 2;
-    int horizontalMargin = (width - 1920) / 2 + (windowWidth - width) / 2;
+    int verticalMargin =
+        (instance.height - 1080) / 2 + (instance.windowHeight - instance.height) / 2;
+    int horizontalMargin =
+        (instance.width - 1920) / 2 + (instance.windowWidth - instance.width) / 2;
 
-    System.out.println(verticalMargin);
-    System.out.println(horizontalMargin);
     BorderPane.setMargin(
         contentPane,
         new javafx.geometry.Insets(
             verticalMargin, horizontalMargin, verticalMargin, horizontalMargin));
-    System.out.println(scale);
   }
 
   // this method runs a translate transition to move the character to a new position
@@ -359,7 +376,7 @@ public class GameState {
               System.out.println("bread toasted clicked");
               SharedElements.appendChat(
                   "it's hard to read, but the numbers "
-                      + thirdDigits
+                      + instance.thirdDigits
                       + " are burnt into the toast");
             };
         break;
@@ -378,7 +395,7 @@ public class GameState {
               System.out.println("paper clicked");
               SharedElements.appendChat(
                   "Within the blocks of text, you can make out the numbers "
-                      + firstDigits
+                      + instance.firstDigits
                       + " in bold");
             };
         break;
@@ -433,5 +450,178 @@ public class GameState {
     messageBox.clear();
     ChatMessage msg = new ChatMessage("user", message);
     GameState.runGpt(msg);
+  }
+
+  public static void setRiddle(String riddle) {
+    instance.riddleAnswer = riddle;
+  }
+
+  public static String getRiddleAnswer() {
+    return instance.riddleAnswer;
+  }
+
+  public static void setPuzzleToast() {
+    instance.currentPuzzle = 1;
+  }
+
+  public static void setPuzzlePaper() {
+    instance.currentPuzzle = 2;
+  }
+
+  public static void setPuzzleComputer() {
+    instance.currentPuzzle = 3;
+  }
+
+  public static void getPuzzleHint() throws ApiProxyException {
+    try {
+      SharedElements.disableHintsButton();
+      if (instance.hints != 0) {
+        String hint =
+            "The user wants a hint, but you have no more to give. Tell them this in one sentence.";
+        if (instance.currentPuzzle == 1 && toasterPuzzleHints) {
+          if (hasBread) {
+            hint =
+                "I have found a toaster that looks like it has been modified and I have a slice of"
+                    + " bread. Write a two sentence hint that I should put the bread in the"
+                    + " toaster";
+          } else {
+            hint =
+                "I have found a toaster that looks like it has been modified. I need toast to use"
+                    + " it, but I don't have any. Write a two sentence hint that there is toast in"
+                    + " the fridge";
+            toasterPuzzleHints = false;
+          }
+
+          instance.hints--;
+          runGpt(new ChatMessage("user", hint));
+        } else if (instance.currentPuzzle == 2 && paperPuzzleHints) {
+          hint = "";
+          instance.hints--;
+          runGpt(new ChatMessage("user", hint));
+          System.out.println("I NEED A PRINTER PUZZLE");
+        } else if (instance.currentPuzzle == 3 && computerPuzzleHints) {
+          if (instance.riddleHints == 0) {
+            hint =
+                "I have found a computer with a password. The password is the solution to the"
+                    + " riddle \""
+                    + instance.riddle
+                    + "\" The solution is \""
+                    + instance.riddleAnswer
+                    + "\". Write a very vague two sentence hint without giving away the answer";
+            instance.hints--;
+            instance.riddleHints++;
+          } else if (instance.riddleHints == 1) {
+            hint =
+                "I have found a computer with a password. The password is the solution to the"
+                    + " riddle \""
+                    + instance.riddle
+                    + "\" The solution to the riddle is \""
+                    + instance.riddleAnswer
+                    + "\". Write a two sentence hint without giving away the answer";
+            instance.hints--;
+            instance.riddleHints++;
+          } else if (instance.riddleHints >= 2) {
+            hint =
+                "I have found a computer with a password. The password is the solution to the"
+                    + " riddle \""
+                    + instance.riddle
+                    + "\" The solution to the riddle is \""
+                    + instance.riddleAnswer
+                    + "\". Write another obvious two sentence hint without giving away the answer";
+            instance.hints--;
+            instance.riddleHints++;
+          } else {
+            System.out.println("No more hints");
+          }
+          instance.riddleHintChatCompletionRequest.addMessage("user", hint);
+
+          // get loading image in each room
+          ImageView loadingAiCon = App.controlRoomController.getLoadingAi();
+          ImageView loadingAiLab = App.labController.getLoadingAi();
+          ImageView loadingAiKit = App.kitchenController.getLoadingAi();
+          List<ImageView> loadingImages = Arrays.asList(loadingAiCon, loadingAiKit, loadingAiLab);
+
+          // get talking image in each room
+          ImageView talkingAiCon = App.controlRoomController.getTalkingAi();
+          ImageView talkingAiLab = App.labController.getTalkingAi();
+          ImageView talkingAiKit = App.kitchenController.getTalkingAi();
+          List<ImageView> talkingImages = Arrays.asList(talkingAiCon, talkingAiKit, talkingAiLab);
+
+          // show loading image
+          for (ImageView imageView : loadingImages) {
+            imageView.setVisible(true);
+          }
+
+          SharedElements.disableSendButton();
+          SharedElements.disableHintsButton();
+
+          Task<Void> gptTask =
+              new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                  try {
+
+                    // get response from gpt
+                    ChatCompletionResult chatCompletionResult =
+                        instance.riddleHintChatCompletionRequest.execute();
+
+                    Choice result = chatCompletionResult.getChoices().iterator().next();
+                    instance.riddleHintChatCompletionRequest.addMessage(result.getChatMessage());
+
+                    // update UI when thread is done
+                    Platform.runLater(
+                        () -> {
+                          SharedElements.enableSendButton();
+                          SharedElements.enableHintsButton();
+                          SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                        });
+                    return null;
+                  } catch (Exception e) {
+                    System.out.println("API error");
+                    return null;
+                  }
+                }
+              };
+
+          gptTask.setOnSucceeded(
+              event -> {
+                // remove loading image
+                for (ImageView imageView : loadingImages) {
+                  imageView.setVisible(false);
+                }
+
+                // show talking image for 3 seconds
+                for (ImageView imageView : talkingImages) {
+                  imageView.setVisible(true);
+                }
+
+                Timeline imageVisibilityTimeline =
+                    new Timeline(
+                        new KeyFrame(
+                            Duration.seconds(3),
+                            e -> {
+                              // Set all images to invisible
+                              for (ImageView imageView : talkingImages) {
+                                imageView.setVisible(false);
+                              }
+                            }));
+
+                imageVisibilityTimeline.play();
+              });
+
+          // starts the task on a separate thread
+          Thread gptThread = new Thread(gptTask);
+          gptThread.start();
+        } else {
+          System.out.println("No more hints");
+          runGpt(new ChatMessage("user", hint));
+        }
+
+        System.out.println(instance.currentPuzzle);
+        SharedElements.setHintsText(instance.hints);
+      }
+    } catch (Exception e) {
+      System.out.println("API error");
+    }
   }
 }

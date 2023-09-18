@@ -115,9 +115,7 @@ public class KeypadController {
    * @param number the number to be appended
    */
   private void appendNumber(String number) {
-    if (code.length() >= 3) {
-      return;
-    } else {
+    if (code.length() < 6) {
       codeText.appendText(number);
       code += number;
     }

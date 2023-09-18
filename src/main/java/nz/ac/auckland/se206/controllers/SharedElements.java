@@ -27,6 +27,7 @@ public class SharedElements {
   @FXML private TextField messageBox;
   @FXML private TextArea chatBox;
   @FXML private Button sendMessage;
+  @FXML private Button hintButton;
 
   private int loadedScenes;
 
@@ -50,6 +51,28 @@ public class SharedElements {
     chatBox.setEditable(false);
     chatBox.setWrapText(true);
     chatBox.setFocusTraversable(false);
+    hintButton = new Button();
+    hintButton.setText("Hint");
+    hintButton.setOnAction(
+        event -> {
+          try {
+
+            GameState.getPuzzleHint();
+          } catch (ApiProxyException e) {
+            e.printStackTrace();
+            System.out.println("setting up error");
+          }
+        });
+    sendMessage = new Button();
+    sendMessage.setOnAction(
+        event -> {
+          try {
+            GameState.onMessageSent();
+          } catch (ApiProxyException e) {
+            e.printStackTrace();
+            System.out.println("setting up error");
+          }
+        });
 
     loadedScenes = 0;
     for (int i = 0; i < 3; i++) {
@@ -86,7 +109,7 @@ public class SharedElements {
       messageBoxChild.setPrefHeight(25);
       TextArea chatBoxChild = new TextArea();
       chatBoxChild.setPrefWidth(330);
-      chatBoxChild.setPrefHeight(935);
+      chatBoxChild.setPrefHeight(910);
       chatBoxChild.setEditable(false);
       chatBoxChild.setWrapText(true);
       chatBoxChild.setFocusTraversable(false);
@@ -95,23 +118,21 @@ public class SharedElements {
       sendMessageChild.setText("Submit");
       sendMessageChild.setPrefWidth(60);
       sendMessageChild.setPrefHeight(25);
-      sendMessageChild.setOnAction(
-          event -> {
-            try {
-              GameState.onMessageSent();
-            } catch (ApiProxyException e) {
-              e.printStackTrace();
-              System.out.println("setting up error");
-            }
-          });
-
+      sendMessageChild.onActionProperty().bind(sendMessage.onActionProperty());
+      sendMessageChild.disableProperty().bind(sendMessage.disableProperty());
+      Button hintButtonChild = new Button();
+      hintButtonChild.setPrefWidth(330);
+      hintButtonChild.setPrefHeight(25);
+      hintButtonChild.textProperty().bind(hintButton.textProperty());
+      hintButtonChild.onActionProperty().bind(hintButton.onActionProperty());
+      hintButtonChild.disableProperty().bind(hintButton.disableProperty());
       VBox dialogueBoxChild = new VBox();
       HBox sendBoxChild = new HBox();
 
       // place chat box and send button side by side
       sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild);
       // place chat box and send button below chat box
-      dialogueBoxChild.getChildren().addAll(chatBoxChild, sendBoxChild);
+      dialogueBoxChild.getChildren().addAll(chatBoxChild, hintButtonChild, sendBoxChild);
 
       dialogueBoxList[i] = dialogueBoxChild;
     }
@@ -153,6 +174,34 @@ public class SharedElements {
   }
 
   public static void appendChat(String message) {
-    instance.chatBox.appendText(message + "\n");
+    instance.chatBox.appendText(message + "\n\n");
+    instance.chatBox.setScrollTop(Double.MAX_VALUE);
+  }
+
+  public static void setHintsText(int hints) {
+    if (hints == 0) {
+      instance.hintButton.setText("No Hints Left");
+      instance.hintButton.setDisable(true);
+    } else if (hints < 0) {
+      instance.hintButton.setText("Hints Left: Unlimited");
+    } else {
+      instance.hintButton.setText("Hints Left: " + hints);
+    }
+  }
+
+  public static void disableHintsButton() {
+    instance.hintButton.setDisable(true);
+  }
+
+  public static void enableHintsButton() {
+    instance.hintButton.setDisable(false);
+  }
+
+  public static void disableSendButton() {
+    instance.sendMessage.setDisable(true);
+  }
+
+  public static void enableSendButton() {
+    instance.sendMessage.setDisable(false);
   }
 }

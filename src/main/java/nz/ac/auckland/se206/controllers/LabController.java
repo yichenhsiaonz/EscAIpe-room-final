@@ -22,7 +22,6 @@ import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
-import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 public class LabController {
   @FXML private AnchorPane contentPane;
@@ -84,8 +83,6 @@ public class LabController {
       double mouseX = event.getX();
       double mouseY = event.getY();
 
-      System.out.println("MouseX: " + mouseX + ", MouseY: " + mouseY);
-
       // Create a circle for the click animation
       Circle clickCircle = new Circle(5); // Adjust the radius as needed
       clickCircle.setFill(Color.BLUE); // Set the color of the circle
@@ -139,8 +136,6 @@ public class LabController {
   @FXML
   public void onPrinterClicked(MouseEvent event) throws IOException {
 
-    consumeMouseEvent(event);
-
     try {
       if (!moving) {
         moving = true;
@@ -156,6 +151,13 @@ public class LabController {
                 SharedElements.appendChat("You allow the print to go through.");
                 GameState.addItem(GameState.Items.PAPER);
                 isPaperPrinted = true;
+                // Load prompt to congratulate user on printing paper
+                try {
+                  GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
+                } catch (ApiProxyException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                }
               }
 
               moving = false;
@@ -166,16 +168,6 @@ public class LabController {
     } catch (Exception e) {
       // TODO handle exception appropriately
       System.out.println("Error");
-    }
-
-    // Load prompt to congratulate user on printing paper
-    GameState.setChatCompletionRequest(
-        new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));
-    try {
-      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
-    } catch (ApiProxyException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     }
   }
 
@@ -244,6 +236,7 @@ public class LabController {
   public ImageView getTalkingAi() {
     return talkingAi;
   }
+
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);
