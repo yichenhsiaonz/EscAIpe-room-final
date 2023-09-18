@@ -27,6 +27,11 @@
                                     <Image url="@../images/Kitchen/bg.png" />
                                  </image>
                               </ImageView>
+                              <ImageView fitHeight="910.0" fitWidth="1491.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/Kitchen/walls.png" />
+                                 </image>
+                              </ImageView>
                               <ImageView fx:id="floor" fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#onMoveCharacter" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Kitchen/floor.png" />
@@ -34,16 +39,6 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
-                              </ImageView>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Kitchen/unclickable_floor.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="910.0" fitWidth="1491.0" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/Kitchen/walls.png" />
-                                 </image>
                               </ImageView>
                               <ImageView fx:id="doorGlow" fitHeight="910.0" fitWidth="1491.0" preserveRatio="true" visible="false">
                                  <image>
@@ -97,14 +92,14 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fx:id="character" fitHeight="103.0" fitWidth="100.0" layoutX="523.0" layoutY="377.0" onMouseClicked="#consumeMouseEvent">
+                              <ImageView fx:id="running" fitHeight="195.0" fitWidth="140.0" onMouseClicked="#consumeMouseEvent" opacity="0.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/Screenshot%202023-09-07%20175535.jpg" />
+                                    <Image url="@../images/Character/walking.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="running" fitHeight="129.0" fitWidth="112.0" layoutX="517.0" layoutY="372.0" onMouseClicked="#consumeMouseEvent" opacity="0.0" preserveRatio="true">
+                              <ImageView fx:id="character" fitHeight="195.0" fitWidth="140.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/among-us-crewmate-run-jpgex6cp3uofxhtu.gif" />
+                                    <Image url="@../images/Character/standing.png" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="910.0" fitWidth="1491.0" mouseTransparent="true" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
@@ -112,22 +107,22 @@
                                     <Image url="@../images/Kitchen/table.png" />
                                  </image>
                               </ImageView>
-                              <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="863.0" layoutY="552.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="563.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="736.0" layoutY="465.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="868.0" layoutY="581.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="427.0" layoutY="510.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="682.0" layoutY="445.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-neutral.png" />
+                                    <Image url="@../images/AIRobot/neutral.png" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-loading.gif" />
+                                    <Image url="@../images/AIRobot/loading.gif" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-talking.gif" />
+                                    <Image url="@../images/AIRobot/talking.gif" />
                                  </image>
                               </ImageView>
                            </children>

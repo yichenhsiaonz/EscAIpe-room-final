@@ -6,6 +6,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -63,22 +64,6 @@ public class KitchenController {
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();
     int doorMarkerY = (int) doorMarker.getLayoutY();
-
-    // Set the initial position of the character within the Pane
-    character.setLayoutX(0); // Initial X position
-    character.setLayoutY(0); // Initial Y position
-
-    // Set the dimensions of the character
-    character.setFitWidth(150); // Width of character image
-    character.setFitHeight(150); // Height of character image
-
-    // Set the initial position of the running gif within the Pane
-    running.setLayoutX(0); // Initial X position
-    running.setLayoutY(0); // Initial Y position
-
-    // Set the dimensions of the running gif
-    running.setFitWidth(150); // Width of running gif
-    running.setFitHeight(150); // Height of running gif
 
     GameState.goToInstant(doorMarkerX, doorMarkerY, character, running);
   }
@@ -331,6 +316,7 @@ public class KitchenController {
             () -> {
               fridgeClosed.setVisible(false);
               fridgeOpen.setVisible(true);
+              floor.setImage(new Image("images/Kitchen/floorfridgeopen.png"));
               GameState.hasBread = true;
               GameState.addItem(GameState.Items.BREAD_UNTOASTED);
               SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
