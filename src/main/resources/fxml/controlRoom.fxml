@@ -87,12 +87,12 @@
                                     <Image url="@../images/Control_Room/rdoor.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="character" fitHeight="195.0" fitWidth="195.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
+                              <ImageView fx:id="character" fitHeight="195.0" fitWidth="140.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Character/standing.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="running" fitHeight="195.0" fitWidth="195.0" onMouseClicked="#consumeMouseEvent" opacity="0.0" preserveRatio="true">
+                              <ImageView fx:id="running" fitHeight="195.0" fitWidth="140.0" onMouseClicked="#consumeMouseEvent" opacity="0.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/Character/walking.gif" />
                                  </image>

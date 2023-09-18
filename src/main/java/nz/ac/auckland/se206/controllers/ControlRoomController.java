@@ -76,6 +76,7 @@ public class ControlRoomController {
         Runnable accessComputer =
             () -> {
               try {
+                GameState.setPuzzleComputer();
                 App.setRoot(AppUi.COMPUTER);
               } catch (IOException e) {
                 e.printStackTrace();

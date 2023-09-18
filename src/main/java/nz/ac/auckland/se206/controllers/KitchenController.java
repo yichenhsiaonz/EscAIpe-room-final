@@ -22,7 +22,6 @@ import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
-import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 /** Controller class for the room view. */
 public class KitchenController {
@@ -47,8 +46,6 @@ public class KitchenController {
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
 
-  private boolean hasBread = false;
-  private boolean hasToast = false;
   private boolean moving = false;
 
   /** Initializes the room view, it is called when the room loads. */
@@ -219,13 +216,14 @@ public class KitchenController {
       double movementDelay =
           GameState.goTo(
               toasterMarker.getLayoutX(), toasterMarker.getLayoutY(), character, running);
-      if (hasBread && !hasToast) {
+      GameState.setPuzzleToast();
+      if (GameState.hasBread && !GameState.hasToast) {
         Runnable putInToast =
             () -> {
               System.out.println("toaster clicked");
               GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
               SharedElements.appendChat("You put a slice of bread in the toaster");
-              hasBread = false;
+              GameState.hasBread = false;
             };
         Runnable waitForToast =
             () -> {
@@ -237,26 +235,21 @@ public class KitchenController {
               GameState.addItem(GameState.Items.BREAD_TOASTED);
               SharedElements.appendChat("A charred slice of toast pops out of the toaster");
               // Load prompt to congratulate user on toasting bread
-              GameState.setChatCompletionRequest(
-                  new ChatCompletionRequest()
-                      .setN(1)
-                      .setTemperature(0.2)
-                      .setTopP(0.5)
-                      .setMaxTokens(100));
               try {
                 GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()));
               } catch (ApiProxyException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
               }
-              hasToast = true;
+              GameState.hasToast = true;
+              GameState.toasterPuzzleHints = false;
               moving = false;
             };
 
         GameState.delayRun(putInToast, movementDelay);
         GameState.delayRun(waitForToast, 2);
         GameState.delayRun(ToastFinish, 4);
-      } else if (hasToast) {
+      } else if (GameState.hasToast) {
         Runnable toasterRunnable =
             () -> {
               System.out.println("toaster clicked");
@@ -338,7 +331,7 @@ public class KitchenController {
             () -> {
               fridgeClosed.setVisible(false);
               fridgeOpen.setVisible(true);
-              hasBread = true;
+              GameState.hasBread = true;
               GameState.addItem(GameState.Items.BREAD_UNTOASTED);
               SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
               System.out.println("closed fridge clicked");
@@ -360,7 +353,7 @@ public class KitchenController {
   public void onFridgeClosedUnhovered(MouseEvent event) {
     fridgeClosedGlow.setVisible(false);
   }
-  
+
   // get image of loading AI
   public ImageView getLoadingAi() {
     return loadingAi;
@@ -370,7 +363,7 @@ public class KitchenController {
   public ImageView getTalkingAi() {
     return talkingAi;
   }
-  
+
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);

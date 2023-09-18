@@ -34,7 +34,11 @@ public class ComputerController {
 
     chatCompletionRequest =
         new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
-    runGpt(new ChatMessage("user", GptPromptEngineering.getRiddle(GameState.getSecondDigits())));
+    runGpt(
+        new ChatMessage(
+            "user",
+            GptPromptEngineering.getRiddle(
+                GameState.getRiddleAnswer(), GameState.getSecondDigits())));
   }
 
   /** Returns to the control room screen when exit button clicked. */
@@ -64,6 +68,7 @@ public class ComputerController {
 
               Choice result = chatCompletionResult.getChoices().iterator().next();
               chatCompletionRequest.addMessage(result.getChatMessage());
+              GameState.setRiddle(result.getChatMessage().getContent());
 
               // update UI when thread is done
               Platform.runLater(

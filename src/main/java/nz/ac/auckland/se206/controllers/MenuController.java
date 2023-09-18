@@ -10,14 +10,13 @@ import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
-import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 
 public class MenuController {
 
   @FXML private Label creditsLabel;
   @FXML private AnchorPane contentPane;
   private boolean creditsVisible = false;
-  private int difficulty = 2;
+  private int difficulty = 5;
   private int time = 240;
 
   public void initialize() {
@@ -29,19 +28,19 @@ public class MenuController {
 
   @FXML
   private void onEasySelected() {
-    difficulty = 1;
+    difficulty = -1;
     System.out.println(difficulty);
   }
 
   @FXML
   private void onMediumSelected(ActionEvent event) {
-    difficulty = 2;
+    difficulty = 5;
     System.out.println(difficulty);
   }
 
   @FXML
   private void onHardSelected(ActionEvent event) {
-    difficulty = 3;
+    difficulty = 0;
     System.out.println(difficulty);
   }
 
@@ -77,17 +76,8 @@ public class MenuController {
     try {
       new Thread(GameState.timerTask).start();
 
-      GameState.setChatCompletionRequest(
-          new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100));
+      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introString()));
 
-      // Load prompt according to difficulty
-      if (GameState.getDifficulty() == 1) {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.easyDifficulty()));
-      } else if (GameState.getDifficulty() == 2) {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.mediumDifficulty()));
-      } else if (GameState.getDifficulty() == 3) {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.hardDifficulty()));
-      }
       App.setRoot(AppUi.CONTROL_ROOM);
 
     } catch (Exception e) {
