@@ -76,6 +76,8 @@ public class ControlRoomController {
         Runnable accessComputer =
             () -> {
               try {
+                running.setOpacity(0);
+                character.setOpacity(1);
                 GameState.setPuzzleComputer();
                 App.setRoot(AppUi.COMPUTER);
               } catch (IOException e) {
@@ -120,6 +122,8 @@ public class ControlRoomController {
                 centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
         Runnable leaveRoom =
             () -> {
+              running.setOpacity(0);
+              character.setOpacity(1);
               System.out.println("exit door clicked");
               moving = false;
             };
@@ -161,6 +165,8 @@ public class ControlRoomController {
         Runnable accessKeypad =
             () -> {
               try {
+                running.setOpacity(0);
+                character.setOpacity(1);
                 App.setRoot(AppUi.KEYPAD);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -205,6 +211,8 @@ public class ControlRoomController {
         Runnable leaveRoom =
             () -> {
               try {
+                running.setOpacity(0);
+                character.setOpacity(1);
                 App.setRoot(AppUi.KITCHEN);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -249,6 +257,8 @@ public class ControlRoomController {
         Runnable leaveRoom =
             () -> {
               try {
+                running.setOpacity(0);
+                character.setOpacity(1);
                 App.setRoot(AppUi.LAB);
               } catch (IOException e) {
                 e.printStackTrace();
