@@ -6,12 +6,12 @@ public class GptPromptEngineering {
   /** Generates a GPT prompt engineering string */
   public static String introString() {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
-               + " There are three rooms, a control room, a kitchen and a lab. You have seen"
-               + " scientists tinkering with the toaster in the kitchen.You have also seen the"
-               + " scientists printing paper in the lab. You don't know how to access the"
-               + " scientists' computer in the control room. Anything the user asks for outside of"
-               + " the given information should be answered with \"<access denied>\". In 3"
-               + " sentences, introduce yourself and tell the user to find a way to escape";
+        + " There are three rooms, a control room, a kitchen and a lab. You have seen"
+        + " scientists tinkering with the toaster in the kitchen.You have also seen the"
+        + " scientists printing paper in the lab. You don't know how to access the"
+        + " scientists' computer in the control room. Anything the user asks for outside of"
+        + " the given information should be answered with \"<access denied>\". In 3"
+        + " sentences, introduce yourself and tell the user to find a way to escape";
   }
 
   /** Generates a GPT prompt engineering string for toasting bread. */
@@ -35,7 +35,7 @@ public class GptPromptEngineering {
 
   /** Generates a GPT prompt engineering string for a space riddle. */
   public static String getRiddle(String solution, String number) {
-    return "You are an advanced computer. Write a space themed riddle with the answer "
+    return "You are an advanced computer. Write a riddle with the answer "
         + solution
         + "."
         + " You should answer with the word \"Correct\" when the user gives the exact answer of \""
