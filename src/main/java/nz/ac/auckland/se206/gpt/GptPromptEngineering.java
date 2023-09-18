@@ -48,7 +48,7 @@ public class GptPromptEngineering {
 
   /** Generates a GPT prompt engineering string for a space riddle. */
   public static String getRiddle(String solution, String number) {
-    return "You are an advanced computer. Write a riddle with the answer "
+    return "You are an advanced computer. Write a 4-line riddle with the answer "
         + solution
         + "."
         + " You should answer with the word \"Correct\" when the user gives the exact answer of \""
