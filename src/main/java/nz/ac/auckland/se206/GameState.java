@@ -270,7 +270,6 @@ public class GameState {
   public static double goTo(
       double destinationX, double destinationY, ImageView character, ImageView running) {
 
-    character.setOpacity(0);
     // Retrieve the character's width and height using fitWidth and fitHeight
     double characterWidth = character.getFitWidth();
     double characterHeight = character.getFitHeight();
@@ -278,6 +277,11 @@ public class GameState {
     // Calculate the character's new position relative to the room
     double characterX = destinationX - characterWidth / 2; // Adjust for character's width
     double characterY = destinationY - characterHeight; // Adjust for character's height
+    if (characterX == character.getTranslateX() && characterY == character.getTranslateY()) {
+      return 0;
+    }
+
+    character.setOpacity(0);
 
     // Calculate the distance the character needs to move
     double distanceToMove =
