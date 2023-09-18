@@ -10,6 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
@@ -28,6 +29,8 @@ public class ComputerController {
   @FXML private Button exitButton;
   @FXML private ImageView printButton;
   @FXML private ImageView printHighlight;
+  @FXML private Text printingMessage;
+  @FXML private Text finishedPrinting;
 
   private ChatCompletionRequest chatCompletionRequest;
 
@@ -49,11 +52,12 @@ public class ComputerController {
     SharedElements.printPaper();
     printButton.setOpacity(1);
     printHighlight.disableProperty().set(true);
-    appendChatMessage(new ChatMessage("assistant", "Printing..."));
+    printingMessage.setOpacity(1);
 
     Runnable printing =
         () -> {
-          appendChatMessage(new ChatMessage("assistant", "Finished Printing!"));
+          printingMessage.setOpacity(0);
+          finishedPrinting.setOpacity(1);
         };
 
     GameState.delayRun(printing, 2);
