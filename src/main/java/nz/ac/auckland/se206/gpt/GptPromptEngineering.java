@@ -3,15 +3,28 @@ package nz.ac.auckland.se206.gpt;
 /** Utility class for generating GPT prompt engineering strings. */
 public class GptPromptEngineering {
 
-  /** Generates a GPT prompt engineering string */
-  public static String introString() {
+   /** Generates a GPT prompt engineering string for easy and medium */
+   public static String introStringEAndM() {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
         + " There are three rooms, a control room, a kitchen and a lab. You have seen"
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
         + " scientists printing paper in the lab. You don't know how to access the"
         + " scientists' computer in the control room. Anything the user asks for outside of"
         + " the given information should be answered with \"<access denied>\". In 3"
-        + " sentences, introduce yourself and tell the user to find a way to escape";
+        + " sentences, introduce yourself and tell the user to find a way to escape."
+        + " If the user asks for a hint, do not give them a hint but tell them to use the hint button.";
+  }
+
+   /** Generates a GPT prompt engineering string for hard */
+   public static String introStringH() {
+    return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
+        + " There are three rooms, a control room, a kitchen and a lab. You have seen"
+        + " scientists tinkering with the toaster in the kitchen.You have also seen the"
+        + " scientists printing paper in the lab. You don't know how to access the"
+        + " scientists' computer in the control room. Anything the user asks for outside of"
+        + " the given information should be answered with \"<access denied>\". In 3"
+        + " sentences, introduce yourself and tell the user to find a way to escape."
+        + " If the user asks for a hint, do not give them a hint";
   }
 
   /** Generates a GPT prompt engineering string for toasting bread. */
