@@ -76,7 +76,10 @@ public class MenuController {
     try {
       new Thread(GameState.timerTask).start();
 
-      GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introString()));
+      // choose prompt according to difficulty
+      if (difficulty == -1 || difficulty == 5)
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringEAndM()));
+      else GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringH()));
 
       App.setRoot(AppUi.CONTROL_ROOM);
 
