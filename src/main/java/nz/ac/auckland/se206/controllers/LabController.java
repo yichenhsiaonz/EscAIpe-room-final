@@ -50,24 +50,6 @@ public class LabController {
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
-    // Set the initial position of the character within the Pane
-    character.setLayoutX(0); // Initial X position
-    character.setLayoutY(0); // Initial Y position
-
-    // Set the dimensions of the character
-    character.setFitWidth(150); // Width of character image
-    character.setFitHeight(150); // Height of character image
-
-    // Set the initial position of the running gif within the Pane
-    running.setLayoutX(0); // Initial X position
-    running.setLayoutY(0); // Initial Y position
-
-    // Set the dimensions of the running gif
-    running.setFitWidth(150); // Width of running gif
-    running.setFitHeight(150); // Height of running gif
-
-    running.setScaleX(-1);
-    character.setScaleX(-1);
     GameState.goToInstant(startX, startY, character, running);
   }
 
@@ -142,6 +124,8 @@ public class LabController {
         double movementDelay = GameState.goTo(660, 900, character, running);
         Runnable goToPrinter =
             () -> {
+              character.setOpacity(1);
+              running.setOpacity(0);
               System.out.println("Printer clicked");
 
               if (isPaperPrinted) {
@@ -198,9 +182,8 @@ public class LabController {
         Runnable leaveRoom =
             () -> {
               try {
-                character.setScaleX(-1);
-                running.setScaleX(-1);
                 running.setOpacity(0);
+                character.setOpacity(1);
                 App.setRoot(AppUi.CONTROL_ROOM);
               } catch (IOException e) {
                 e.printStackTrace();
