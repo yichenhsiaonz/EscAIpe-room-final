@@ -38,7 +38,6 @@ public class LabController {
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
 
-  private boolean isPaperPrinted = false;
   private boolean moving = false;
   double startX = 1400;
   double startY = 900;
@@ -128,13 +127,12 @@ public class LabController {
               running.setOpacity(0);
               System.out.println("Printer clicked");
 
-              if (isPaperPrinted) {
-                SharedElements.appendChat("You already printed the paper.");
+              if (SharedElements.isPaperPrinted() == false) {
+                SharedElements.appendChat("Printer is empty!");
               } else {
-                SharedElements.appendChat("A print queued up.");
-                SharedElements.appendChat("You allow the print to go through.");
+                SharedElements.appendChat("There is a printed piece of paper, you take it.");
                 GameState.addItem(GameState.Items.PAPER);
-                isPaperPrinted = true;
+                SharedElements.takePaper();
                 // Load prompt to congratulate user on printing paper
                 try {
                   GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));

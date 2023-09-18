@@ -210,6 +210,10 @@ public class SharedElements {
     instance.isPaperPrinted = true;
   }
 
+  public static void takePaper() {
+    instance.isPaperPrinted = false;
+  }
+
   public static boolean isPaperPrinted() {
     return instance.isPaperPrinted;
   }
