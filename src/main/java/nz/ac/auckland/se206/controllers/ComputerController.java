@@ -49,6 +49,14 @@ public class ComputerController {
     SharedElements.printPaper();
     printButton.setOpacity(1);
     printHighlight.disableProperty().set(true);
+    appendChatMessage(new ChatMessage("assistant", "Printing..."));
+
+    Runnable printing =
+        () -> {
+          appendChatMessage(new ChatMessage("assistant", "Finished Printing!"));
+        };
+
+    GameState.delayRun(printing, 2);
   }
 
   @FXML
