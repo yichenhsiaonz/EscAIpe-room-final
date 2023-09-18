@@ -184,6 +184,8 @@ public class GameState {
     }
 
     instance.chatBoxChatCompletionRequest.addMessage(msg);
+    SharedElements.disableSendButton();
+    SharedElements.disableHintsButton();
 
     Task<ChatMessage> gptTask =
         new Task<ChatMessage>() {
@@ -201,6 +203,8 @@ public class GameState {
               Platform.runLater(
                   () -> {
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                    SharedElements.enableHintsButton();
+                    SharedElements.enableSendButton();
                   });
               return result.getChatMessage();
 
@@ -470,6 +474,7 @@ public class GameState {
 
   public static void getPuzzleHint() throws ApiProxyException {
     try {
+      SharedElements.disableHintsButton();
       if (instance.hints != 0) {
         String hint =
             "The user wants a hint, but you have no more to give. Tell them this in one sentence.";
@@ -525,42 +530,91 @@ public class GameState {
                     + "\". Write another obvious two sentence hint without giving away the answer";
             instance.hints--;
             instance.riddleHints++;
-
-            instance.riddleHintChatCompletionRequest.addMessage("user", hint);
-
-            Task<Void> gptTask =
-                new Task<Void>() {
-                  @Override
-                  protected Void call() throws Exception {
-                    try {
-
-                      // get response from gpt
-                      ChatCompletionResult chatCompletionResult =
-                          instance.riddleHintChatCompletionRequest.execute();
-
-                      Choice result = chatCompletionResult.getChoices().iterator().next();
-                      instance.riddleHintChatCompletionRequest.addMessage(result.getChatMessage());
-
-                      // update UI when thread is done
-                      Platform.runLater(
-                          () -> {
-                            SharedElements.appendChat(
-                                "AI: " + result.getChatMessage().getContent());
-                          });
-                      return null;
-                    } catch (Exception e) {
-                      System.out.println("API error");
-                      return null;
-                    }
-                  }
-                };
-
-            // starts the task on a separate thread
-            Thread gptThread = new Thread(gptTask);
-            gptThread.start();
           } else {
             System.out.println("No more hints");
           }
+          instance.riddleHintChatCompletionRequest.addMessage("user", hint);
+
+          // get loading image in each room
+          ImageView loadingAiCon = App.controlRoomController.getLoadingAi();
+          ImageView loadingAiLab = App.labController.getLoadingAi();
+          ImageView loadingAiKit = App.kitchenController.getLoadingAi();
+          List<ImageView> loadingImages = Arrays.asList(loadingAiCon, loadingAiKit, loadingAiLab);
+
+          // get talking image in each room
+          ImageView talkingAiCon = App.controlRoomController.getTalkingAi();
+          ImageView talkingAiLab = App.labController.getTalkingAi();
+          ImageView talkingAiKit = App.kitchenController.getTalkingAi();
+          List<ImageView> talkingImages = Arrays.asList(talkingAiCon, talkingAiKit, talkingAiLab);
+
+          // show loading image
+          for (ImageView imageView : loadingImages) {
+            imageView.setVisible(true);
+          }
+
+          SharedElements.disableSendButton();
+          SharedElements.disableHintsButton();
+
+          Task<Void> gptTask =
+              new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                  try {
+
+                    // get response from gpt
+                    ChatCompletionResult chatCompletionResult =
+                        instance.riddleHintChatCompletionRequest.execute();
+
+                    Choice result = chatCompletionResult.getChoices().iterator().next();
+                    instance.riddleHintChatCompletionRequest.addMessage(result.getChatMessage());
+
+                    // update UI when thread is done
+                    Platform.runLater(
+                        () -> {
+                          SharedElements.enableSendButton();
+                          SharedElements.enableHintsButton();
+                          SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                        });
+                    return null;
+                  } catch (Exception e) {
+                    System.out.println("API error");
+                    return null;
+                  }
+                }
+              };
+
+          gptTask.setOnSucceeded(
+              event -> {
+                // remove loading image
+                for (ImageView imageView : loadingImages) {
+                  imageView.setVisible(false);
+                }
+
+                // show talking image for 3 seconds
+                for (ImageView imageView : talkingImages) {
+                  imageView.setVisible(true);
+                }
+
+                Timeline imageVisibilityTimeline =
+                    new Timeline(
+                        new KeyFrame(
+                            Duration.seconds(3),
+                            e -> {
+                              // Set all images to invisible
+                              for (ImageView imageView : talkingImages) {
+                                imageView.setVisible(false);
+                              }
+                            }));
+
+                imageVisibilityTimeline.play();
+              });
+
+          // starts the task on a separate thread
+          Thread gptThread = new Thread(gptTask);
+          gptThread.start();
+        } else {
+          System.out.println("No more hints");
+          runGpt(new ChatMessage("user", hint));
         }
 
         System.out.println(instance.currentPuzzle);

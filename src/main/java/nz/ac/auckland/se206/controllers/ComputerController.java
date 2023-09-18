@@ -57,6 +57,7 @@ public class ComputerController {
 
   private ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
     chatCompletionRequest.addMessage(msg);
+    enterButton.setDisable(true);
 
     Task<ChatMessage> gptTask =
         new Task<ChatMessage>() {
@@ -73,6 +74,7 @@ public class ComputerController {
               // update UI when thread is done
               Platform.runLater(
                   () -> {
+                    enterButton.setDisable(false);
                     appendChatMessage(result.getChatMessage());
                   });
 
