@@ -31,6 +31,7 @@ public class SharedElements {
   @FXML private Button hintButton;
 
   private int loadedScenes;
+  private boolean isPaperPrinted = false;
 
   private SharedElements() throws ApiProxyException {
     timerLabel = new Label();
@@ -208,5 +209,17 @@ public class SharedElements {
 
   public static void enableSendButton() {
     instance.sendMessage.setDisable(false);
+  }
+
+  public static void printPaper() {
+    instance.isPaperPrinted = true;
+  }
+
+  public static void takePaper() {
+    instance.isPaperPrinted = false;
+  }
+
+  public static boolean isPaperPrinted() {
+    return instance.isPaperPrinted;
   }
 }

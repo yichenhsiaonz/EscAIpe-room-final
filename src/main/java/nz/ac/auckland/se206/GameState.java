@@ -232,7 +232,9 @@ public class GameState {
               Platform.runLater(
                   () -> {
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
-                    SharedElements.enableHintsButton();
+                    if (instance.hints != 0) {
+                      SharedElements.enableHintsButton();
+                    }
                     SharedElements.enableSendButton();
                   });
               return result.getChatMessage();
@@ -299,7 +301,6 @@ public class GameState {
   public static double goTo(
       double destinationX, double destinationY, ImageView character, ImageView running) {
 
-    character.setOpacity(0);
     // Retrieve the character's width and height using fitWidth and fitHeight
     double characterWidth = character.getFitWidth();
     double characterHeight = character.getFitHeight();
@@ -307,6 +308,11 @@ public class GameState {
     // Calculate the character's new position relative to the room
     double characterX = destinationX - characterWidth / 2; // Adjust for character's width
     double characterY = destinationY - characterHeight; // Adjust for character's height
+    if (characterX == character.getTranslateX() && characterY == character.getTranslateY()) {
+      return 0;
+    }
+
+    character.setOpacity(0);
 
     // Calculate the distance the character needs to move
     double distanceToMove =
@@ -506,17 +512,17 @@ public class GameState {
       SharedElements.disableHintsButton();
       if (instance.hints != 0) {
         String hint =
-            "The user wants a hint, but you have no more to give. Tell them this in one sentence.";
+            "The user used the hint button, but you have no more hints to give. Tell them this in one sentence.";
         if (instance.currentPuzzle == 1 && toasterPuzzleHints) {
           if (hasBread) {
             hint =
-                "I have found a toaster that looks like it has been modified and I have a slice of"
-                    + " bread. Write a two sentence hint that I should put the bread in the"
+                "The user used the hint button. The user found a toaster that looks like it has been modified and the user has a slice of"
+                    + " bread. Write a two sentence hint that the user should put the bread in the"
                     + " toaster";
           } else {
             hint =
-                "I have found a toaster that looks like it has been modified. I need toast to use"
-                    + " it, but I don't have any. Write a two sentence hint that there is toast in"
+                "The user used the hint button. The user has found a toaster that looks like it has been modified. The user needs toast to use"
+                    + " it, but doesn't have any. Write a two sentence hint that there is toast in"
                     + " the fridge";
             toasterPuzzleHints = false;
           }
@@ -600,8 +606,10 @@ public class GameState {
                     // update UI when thread is done
                     Platform.runLater(
                         () -> {
+                          if (instance.hints != 0) {
+                            SharedElements.enableHintsButton();
+                          }
                           SharedElements.enableSendButton();
-                          SharedElements.enableHintsButton();
                           SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
                         });
                     return null;
