@@ -45,6 +45,7 @@ public class GameState {
   public static boolean toasterPuzzleHints = true;
   public static boolean paperPuzzleHints = true;
   public static boolean computerPuzzleHints = true;
+  public static String code;
 
   private GameState() {
     Random rng = new Random();
@@ -55,9 +56,11 @@ public class GameState {
     firstDigits = String.format("%02d", rng.nextInt(100));
     secondDigits = String.format("%02d", rng.nextInt(100));
     thirdDigits = String.format("%02d", rng.nextInt(100));
+    code = firstDigits + secondDigits + thirdDigits;
     System.out.println(firstDigits);
     System.out.println(secondDigits);
     System.out.println(thirdDigits);
+    System.out.println(code);
   }
 
   public static void newGame() {

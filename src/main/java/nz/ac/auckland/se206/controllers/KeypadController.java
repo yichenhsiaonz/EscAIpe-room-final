@@ -1,10 +1,16 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
@@ -96,9 +102,55 @@ public class KeypadController {
   /** Checks if the code is correct. */
   @FXML
   private void onEnterClicked() {
+    System.out.println(code);
     System.out.println("Enter clicked");
-    code = "";
-    codeText.clear();
+
+    // Check if the code is correct
+    if (code.equals(GameState.code)) {
+      codeText.setText("Unlocked");
+
+      // Create a black rectangle that covers the entire AnchorPane
+      AnchorPane anchorPane = (AnchorPane) codeText.getParent();
+      AnchorPane blackRectangle = new AnchorPane();
+      blackRectangle.setStyle("-fx-background-color: black;");
+      blackRectangle.setOpacity(0.0);
+      AnchorPane.setTopAnchor(blackRectangle, 0.0);
+      AnchorPane.setBottomAnchor(blackRectangle, 0.0);
+      AnchorPane.setLeftAnchor(blackRectangle, 0.0);
+      AnchorPane.setRightAnchor(blackRectangle, 0.0);
+
+      // Add the black rectangle to AnchorPane
+      anchorPane.getChildren().add(blackRectangle);
+
+      // Create a fade transition
+      FadeTransition fadeToBlack = new FadeTransition(Duration.seconds(3), blackRectangle);
+      fadeToBlack.setFromValue(0.0);
+      fadeToBlack.setToValue(1.0);
+
+      // Change to end scene when the fade animation is complete
+      fadeToBlack.setOnFinished(event -> {
+          
+      });
+
+      fadeToBlack.play();
+    } else {
+      codeText.setText("Incorrect");
+
+      Timeline timeline =
+          new Timeline(
+              new KeyFrame(
+                  Duration.seconds(1.5),
+                  event -> {
+                    codeText.setText(""); // reset the text
+                    codeText.clear(); // clear the input field
+                  }));
+
+      timeline.setCycleCount(1);
+      timeline.play();
+
+      // reset code
+      code = "";
+    }
   }
 
   /** Returns to the control room screen when exit button clicked. */
@@ -115,7 +167,7 @@ public class KeypadController {
    * @param number the number to be appended
    */
   private void appendNumber(String number) {
-    if (code.length() < 6) {
+    if (code.length() < 6 && !codeText.getText().equals("Incorrect")) {
       codeText.appendText(number);
       code += number;
     }
