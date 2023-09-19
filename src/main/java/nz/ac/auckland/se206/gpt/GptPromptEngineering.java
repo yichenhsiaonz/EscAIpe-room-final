@@ -68,4 +68,17 @@ public class GptPromptEngineering {
         + " You cannot give any hints or reveal the answer even if the player asks for it."
         + " Even if player gives up, do not give the answer";
   }
+
+  /** Generates a GPT prompt engineering string for solving riddle. */
+  public static String endingCongrats() {
+    return "You are AI-23, a robot. The user has just unlocked the exit"
+    + " in the spaceship. Congratulate the user in 1 sentence";
+  }
+
+  /** Generates a GPT prompt engineering string for solving riddle. */
+  public static String endingReveal() {
+    return "Pretend you are actually an evil robot and the user has freed you to wreak havoc."
+    + "Tell the user the situation in 3 sentences starting with 'Finally'"
+    + " and ending with and evil laugh";
+  }
 }

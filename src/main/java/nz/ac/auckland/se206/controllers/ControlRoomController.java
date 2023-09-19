@@ -370,7 +370,7 @@ public class ControlRoomController {
     anchorPane.getChildren().add(blackRectangle);
 
     // Create a fade transition
-    FadeTransition fadeToBlack = new FadeTransition(Duration.seconds(3), blackRectangle);
+    FadeTransition fadeToBlack = new FadeTransition(Duration.seconds(5), blackRectangle);
     fadeToBlack.setFromValue(0.0);
     fadeToBlack.setToValue(1.0);
 

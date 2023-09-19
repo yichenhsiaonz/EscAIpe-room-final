@@ -101,6 +101,7 @@ public class App extends Application {
     kitchenController = kitchenLoader.getController();
 
     // TODO TEMP REMOVE LATER
+    SceneManager.addUi(AppUi.ENDING, loadFxml("ending"));
     SceneManager.addUi(AppUi.KITCHEN, kitchen);
     SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
     SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
