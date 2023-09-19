@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,15 +33,16 @@ public class SharedElements {
   private int loadedScenes;
 
   private SharedElements() throws ApiProxyException {
-
     timerLabel = new Label();
     timerLabel.setFont(new javafx.scene.text.Font("System", 24));
     timerProgressBar = new ProgressBar();
     timerProgressBar.setPrefWidth(609);
     timerProgressBar.setPrefHeight(35);
 
-    timerLabel.textProperty().bind(GameState.timerTask.messageProperty());
-    timerProgressBar.progressProperty().bind(GameState.timerTask.progressProperty());
+    Task<Void> timerTask = GameState.getTimer();
+
+    timerLabel.textProperty().bind(timerTask.messageProperty());
+    timerProgressBar.progressProperty().bind(timerTask.progressProperty());
 
     messageBox = new TextField();
     messageBox.setPrefWidth(270);
@@ -100,8 +102,8 @@ public class SharedElements {
       taskBarHBoxList[i] = taskBarHBoxChild;
       inventoryHBoxList[i] = inventoryHBoxChild;
 
-      timerLabelChild.textProperty().bind(GameState.timerTask.messageProperty());
-      timerProgressBarChild.progressProperty().bind(GameState.timerTask.progressProperty());
+      timerLabelChild.textProperty().bind(timerLabel.textProperty());
+      timerProgressBarChild.progressProperty().bind(timerProgressBar.progressProperty());
 
       TextField messageBoxChild = new TextField();
       messageBoxChild.textProperty().bindBidirectional(messageBox.textProperty());
@@ -139,6 +141,9 @@ public class SharedElements {
   }
 
   public static void newGame() throws ApiProxyException {
+    taskBarHBoxList = new HBox[3];
+    inventoryHBoxList = new HBox[3];
+    dialogueBoxList = new VBox[3];
     instance = new SharedElements();
   }
 

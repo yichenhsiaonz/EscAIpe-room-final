@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -61,6 +63,11 @@ public class GameState {
   }
 
   public static void newGame() {
+    hasBread = false;
+    hasToast = false;
+    toasterPuzzleHints = true;
+    paperPuzzleHints = true;
+    computerPuzzleHints = true;
     instance = new GameState();
   }
 
@@ -88,6 +95,7 @@ public class GameState {
   private int windowHeight = 1080;
   private int width = 1920;
   private int height = 1080;
+  private Thread timerThread;
 
   private ChatCompletionRequest chatBoxChatCompletionRequest =
       new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
@@ -98,10 +106,10 @@ public class GameState {
   private String thirdDigits;
 
   // create timer task to run in background persistently
-  public static javafx.concurrent.Task<Void> timerTask =
+  public javafx.concurrent.Task<Void> timerTask =
       new javafx.concurrent.Task<>() {
         @Override
-        protected Void call() throws Exception {
+        protected Void call() throws Exception, IOException {
 
           // set time to chosen
           Integer timer = instance.chosenTime;
@@ -124,9 +132,30 @@ public class GameState {
           // this is a background thread so use Platform.runLater() for anything that happens in the
           // UI
 
+          Runnable menuTask =
+              () -> {
+                System.out.println("Timer ended");
+                try {
+                  App.setRoot(AppUi.MENU);
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              };
+
+          Platform.runLater(menuTask);
+
           return null;
         }
       };
+
+  public static void startTimer() {
+    instance.timerThread = new Thread(instance.timerTask);
+    instance.timerThread.start();
+  }
+
+  public static Task<Void> getTimer() {
+    return instance.timerTask;
+  }
 
   public static void setDifficulty(int difficulty) {
     instance.chosenDifficulty = difficulty;
