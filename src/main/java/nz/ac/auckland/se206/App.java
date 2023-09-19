@@ -84,28 +84,5 @@ public class App extends Application {
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
 
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
-
-    // get controller for control room
-    FXMLLoader controlLoader = new FXMLLoader(getClass().getResource("/fxml/controlRoom.fxml"));
-    Parent controlRoom = controlLoader.load();
-    controlRoomController = controlLoader.getController();
-
-    // get controller for lab
-    FXMLLoader labLoader = new FXMLLoader(getClass().getResource("/fxml/lab.fxml"));
-    Parent lab = labLoader.load();
-    labController = labLoader.getController();
-
-    // get controller for kitchen
-    FXMLLoader kitchenLoader = new FXMLLoader(getClass().getResource("/fxml/kitchen.fxml"));
-    Parent kitchen = kitchenLoader.load();
-    kitchenController = kitchenLoader.getController();
-
-    // TODO TEMP REMOVE LATER
-    SceneManager.addUi(AppUi.ENDING, loadFxml("ending"));
-    SceneManager.addUi(AppUi.KITCHEN, kitchen);
-    SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
-    SceneManager.addUi(AppUi.COMPUTER, loadFxml("computer"));
-    SceneManager.addUi(AppUi.KEYPAD, loadFxml("keypad"));
-    SceneManager.addUi(AppUi.LAB, lab);
   }
 }
