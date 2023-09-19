@@ -31,6 +31,16 @@
                   <Font size="17.0" />
                </font>
             </Button>
+            <ImageView fx:id="winImage" fitHeight="1123.0" fitWidth="1518.0" layoutX="215.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/Ending/winner.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="menuButton" layoutX="895.0" layoutY="820.0" mnemonicParsing="false" onAction="#onMenuClicked" text="Back to Menu" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </center>

@@ -19,6 +19,7 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
+/** Controller class for the Control Room. */
 public class ControlRoomController {
   @FXML private AnchorPane contentPane;
   @FXML private ImageView computer;
@@ -47,6 +48,7 @@ public class ControlRoomController {
 
   private boolean moving = false;
 
+  /** Initializes the control room. */
   public void initialize() {
     // Initialization code goes here
     dialogueHBox.getChildren().add(SharedElements.getDialogueBox());
