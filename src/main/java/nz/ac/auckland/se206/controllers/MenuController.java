@@ -50,7 +50,7 @@ public class MenuController {
 
   @FXML
   private void onTwoSelected(ActionEvent event) {
-    time = 10;
+    time = 120;
     System.out.println(time);
   }
 

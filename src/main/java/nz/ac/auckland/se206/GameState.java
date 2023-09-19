@@ -1,6 +1,7 @@
 package nz.ac.auckland.se206;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -96,6 +96,7 @@ public class GameState {
   private int width = 1920;
   private int height = 1080;
   private Thread timerThread;
+  private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
 
   private ChatCompletionRequest chatBoxChatCompletionRequest =
       new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
@@ -109,42 +110,42 @@ public class GameState {
   public javafx.concurrent.Task<Void> timerTask =
       new javafx.concurrent.Task<>() {
         @Override
-        protected Void call() throws Exception, IOException {
-
-          // set time to chosen
-          Integer timer = instance.chosenTime;
-          Integer maxTime = instance.chosenTime;
-          updateMessage(instance.chosenTime / 60 + ":00");
-          updateProgress(timer, maxTime);
-
-          // add && to this while loop to end timer early for anything
-
-          while (timer != 0) {
-            Thread.sleep(1000);
-            timer--;
-            int minutes = timer / 60;
-            int seconds = timer % 60;
-            updateMessage(minutes + ":" + String.format("%02d", seconds));
+        protected Void call() throws InterruptedException, IOException {
+          try {
+            // set time to chosen
+            Integer timer = instance.chosenTime;
+            Integer maxTime = instance.chosenTime;
+            updateMessage(instance.chosenTime / 60 + ":00");
             updateProgress(timer, maxTime);
+
+            // add && to this while loop to end timer early for anything
+
+            while (timer != 0) {
+              Thread.sleep(1000);
+              timer--;
+              int minutes = timer / 60;
+              int seconds = timer % 60;
+              updateMessage(minutes + ":" + String.format("%02d", seconds));
+              updateProgress(timer, maxTime);
+            }
+
+            // add code here if you want something to happen when the timer ends
+            // this is a background thread so use Platform.runLater() for anything that happens in
+            // the
+            // UI
+            Runnable menuTask =
+                () -> {
+                  System.out.println("Timer ended");
+                  stopAllThreads();
+                  App.gameOver();
+                };
+
+            Platform.runLater(menuTask);
+            return null;
+          } catch (InterruptedException e) {
+            System.out.println("Timer stopped");
+            return null;
           }
-
-          // add code here if you want something to happen when the timer ends
-          // this is a background thread so use Platform.runLater() for anything that happens in the
-          // UI
-
-          Runnable menuTask =
-              () -> {
-                System.out.println("Timer ended");
-                try {
-                  App.setRoot(AppUi.MENU);
-                } catch (IOException e) {
-                  e.printStackTrace();
-                }
-              };
-
-          Platform.runLater(menuTask);
-
-          return null;
         }
       };
 
@@ -155,6 +156,10 @@ public class GameState {
 
   public static Task<Void> getTimer() {
     return instance.timerTask;
+  }
+
+  public static void stopTimer() {
+    instance.timerThread.interrupt();
   }
 
   public static void setDifficulty(int difficulty) {
@@ -185,6 +190,14 @@ public class GameState {
 
   public static void setWindowHeight(int height) {
     instance.windowHeight = height;
+  }
+
+  public static int getWindowHeight() {
+    return instance.height;
+  }
+
+  public static int getWindowWidth() {
+    return instance.width;
   }
 
   public static void setChatCompletionRequest(ChatCompletionRequest chatCompletionRequest) {}
@@ -387,17 +400,33 @@ public class GameState {
   // delay
   // in seconds.
   public static void delayRun(Runnable runnable, double delay) {
-    Thread thread =
-        new Thread(
-            () -> {
-              try {
-                Thread.sleep((int) (delay * 1000));
-              } catch (InterruptedException e) {
-                e.printStackTrace();
-              }
+    Task<Void> threadTask =
+        new Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            try {
+              Thread.sleep((int) (delay * 1000));
               Platform.runLater(runnable);
-            });
+              return null;
+            } catch (InterruptedException e) {
+              System.out.println("Thread interrupted");
+              return null;
+            }
+          }
+        };
+    Thread thread = new Thread(threadTask);
+    instance.runningThreads.add(thread);
+    threadTask.setOnSucceeded(
+        e -> {
+          instance.runningThreads.remove(thread);
+        });
     thread.start();
+  }
+
+  public static void stopAllThreads() {
+    for (Thread thread : instance.runningThreads) {
+      thread.interrupt();
+    }
   }
 
   public static void addItem(Items item) {
@@ -512,18 +541,19 @@ public class GameState {
       SharedElements.disableHintsButton();
       if (instance.hints != 0) {
         String hint =
-            "The user used the hint button, but you have no more hints to give. Tell them this in one sentence.";
+            "The user used the hint button, but you have no more hints to give. Tell them this in"
+                + " one sentence.";
         if (instance.currentPuzzle == 1 && toasterPuzzleHints) {
           if (hasBread) {
             hint =
-                "The user used the hint button. The user found a toaster that looks like it has been modified and the user has a slice of"
-                    + " bread. Write a two sentence hint that the user should put the bread in the"
-                    + " toaster";
+                "The user used the hint button. The user found a toaster that looks like it has"
+                    + " been modified and the user has a slice of bread. Write a two sentence hint"
+                    + " that the user should put the bread in the toaster";
           } else {
             hint =
-                "The user used the hint button. The user has found a toaster that looks like it has been modified. The user needs toast to use"
-                    + " it, but doesn't have any. Write a two sentence hint that there is toast in"
-                    + " the fridge";
+                "The user used the hint button. The user has found a toaster that looks like it has"
+                    + " been modified. The user needs toast to use it, but doesn't have any. Write"
+                    + " a two sentence hint that there is toast in the fridge";
             toasterPuzzleHints = false;
           }
 
