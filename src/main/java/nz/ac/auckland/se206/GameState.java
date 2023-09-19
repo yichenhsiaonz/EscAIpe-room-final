@@ -1,5 +1,7 @@
 package nz.ac.auckland.se206;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,8 @@ public class GameState {
   }
 
   private static GameState instance;
+  private static int windowWidth = 1920;
+  private static int windowHeight = 1080;
   public static boolean hasBread = false;
   public static boolean hasToast = false;
   public static boolean toasterPuzzleHints = true;
@@ -67,6 +71,11 @@ public class GameState {
   }
 
   public static void newGame() {
+    hasBread = false;
+    hasToast = false;
+    toasterPuzzleHints = true;
+    paperPuzzleHints = true;
+    computerPuzzleHints = true;
     instance = new GameState();
   }
 
@@ -90,10 +99,10 @@ public class GameState {
   private int currentPuzzle = 0;
   private int chosenDifficulty = 0;
   private int chosenTime = 0;
-  private int windowWidth = 1920;
-  private int windowHeight = 1080;
   private int width = 1920;
   private int height = 1080;
+  private Thread timerThread;
+  private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
 
   private ChatCompletionRequest chatBoxChatCompletionRequest =
       new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
@@ -104,35 +113,60 @@ public class GameState {
   private String thirdDigits;
 
   // create timer task to run in background persistently
-  public static javafx.concurrent.Task<Void> timerTask =
+  public javafx.concurrent.Task<Void> timerTask =
       new javafx.concurrent.Task<>() {
         @Override
-        protected Void call() throws Exception {
-
-          // set time to chosen
-          Integer timer = instance.chosenTime;
-          Integer maxTime = instance.chosenTime;
-          updateMessage(instance.chosenTime / 60 + ":00");
-          updateProgress(timer, maxTime);
-
-          // add && to this while loop to end timer early for anything
-
-          while (timer != 0) {
-            Thread.sleep(1000);
-            timer--;
-            int minutes = timer / 60;
-            int seconds = timer % 60;
-            updateMessage(minutes + ":" + String.format("%02d", seconds));
+        protected Void call() throws InterruptedException, IOException {
+          try {
+            // set time to chosen
+            Integer timer = instance.chosenTime;
+            Integer maxTime = instance.chosenTime;
+            updateMessage(instance.chosenTime / 60 + ":00");
             updateProgress(timer, maxTime);
+
+            // add && to this while loop to end timer early for anything
+
+            while (timer != 0) {
+              Thread.sleep(1000);
+              timer--;
+              int minutes = timer / 60;
+              int seconds = timer % 60;
+              updateMessage(minutes + ":" + String.format("%02d", seconds));
+              updateProgress(timer, maxTime);
+            }
+
+            // add code here if you want something to happen when the timer ends
+            // this is a background thread so use Platform.runLater() for anything that happens in
+            // the
+            // UI
+            Runnable menuTask =
+                () -> {
+                  System.out.println("Timer ended");
+                  stopAllThreads();
+                  App.gameOver();
+                };
+
+            Platform.runLater(menuTask);
+            return null;
+          } catch (InterruptedException e) {
+            System.out.println("Timer stopped");
+            return null;
           }
-
-          // add code here if you want something to happen when the timer ends
-          // this is a background thread so use Platform.runLater() for anything that happens in the
-          // UI
-
-          return null;
         }
       };
+
+  public static void startTimer() {
+    instance.timerThread = new Thread(instance.timerTask);
+    instance.timerThread.start();
+  }
+
+  public static Task<Void> getTimer() {
+    return instance.timerTask;
+  }
+
+  public static void stopTimer() {
+    instance.timerThread.interrupt();
+  }
 
   public static void setDifficulty(int difficulty) {
     instance.chosenDifficulty = difficulty;
@@ -157,11 +191,19 @@ public class GameState {
   }
 
   public static void setWindowWidth(int width) {
-    instance.windowWidth = width;
+    windowWidth = width;
   }
 
   public static void setWindowHeight(int height) {
-    instance.windowHeight = height;
+    windowHeight = height;
+  }
+
+  public static int getWindowHeight() {
+    return instance.height;
+  }
+
+  public static int getWindowWidth() {
+    return instance.width;
   }
 
   public static void setChatCompletionRequest(ChatCompletionRequest chatCompletionRequest) {}
@@ -258,13 +300,11 @@ public class GameState {
 
   public static void scaleToScreen(AnchorPane contentPane) {
 
-    double scale = (double) instance.windowWidth / 1920;
+    double scale = (double) windowWidth / 1920;
     contentPane.setScaleX(scale);
     contentPane.setScaleY(scale);
-    int verticalMargin =
-        (instance.height - 1080) / 2 + (instance.windowHeight - instance.height) / 2;
-    int horizontalMargin =
-        (instance.width - 1920) / 2 + (instance.windowWidth - instance.width) / 2;
+    int verticalMargin = (instance.height - 1080) / 2 + (windowHeight - instance.height) / 2;
+    int horizontalMargin = (instance.width - 1920) / 2 + (windowWidth - instance.width) / 2;
 
     BorderPane.setMargin(
         contentPane,
@@ -364,17 +404,33 @@ public class GameState {
   // delay
   // in seconds.
   public static void delayRun(Runnable runnable, double delay) {
-    Thread thread =
-        new Thread(
-            () -> {
-              try {
-                Thread.sleep((int) (delay * 1000));
-              } catch (InterruptedException e) {
-                e.printStackTrace();
-              }
+    Task<Void> threadTask =
+        new Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            try {
+              Thread.sleep((int) (delay * 1000));
               Platform.runLater(runnable);
-            });
+              return null;
+            } catch (InterruptedException e) {
+              System.out.println("Thread interrupted");
+              return null;
+            }
+          }
+        };
+    Thread thread = new Thread(threadTask);
+    instance.runningThreads.add(thread);
+    threadTask.setOnSucceeded(
+        e -> {
+          instance.runningThreads.remove(thread);
+        });
     thread.start();
+  }
+
+  public static void stopAllThreads() {
+    for (Thread thread : instance.runningThreads) {
+      thread.interrupt();
+    }
   }
 
   public static void addItem(Items item) {

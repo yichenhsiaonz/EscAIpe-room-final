@@ -13,6 +13,7 @@ import nz.ac.auckland.se206.SceneManager;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
+import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 public class MenuController {
 
@@ -72,7 +73,11 @@ public class MenuController {
   }
 
   @FXML
-  private void onStartGame(ActionEvent event) throws IOException {
+  private void onStartGame(ActionEvent event) throws IOException, ApiProxyException {
+
+    GameState.newGame();
+    SharedElements.newGame();
+
     GameState.setDifficulty(difficulty);
     GameState.setTime(time);
 
@@ -99,7 +104,7 @@ public class MenuController {
     SceneManager.addUi(AppUi.LAB, lab);
 
     try {
-      new Thread(GameState.timerTask).start();
+      GameState.startTimer();
 
       // choose prompt according to difficulty
       if (difficulty == -1 || difficulty == 5)
