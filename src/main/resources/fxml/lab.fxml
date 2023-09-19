@@ -57,19 +57,19 @@
                                     <Image url="@../images/Character/walking.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-neutral.png" />
+                                    <Image url="@../images/AIRobot/neutral.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-loading.gif" />
+                                    <Image url="@../images/AIRobot/loading.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
-                                    <Image url="@../images/AIRobot/ai-talking.gif" />
+                                    <Image url="@../images/AIRobot/talking.gif" />
                                  </image>
                               </ImageView>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="252.0" layoutX="1291.0" layoutY="413.0" onMouseClicked="#onRightClicked" onMouseEntered="#onRightHovered" onMouseExited="#onRightUnhovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
