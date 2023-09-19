@@ -42,12 +42,10 @@
                                     <Image url="@../images/pixil-frame-0.png" />
                                  </image>
                               </ImageView>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="580.0" layoutX="-13.0" layoutY="-18.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1519.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="213.0" layoutX="-13.0" layoutY="712.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1519.0" />
-                              <Polygon fill="#1f93ff00" layoutX="440.0" layoutY="321.0" onMouseClicked="#consumeMouseEvent" points="-114.0, 144.0, -463.0, 190.0, -404.0, 392.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <Polygon fill="#1f93ff00" layoutX="446.0" layoutY="471.0" onMouseClicked="#consumeMouseEvent" points="-404.0, 250.0, -459.0, 41.0, -459.0, 250.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <Polygon fill="#1f93ff00" layoutX="1594.0" layoutY="563.0" onMouseClicked="#consumeMouseEvent" points="-194.0, 98.0, -194.0, -2.0, -137.0, 149.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                              <Polygon fill="#1f93ff00" layoutX="1435.0" layoutY="382.0" onMouseClicked="#consumeMouseEvent" points="63.0, 442.0, 71.0, 116.0, -35.0, 179.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Polygon fill="#2197ff00" layoutX="440.0" layoutY="321.0" onMouseClicked="#consumeMouseEvent" points="-114.0, 144.0, -499.0, 151.0, -499.0, 469.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Polygon fill="#2197ff00" layoutX="1594.0" layoutY="563.0" onMouseClicked="#consumeMouseEvent" points="-194.0, 98.0, -194.0, -378.0, 7.0, 263.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="618.0" layoutX="-66.0" layoutY="-56.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1948.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="322.0" layoutX="-55.0" layoutY="712.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1936.0" />
                               <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="137.0" layoutX="148.0" layoutY="562.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="206.0" />
                               <ImageView fx:id="printerGlow" fitHeight="250.0" fitWidth="250.0" layoutX="140.0" layoutY="521.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
