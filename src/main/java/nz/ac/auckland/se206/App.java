@@ -3,14 +3,20 @@ package nz.ac.auckland.se206;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.controllers.ControlRoomController;
+import nz.ac.auckland.se206.controllers.GameOverController;
 import nz.ac.auckland.se206.controllers.KitchenController;
 import nz.ac.auckland.se206.controllers.LabController;
 import nz.ac.auckland.se206.controllers.SharedElements;
@@ -76,7 +82,9 @@ public class App extends Application {
     GameState.setWidth((int) width);
     GameState.setHeight((int) height);
     SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
+    SceneManager.addUi(AppUi.GAMEOVER, loadFxml("gameover"));
     scene = new Scene(SceneManager.getUiRoot(AppUi.MENU));
+    scene.setFill(Color.BLACK);
     stage.setScene(scene);
     stage.setFullScreen(true);
     stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -84,5 +92,22 @@ public class App extends Application {
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
 
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
+  }
+
+  public static void gameOver() {
+    Timeline timeline = new Timeline();
+    KeyFrame key =
+        new KeyFrame(Duration.millis(2000), new KeyValue(scene.getRoot().opacityProperty(), 0));
+    timeline.getKeyFrames().add(key);
+    timeline.setOnFinished(
+        e -> {
+          try {
+            setRoot(AppUi.GAMEOVER);
+            GameOverController.instance.showGameOver();
+          } catch (IOException ex) {
+            System.out.println("Error");
+          }
+        });
+    timeline.play();
   }
 }
