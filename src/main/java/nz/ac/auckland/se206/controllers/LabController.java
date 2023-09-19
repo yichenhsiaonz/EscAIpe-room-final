@@ -37,6 +37,7 @@ public class LabController {
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
+  @FXML private ImageView doorGlow;
 
   private boolean moving = false;
   double startX = 1300;
@@ -202,12 +203,12 @@ public class LabController {
   // add glow highlight to right arrow when hover
   @FXML
   public void onRightHovered(MouseEvent event) {
-    rightGlowArrow.setVisible(true);
+    doorGlow.setVisible(true);
   }
 
   @FXML
   public void onRightUnhovered(MouseEvent event) {
-    rightGlowArrow.setVisible(false);
+    doorGlow.setVisible(false);
   }
 
   // get image of loading AI
