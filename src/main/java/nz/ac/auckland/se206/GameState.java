@@ -42,6 +42,8 @@ public class GameState {
   }
 
   private static GameState instance;
+  private static int windowWidth = 1920;
+  private static int windowHeight = 1080;
   public static boolean hasBread = false;
   public static boolean hasToast = false;
   public static boolean toasterPuzzleHints = true;
@@ -91,8 +93,6 @@ public class GameState {
   private int currentPuzzle = 0;
   private int chosenDifficulty = 0;
   private int chosenTime = 0;
-  private int windowWidth = 1920;
-  private int windowHeight = 1080;
   private int width = 1920;
   private int height = 1080;
   private Thread timerThread;
@@ -185,11 +185,11 @@ public class GameState {
   }
 
   public static void setWindowWidth(int width) {
-    instance.windowWidth = width;
+    windowWidth = width;
   }
 
   public static void setWindowHeight(int height) {
-    instance.windowHeight = height;
+    windowHeight = height;
   }
 
   public static int getWindowHeight() {
@@ -294,13 +294,11 @@ public class GameState {
 
   public static void scaleToScreen(AnchorPane contentPane) {
 
-    double scale = (double) instance.windowWidth / 1920;
+    double scale = (double) windowWidth / 1920;
     contentPane.setScaleX(scale);
     contentPane.setScaleY(scale);
-    int verticalMargin =
-        (instance.height - 1080) / 2 + (instance.windowHeight - instance.height) / 2;
-    int horizontalMargin =
-        (instance.width - 1920) / 2 + (instance.windowWidth - instance.width) / 2;
+    int verticalMargin = (instance.height - 1080) / 2 + (windowHeight - instance.height) / 2;
+    int horizontalMargin = (instance.width - 1920) / 2 + (windowWidth - instance.width) / 2;
 
     BorderPane.setMargin(
         contentPane,
