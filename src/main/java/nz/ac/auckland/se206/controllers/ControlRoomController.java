@@ -125,6 +125,7 @@ public class ControlRoomController {
               running.setOpacity(0);
               character.setOpacity(1);
               System.out.println("exit door clicked");
+              SharedElements.appendChat("The exit is locked and will not budge.");
               moving = false;
             };
 

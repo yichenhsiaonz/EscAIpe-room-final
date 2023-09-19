@@ -110,17 +110,17 @@
                               <Circle fx:id="fridgeMarker" fill="DODGERBLUE" layoutX="868.0" layoutY="581.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="doorMarker" fill="DODGERBLUE" layoutX="427.0" layoutY="510.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="toasterMarker" fill="DODGERBLUE" layoutX="682.0" layoutY="445.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/AIRobot/neutral.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/AIRobot/loading.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1286.0" layoutY="704.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/AIRobot/talking.gif" />
                                  </image>

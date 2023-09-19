@@ -12,7 +12,7 @@ public class GptPromptEngineering {
         + " scientists' computer in the control room. Anything the user asks for outside of"
         + " the given information should be answered with \"<access denied>\". In 3"
         + " sentences, introduce yourself and tell the user to find a way to escape."
-        + " If the user asks for a hint, do not give them a hint but tell them to use the hint button.";
+        + " If the user asks for a hint, do not give them a hint and tell them to use the hint button.";
   }
 
    /** Generates a GPT prompt engineering string for hard */
@@ -48,7 +48,7 @@ public class GptPromptEngineering {
 
   /** Generates a GPT prompt engineering string for a space riddle. */
   public static String getRiddle(String solution, String number) {
-    return "You are an advanced computer. Write a riddle with the answer "
+    return "You are an advanced computer. Write a 4-line riddle with the answer "
         + solution
         + "."
         + " You should answer with the word \"Correct\" when the user gives the exact answer of \""

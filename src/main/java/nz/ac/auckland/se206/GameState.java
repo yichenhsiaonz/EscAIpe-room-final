@@ -203,7 +203,9 @@ public class GameState {
               Platform.runLater(
                   () -> {
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
-                    SharedElements.enableHintsButton();
+                    if (instance.hints != 0) {
+                      SharedElements.enableHintsButton();
+                    }
                     SharedElements.enableSendButton();
                   });
               return result.getChatMessage();
@@ -485,13 +487,13 @@ public class GameState {
         if (instance.currentPuzzle == 1 && toasterPuzzleHints) {
           if (hasBread) {
             hint =
-                "I used the hint button. I have found a toaster that looks like it has been modified and I have a slice of"
-                    + " bread. Write a two sentence hint that I should put the bread in the"
+                "The user used the hint button. The user found a toaster that looks like it has been modified and the user has a slice of"
+                    + " bread. Write a two sentence hint that the user should put the bread in the"
                     + " toaster";
           } else {
             hint =
-                "I used the hint button. I have found a toaster that looks like it has been modified. I need toast to use"
-                    + " it, but I don't have any. Write a two sentence hint that there is toast in"
+                "The user used the hint button. The user has found a toaster that looks like it has been modified. The user needs toast to use"
+                    + " it, but doesn't have any. Write a two sentence hint that there is toast in"
                     + " the fridge";
             toasterPuzzleHints = false;
           }
@@ -575,8 +577,10 @@ public class GameState {
                     // update UI when thread is done
                     Platform.runLater(
                         () -> {
+                          if (instance.hints != 0) {
+                            SharedElements.enableHintsButton();
+                          }
                           SharedElements.enableSendButton();
-                          SharedElements.enableHintsButton();
                           SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
                         });
                     return null;
