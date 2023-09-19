@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.LabController">
@@ -41,7 +42,13 @@
                                     <Image url="@../images/pixil-frame-0.png" />
                                  </image>
                               </ImageView>
-                              <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="137.0" layoutX="151.0" layoutY="554.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="206.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="580.0" layoutX="-13.0" layoutY="-18.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1519.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="213.0" layoutX="-13.0" layoutY="712.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1519.0" />
+                              <Polygon fill="#1f93ff00" layoutX="440.0" layoutY="321.0" onMouseClicked="#consumeMouseEvent" points="-114.0, 144.0, -463.0, 190.0, -404.0, 392.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Polygon fill="#1f93ff00" layoutX="446.0" layoutY="471.0" onMouseClicked="#consumeMouseEvent" points="-404.0, 250.0, -459.0, 41.0, -459.0, 250.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Polygon fill="#1f93ff00" layoutX="1594.0" layoutY="563.0" onMouseClicked="#consumeMouseEvent" points="-194.0, 98.0, -194.0, -2.0, -137.0, 149.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Polygon fill="#1f93ff00" layoutX="1435.0" layoutY="382.0" onMouseClicked="#consumeMouseEvent" points="63.0, 442.0, 71.0, 116.0, -35.0, 179.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="137.0" layoutX="148.0" layoutY="562.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="206.0" />
                               <ImageView fx:id="printerGlow" fitHeight="250.0" fitWidth="250.0" layoutX="140.0" layoutY="521.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/pixil-frameglow.png" />
@@ -57,17 +64,17 @@
                                     <Image url="@../images/Character/walking.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" onMouseClicked="#consumeMouseEvent" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/AIRobot/neutral.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" onMouseClicked="#consumeMouseEvent" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/AIRobot/loading.gif" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" layoutX="1276.0" layoutY="694.0" onMouseClicked="#consumeMouseEvent" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/AIRobot/talking.gif" />
                                  </image>
