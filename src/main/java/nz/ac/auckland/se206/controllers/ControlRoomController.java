@@ -125,7 +125,11 @@ public class ControlRoomController {
               running.setOpacity(0);
               character.setOpacity(1);
               System.out.println("exit door clicked");
-              SharedElements.appendChat("The exit is locked and will not budge.");
+              if (GameState.isExitUnlocked) {
+                fadeBlack();
+              } else {
+                SharedElements.appendChat("The exit is locked and will not budge.");
+              }
               moving = false;
             };
 
@@ -349,6 +353,38 @@ public class ControlRoomController {
           };
       GameState.delayRun(resumeMoving, movementDelay);
     }
+  }
+
+  public void fadeBlack() {
+    // Create a black rectangle that covers the entire AnchorPane
+    AnchorPane anchorPane = (AnchorPane) dialogueHBox.getParent();
+    AnchorPane blackRectangle = new AnchorPane();
+    blackRectangle.setStyle("-fx-background-color: black;");
+    blackRectangle.setOpacity(0.0);
+    AnchorPane.setTopAnchor(blackRectangle, 0.0);
+    AnchorPane.setBottomAnchor(blackRectangle, 0.0);
+    AnchorPane.setLeftAnchor(blackRectangle, 0.0);
+    AnchorPane.setRightAnchor(blackRectangle, 0.0);
+
+    // Add the black rectangle to AnchorPane
+    anchorPane.getChildren().add(blackRectangle);
+
+    // Create a fade transition
+    FadeTransition fadeToBlack = new FadeTransition(Duration.seconds(3), blackRectangle);
+    fadeToBlack.setFromValue(0.0);
+    fadeToBlack.setToValue(1.0);
+
+    // Change to end scene when the fade animation is complete
+    fadeToBlack.setOnFinished(
+        event -> {
+          try {
+            App.setRoot(AppUi.ENDING);
+          } catch (IOException e) {
+            System.out.println("Error changing to ending scene");
+          }
+        });
+
+    fadeToBlack.play();
   }
 
   // get image of loading AI

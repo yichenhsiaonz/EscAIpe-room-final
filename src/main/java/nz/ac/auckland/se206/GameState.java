@@ -45,6 +45,7 @@ public class GameState {
   public static boolean toasterPuzzleHints = true;
   public static boolean paperPuzzleHints = true;
   public static boolean computerPuzzleHints = true;
+  public static boolean isExitUnlocked = false;
   public static String code;
 
   private GameState() {

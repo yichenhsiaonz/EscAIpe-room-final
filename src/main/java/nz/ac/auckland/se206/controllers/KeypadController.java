@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
@@ -108,31 +107,7 @@ public class KeypadController {
     // Check if the code is correct
     if (code.equals(GameState.code)) {
       codeText.setText("Unlocked");
-
-      // Create a black rectangle that covers the entire AnchorPane
-      AnchorPane anchorPane = (AnchorPane) codeText.getParent();
-      AnchorPane blackRectangle = new AnchorPane();
-      blackRectangle.setStyle("-fx-background-color: black;");
-      blackRectangle.setOpacity(0.0);
-      AnchorPane.setTopAnchor(blackRectangle, 0.0);
-      AnchorPane.setBottomAnchor(blackRectangle, 0.0);
-      AnchorPane.setLeftAnchor(blackRectangle, 0.0);
-      AnchorPane.setRightAnchor(blackRectangle, 0.0);
-
-      // Add the black rectangle to AnchorPane
-      anchorPane.getChildren().add(blackRectangle);
-
-      // Create a fade transition
-      FadeTransition fadeToBlack = new FadeTransition(Duration.seconds(3), blackRectangle);
-      fadeToBlack.setFromValue(0.0);
-      fadeToBlack.setToValue(1.0);
-
-      // Change to end scene when the fade animation is complete
-      fadeToBlack.setOnFinished(event -> {
-          
-      });
-
-      fadeToBlack.play();
+      GameState.isExitUnlocked = true;
     } else {
       codeText.setText("Incorrect");
 
