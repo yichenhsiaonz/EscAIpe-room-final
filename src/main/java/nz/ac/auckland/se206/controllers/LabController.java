@@ -26,8 +26,8 @@ public class LabController {
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
-  @FXML private HBox dialogueHBox;
-  @FXML private VBox bottomVBox;
+  @FXML private HBox dialogueHorizontalBox;
+  @FXML private VBox bottomVerticalBox;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
@@ -39,8 +39,8 @@ public class LabController {
 
   public void initialize() {
     // Initialization code goes here
-    dialogueHBox.getChildren().add(SharedElements.getDialogueBox());
-    bottomVBox.getChildren().add(SharedElements.getTaskBarBox());
+    dialogueHorizontalBox.getChildren().add(SharedElements.getDialogueBox());
+    bottomVerticalBox.getChildren().add(SharedElements.getTaskBarBox());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
@@ -55,7 +55,7 @@ public class LabController {
   @FXML
   public void onMoveCharacter(MouseEvent event) {
     if (!moving) {
-      GameState.movementEvent(event, room);
+      GameState.onCharacterMovementClick(event, room);
       double mouseX = event.getX();
       double mouseY = event.getY();
       moving = true;

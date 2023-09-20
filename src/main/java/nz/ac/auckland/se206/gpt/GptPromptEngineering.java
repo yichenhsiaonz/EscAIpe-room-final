@@ -3,20 +3,21 @@ package nz.ac.auckland.se206.gpt;
 /** Utility class for generating GPT prompt engineering strings. */
 public class GptPromptEngineering {
 
-   /** Generates a GPT prompt engineering string for easy and medium */
-   public static String introStringEAndM() {
+  /** Generates a GPT prompt engineering string for easy and medium */
+  public static String introStringHints() {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
         + " There are three rooms, a control room, a kitchen and a lab. You have seen"
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
         + " scientists printing paper in the lab. You don't know how to access the"
         + " scientists' computer in the control room. Anything the user asks for outside of"
         + " the given information should be answered with \"<access denied>\". In 3"
-        + " sentences, introduce yourself and tell the user to find a way to escape."
-        + " If the user asks for a hint, do not give them a hint and tell them to use the hint button.";
+        + " sentences, introduce yourself and tell the user to find a way to escape. If the"
+        + " user asks for a hint, do not give them a hint and tell them to use the hint"
+        + " button.";
   }
 
-   /** Generates a GPT prompt engineering string for hard */
-   public static String introStringH() {
+  /** Generates a GPT prompt engineering string for hard */
+  public static String introStringNoHints() {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
         + " There are three rooms, a control room, a kitchen and a lab. You have seen"
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
@@ -72,13 +73,13 @@ public class GptPromptEngineering {
   /** Generates a GPT prompt engineering string for solving riddle. */
   public static String endingCongrats() {
     return "You are AI-23, a robot. The user has just unlocked the exit"
-    + " in the spaceship. Congratulate the user in 1 sentence";
+        + " in the spaceship. Congratulate the user in 1 sentence";
   }
 
   /** Generates a GPT prompt engineering string for solving riddle. */
   public static String endingReveal() {
     return "Pretend you are actually an evil robot and the user has freed you to wreak havoc."
-    + "Tell the user the situation in 3 sentences starting with 'Finally'"
-    + " and ending with and evil laugh";
+        + "Tell the user the situation in 3 sentences starting with 'Finally'"
+        + " and ending with and evil laugh";
   }
 }

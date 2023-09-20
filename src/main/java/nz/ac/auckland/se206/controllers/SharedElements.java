@@ -170,20 +170,22 @@ public class SharedElements {
       powerLabelChild.setText("Power Left:");
       powerLabelChild.setFont(new javafx.scene.text.Font("System", 24));
 
-      HBox inventoryHBoxChild = new HBox();
-      HBox taskBarHBoxChild = new HBox();
-      HBox timerHBoxChild = new HBox();
-      VBox timerVBoxChild = new VBox();
+      HBox inventoryHorizontalBoxChild = new HBox();
+      HBox taskBarHorizontalBoxChild = new HBox();
+      HBox timerHorizontalBoxChild = new HBox();
+      VBox timerVerticalBoxChild = new VBox();
 
       // place progress bar and label side by side
-      timerHBoxChild.getChildren().addAll(timerProgressBarChild, timerLabelChild);
+      timerHorizontalBoxChild.getChildren().addAll(timerProgressBarChild, timerLabelChild);
       // place header above progress bar and label
-      timerVBoxChild.getChildren().addAll(powerLabelChild, timerHBoxChild);
+      timerVerticalBoxChild.getChildren().addAll(powerLabelChild, timerHorizontalBoxChild);
       // place timer and inventory side by side
-      taskBarHBoxChild.getChildren().addAll(timerVBoxChild, inventoryHBoxChild);
+      taskBarHorizontalBoxChild
+          .getChildren()
+          .addAll(timerVerticalBoxChild, inventoryHorizontalBoxChild);
 
-      taskBarHBoxList[i] = taskBarHBoxChild;
-      inventoryHBoxList[i] = inventoryHBoxChild;
+      taskBarHBoxList[i] = taskBarHorizontalBoxChild;
+      inventoryHBoxList[i] = inventoryHorizontalBoxChild;
 
       timerLabelChild.textProperty().bind(timerLabel.textProperty());
       timerProgressBarChild.progressProperty().bind(timerProgressBar.progressProperty());

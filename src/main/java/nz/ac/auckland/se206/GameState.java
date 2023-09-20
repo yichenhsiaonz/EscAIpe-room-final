@@ -602,7 +602,7 @@ public class GameState {
     imageVisibilityTimeline.play();
   }
 
-  public static void movementEvent(MouseEvent event, Pane room) {
+  public static void onCharacterMovementClick(MouseEvent event, Pane room) {
 
     double mouseX = event.getX();
     double mouseY = event.getY();

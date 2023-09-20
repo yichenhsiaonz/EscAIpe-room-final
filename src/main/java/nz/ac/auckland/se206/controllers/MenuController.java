@@ -19,13 +19,17 @@ public class MenuController {
 
   @FXML private Label creditsLabel;
   @FXML private AnchorPane contentPane;
-  private boolean creditsVisible = false;
-  private int difficulty = 5;
-  private int time = 240;
+
+  private boolean creditsVisible;
+  private int difficulty;
+  private int time;
 
   public void initialize() {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
+    creditsVisible = false;
+    int difficulty = 5;
+    int time = 240;
     System.out.println(difficulty);
     System.out.println(time);
   }
@@ -108,9 +112,9 @@ public class MenuController {
 
       // choose prompt according to difficulty
       if (difficulty == -1 || difficulty == 5) {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringEAndM()));
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringHints()));
       } else {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringH()));
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringNoHints()));
       }
 
       App.setRoot(AppUi.CONTROL_ROOM);

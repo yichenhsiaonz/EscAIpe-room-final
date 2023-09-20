@@ -32,8 +32,8 @@ public class KitchenController {
   @FXML private ImageView fridgeOpenGlow;
   @FXML private ImageView fridgeClosed;
   @FXML private ImageView fridgeOpen;
-  @FXML private HBox dialogueHBox;
-  @FXML private VBox bottomVBox;
+  @FXML private HBox dialogueHorizontalBox;
+  @FXML private VBox bottomVerticalBox;
   @FXML private Circle doorMarker;
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
@@ -49,8 +49,8 @@ public class KitchenController {
     HBox bottom = SharedElements.getTaskBarBox();
     VBox dialogue = SharedElements.getDialogueBox();
     SharedElements.incremnetLoadedScenes();
-    dialogueHBox.getChildren().addAll(dialogue);
-    bottomVBox.getChildren().addAll(bottom);
+    dialogueHorizontalBox.getChildren().addAll(dialogue);
+    bottomVerticalBox.getChildren().addAll(bottom);
     bottom.toFront();
     dialogue.toFront();
 
@@ -103,7 +103,7 @@ public class KitchenController {
   @FXML
   public void onMoveCharacter(MouseEvent event) {
     if (!moving) {
-      GameState.movementEvent(event, room);
+      GameState.onCharacterMovementClick(event, room);
       double mouseX = event.getX();
       double mouseY = event.getY();
 
@@ -181,7 +181,7 @@ public class KitchenController {
             () -> {
               SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
             };
-        Runnable ToastFinish =
+        Runnable toastFinish =
             () -> {
               System.out.println("toaster clicked");
               GameState.addItem(GameState.Items.BREAD_TOASTED);
@@ -200,7 +200,7 @@ public class KitchenController {
 
         GameState.delayRun(putInToast, movementDelay);
         GameState.delayRun(waitForToast, 2);
-        GameState.delayRun(ToastFinish, 4);
+        GameState.delayRun(toastFinish, 4);
       } else if (GameState.hasToast) {
         Runnable toasterRunnable =
             () -> {
