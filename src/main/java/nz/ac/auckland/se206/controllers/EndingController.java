@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
+import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,7 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
+import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /** Controller class for the ending scene. */
@@ -92,7 +95,8 @@ public class EndingController {
 
   /** Returns to the main menu. */
   @FXML
-  private void onMenuClicked() {
+  private void onMenuClicked() throws IOException {
     System.out.println("return to menu");
+    App.setRoot(AppUi.MENU);
   }
 }
