@@ -12,6 +12,7 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /** Controller class for the ending scene. */
@@ -48,11 +49,15 @@ public class EndingController {
       Image newImage = new Image("/images/Ending/neutral-frame.png");
       shadowFrame.setImage(newImage);
       textArea.appendText("AI: " + GameState.endingCongrats);
+      TextToSpeechManager.cutOff();
+      TextToSpeechManager.speak(GameState.endingCongrats);
     } else if (chatCount == 1) { // show evil AI
       textArea.clear();
       Image newImage = new Image("/images/Ending/evil-frame.png");
       shadowFrame.setImage(newImage);
       textArea.appendText("AI: " + GameState.endingReveal);
+      TextToSpeechManager.cutOff();
+      TextToSpeechManager.speak(GameState.endingReveal);
     } else if (chatCount == 2) { // show win screen
       // create black rectangle that covers the entire AnchorPane
       AnchorPane anchorPane = (AnchorPane) nextButton.getParent();

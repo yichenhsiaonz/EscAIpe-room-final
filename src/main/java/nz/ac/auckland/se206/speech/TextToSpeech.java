@@ -111,4 +111,8 @@ public class TextToSpeech {
       throw new TextToSpeechException(e.getMessage());
     }
   }
+
+  public void stop() {
+    synthesizer.cancelAll();
+  }
 }

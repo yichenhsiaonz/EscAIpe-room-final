@@ -2,8 +2,6 @@ package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
 import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -12,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
@@ -313,41 +310,10 @@ public class ControlRoomController {
   public void onMoveCharacter(MouseEvent event) {
     if (!moving) {
       moving = true;
-
+      GameState.movementEvent(event, room);
       double mouseX = event.getX();
       double mouseY = event.getY();
 
-      System.out.println("MouseX: " + mouseX + ", MouseY: " + mouseY);
-
-      // Create a circle for the click animation
-      Circle clickCircle = new Circle(5); // Adjust the radius as needed
-      clickCircle.setFill(Color.BLUE); // Set the color of the circle
-      clickCircle.setCenterX(mouseX);
-      clickCircle.setCenterY(mouseY);
-
-      // Add the circle to the room
-      room.getChildren().add(clickCircle);
-
-      // Create a fade transition for the circle
-      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.4), clickCircle);
-      fadeOut.setFromValue(1.0);
-      fadeOut.setToValue(0.0);
-
-      // Create a scale transition for the circle
-      ScaleTransition scale = new ScaleTransition(Duration.seconds(0.4), clickCircle);
-      scale.setToX(3.0); // Adjust the scale factor as needed
-      scale.setToY(3.0); // Adjust the scale factor as needed
-
-      // Play both the fade and scale transitions in parallel
-      ParallelTransition parallelTransition = new ParallelTransition(fadeOut, scale);
-      parallelTransition.setOnFinished(
-          e -> {
-            // Remove the circle from the pane when the animation is done
-            room.getChildren().remove(clickCircle);
-          });
-
-      parallelTransition.play();
-      moving = true;
       double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
       Runnable resumeMoving =
           () -> {

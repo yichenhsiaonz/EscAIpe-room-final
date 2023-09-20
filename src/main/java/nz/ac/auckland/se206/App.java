@@ -58,6 +58,23 @@ public class App extends Application {
     }
   }
 
+  public static void gameOver() {
+    Timeline timeline = new Timeline();
+    KeyFrame key =
+        new KeyFrame(Duration.millis(2000), new KeyValue(scene.getRoot().opacityProperty(), 0));
+    timeline.getKeyFrames().add(key);
+    timeline.setOnFinished(
+        e -> {
+          try {
+            setRoot(AppUi.GAMEOVER);
+            GameOverController.instance.showGameOver();
+          } catch (IOException ex) {
+            System.out.println("Error");
+          }
+        });
+    timeline.play();
+  }
+
   /**
    * This method is invoked when the application starts. It loads and shows the "Canvas" scene.
    *
@@ -92,22 +109,5 @@ public class App extends Application {
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
 
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
-  }
-
-  public static void gameOver() {
-    Timeline timeline = new Timeline();
-    KeyFrame key =
-        new KeyFrame(Duration.millis(2000), new KeyValue(scene.getRoot().opacityProperty(), 0));
-    timeline.getKeyFrames().add(key);
-    timeline.setOnFinished(
-        e -> {
-          try {
-            setRoot(AppUi.GAMEOVER);
-            GameOverController.instance.showGameOver();
-          } catch (IOException ex) {
-            System.out.println("Error");
-          }
-        });
-    timeline.play();
   }
 }

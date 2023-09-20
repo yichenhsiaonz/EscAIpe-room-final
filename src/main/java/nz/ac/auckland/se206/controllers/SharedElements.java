@@ -20,6 +20,88 @@ public class SharedElements {
   private static HBox[] inventoryHBoxList = new HBox[3];
   private static VBox[] dialogueBoxList = new VBox[3];
 
+  public static void newGame() throws ApiProxyException {
+    taskBarHBoxList = new HBox[3];
+    inventoryHBoxList = new HBox[3];
+    dialogueBoxList = new VBox[3];
+    instance = new SharedElements();
+  }
+
+  public static VBox getDialogueBox() {
+    System.out.println("getDialogueBox");
+
+    return dialogueBoxList[instance.loadedScenes];
+  }
+
+  public static HBox getTaskBarBox() {
+    System.out.println("getTaskBarBox");
+    return taskBarHBoxList[instance.loadedScenes];
+  }
+
+  public static void incremnetLoadedScenes() {
+    instance.loadedScenes++;
+  }
+
+  public static TextField getMessageBox() {
+    return instance.messageBox;
+  }
+
+  public static void addInventoryItem(ImageView[] item) {
+    for (int i = 0; i < 3; i++) {
+      inventoryHBoxList[i].getChildren().add(item[i]);
+    }
+  }
+
+  public static void removeInventoryItem(ImageView[] item) {
+    for (int i = 0; i < 3; i++) {
+      inventoryHBoxList[i].getChildren().remove(item[i]);
+    }
+  }
+
+  public static void appendChat(String message) {
+    instance.chatBox.appendText(message + "\n\n");
+    instance.chatBox.setScrollTop(Double.MAX_VALUE);
+  }
+
+  public static void setHintsText(int hints) {
+    if (hints == 0) {
+      instance.hintButton.setText("No Hints Left");
+      instance.hintButton.setDisable(true);
+    } else if (hints < 0) {
+      instance.hintButton.setText("Hints Left: Unlimited");
+    } else {
+      instance.hintButton.setText("Hints Left: " + hints);
+    }
+  }
+
+  public static void disableHintsButton() {
+    instance.hintButton.setDisable(true);
+  }
+
+  public static void enableHintsButton() {
+    instance.hintButton.setDisable(false);
+  }
+
+  public static void disableSendButton() {
+    instance.sendMessage.setDisable(true);
+  }
+
+  public static void enableSendButton() {
+    instance.sendMessage.setDisable(false);
+  }
+
+  public static void printPaper() {
+    instance.isPaperPrinted = true;
+  }
+
+  public static void takePaper() {
+    instance.isPaperPrinted = false;
+  }
+
+  public static boolean isPaperPrinted() {
+    return instance.isPaperPrinted;
+  }
+
   @FXML private VBox dialogueBox;
   @FXML private HBox sendBox;
   @FXML private Label timerLabel;
@@ -139,87 +221,5 @@ public class SharedElements {
 
       dialogueBoxList[i] = dialogueBoxChild;
     }
-  }
-
-  public static void newGame() throws ApiProxyException {
-    taskBarHBoxList = new HBox[3];
-    inventoryHBoxList = new HBox[3];
-    dialogueBoxList = new VBox[3];
-    instance = new SharedElements();
-  }
-
-  public static VBox getDialogueBox() {
-    System.out.println("getDialogueBox");
-
-    return dialogueBoxList[instance.loadedScenes];
-  }
-
-  public static HBox getTaskBarBox() {
-    System.out.println("getTaskBarBox");
-    return taskBarHBoxList[instance.loadedScenes];
-  }
-
-  public static void incremnetLoadedScenes() {
-    instance.loadedScenes++;
-  }
-
-  public static TextField getMessageBox() {
-    return instance.messageBox;
-  }
-
-  public static void addInventoryItem(ImageView[] item) {
-    for (int i = 0; i < 3; i++) {
-      inventoryHBoxList[i].getChildren().add(item[i]);
-    }
-  }
-
-  public static void removeInventoryItem(ImageView[] item) {
-    for (int i = 0; i < 3; i++) {
-      inventoryHBoxList[i].getChildren().remove(item[i]);
-    }
-  }
-
-  public static void appendChat(String message) {
-    instance.chatBox.appendText(message + "\n\n");
-    instance.chatBox.setScrollTop(Double.MAX_VALUE);
-  }
-
-  public static void setHintsText(int hints) {
-    if (hints == 0) {
-      instance.hintButton.setText("No Hints Left");
-      instance.hintButton.setDisable(true);
-    } else if (hints < 0) {
-      instance.hintButton.setText("Hints Left: Unlimited");
-    } else {
-      instance.hintButton.setText("Hints Left: " + hints);
-    }
-  }
-
-  public static void disableHintsButton() {
-    instance.hintButton.setDisable(true);
-  }
-
-  public static void enableHintsButton() {
-    instance.hintButton.setDisable(false);
-  }
-
-  public static void disableSendButton() {
-    instance.sendMessage.setDisable(true);
-  }
-
-  public static void enableSendButton() {
-    instance.sendMessage.setDisable(false);
-  }
-
-  public static void printPaper() {
-    instance.isPaperPrinted = true;
-  }
-
-  public static void takePaper() {
-    instance.isPaperPrinted = false;
-  }
-
-  public static boolean isPaperPrinted() {
-    return instance.isPaperPrinted;
   }
 }

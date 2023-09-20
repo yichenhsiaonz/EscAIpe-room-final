@@ -6,7 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -23,6 +26,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.gpt.ChatMessage;
@@ -53,22 +59,7 @@ public class GameState {
   public static String code;
   public static String endingCongrats = "";
   public static String endingReveal = "";
-
-  private GameState() {
-    Random rng = new Random();
-    List<String> answerList =
-        List.of("Planet", "Earth", "Galaxy", "Universe", "Space", "Sun", "Star");
-    riddleAnswer = answerList.get(rng.nextInt(answerList.size()));
-    System.out.println(riddleAnswer);
-    firstDigits = String.format("%02d", rng.nextInt(100));
-    secondDigits = String.format("%02d", rng.nextInt(100));
-    thirdDigits = String.format("%02d", rng.nextInt(100));
-    code = firstDigits + secondDigits + thirdDigits;
-    System.out.println(firstDigits);
-    System.out.println(secondDigits);
-    System.out.println(thirdDigits);
-    System.out.println(code);
-  }
+  private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
 
   public static void newGame() {
     hasBread = false;
@@ -79,81 +70,9 @@ public class GameState {
     instance = new GameState();
   }
 
-  private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
-
   private static void inventoryMapAdd(Items item, ImageView[] itemImageView) {
     inventoryMap.put(item, itemImageView);
   }
-
-  @FXML protected HBox inventoryHBox;
-  @FXML protected TextArea chatBox;
-  @FXML protected TextField messageBox;
-  @FXML protected Button sendMessage;
-  @FXML private ProgressBar timerProgressBar;
-  @FXML public Label timerLabel;
-
-  private String riddleAnswer;
-  private String riddle;
-  private int hints;
-  private int riddleHints = 0;
-  private int currentPuzzle = 0;
-  private int chosenDifficulty = 0;
-  private int chosenTime = 0;
-  private int width = 1920;
-  private int height = 1080;
-  private Thread timerThread;
-  private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
-
-  private ChatCompletionRequest chatBoxChatCompletionRequest =
-      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
-  private ChatCompletionRequest riddleHintChatCompletionRequest =
-      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
-  private String firstDigits;
-  private String secondDigits;
-  private String thirdDigits;
-
-  // create timer task to run in background persistently
-  public javafx.concurrent.Task<Void> timerTask =
-      new javafx.concurrent.Task<>() {
-        @Override
-        protected Void call() throws InterruptedException, IOException {
-          try {
-            // set time to chosen
-            Integer timer = instance.chosenTime;
-            Integer maxTime = instance.chosenTime;
-            updateMessage(instance.chosenTime / 60 + ":00");
-            updateProgress(timer, maxTime);
-
-            // add && to this while loop to end timer early for anything
-
-            while (timer != 0) {
-              Thread.sleep(1000);
-              timer--;
-              int minutes = timer / 60;
-              int seconds = timer % 60;
-              updateMessage(minutes + ":" + String.format("%02d", seconds));
-              updateProgress(timer, maxTime);
-            }
-
-            // add code here if you want something to happen when the timer ends
-            // this is a background thread so use Platform.runLater() for anything that happens in
-            // the
-            // UI
-            Runnable menuTask =
-                () -> {
-                  System.out.println("Timer ended");
-                  stopAllThreads();
-                  App.gameOver();
-                };
-
-            Platform.runLater(menuTask);
-            return null;
-          } catch (InterruptedException e) {
-            System.out.println("Timer stopped");
-            return null;
-          }
-        }
-      };
 
   public static void startTimer() {
     instance.timerThread = new Thread(instance.timerTask);
@@ -215,16 +134,10 @@ public class GameState {
   // get gpt response
   public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
     // get loading image in each room
-    ImageView loadingAiCon = App.controlRoomController.getLoadingAi();
-    ImageView loadingAiLab = App.labController.getLoadingAi();
-    ImageView loadingAiKit = App.kitchenController.getLoadingAi();
-    List<ImageView> loadingImages = Arrays.asList(loadingAiCon, loadingAiKit, loadingAiLab);
+    List<ImageView> loadingImages = getLoadingIcons();
 
     // get talking image in each room
-    ImageView talkingAiCon = App.controlRoomController.getTalkingAi();
-    ImageView talkingAiLab = App.labController.getTalkingAi();
-    ImageView talkingAiKit = App.kitchenController.getTalkingAi();
-    List<ImageView> talkingImages = Arrays.asList(talkingAiCon, talkingAiKit, talkingAiLab);
+    List<ImageView> talkingImages = getTalkingIcons();
 
     // show loading image
     for (ImageView imageView : loadingImages) {
@@ -267,28 +180,7 @@ public class GameState {
 
     gptTask.setOnSucceeded(
         event -> {
-          // remove loading image
-          for (ImageView imageView : loadingImages) {
-            imageView.setVisible(false);
-          }
-
-          // show talking image for 3 seconds
-          for (ImageView imageView : talkingImages) {
-            imageView.setVisible(true);
-          }
-
-          Timeline imageVisibilityTimeline =
-              new Timeline(
-                  new KeyFrame(
-                      Duration.seconds(3),
-                      e -> {
-                        // Set all images to invisible
-                        for (ImageView imageView : talkingImages) {
-                          imageView.setVisible(false);
-                        }
-                      }));
-
-          imageVisibilityTimeline.play();
+          setTalkingIcons(loadingImages, talkingImages);
         });
 
     // starts the task on a separate thread
@@ -605,16 +497,10 @@ public class GameState {
           instance.riddleHintChatCompletionRequest.addMessage("user", hint);
 
           // get loading image in each room
-          ImageView loadingAiCon = App.controlRoomController.getLoadingAi();
-          ImageView loadingAiLab = App.labController.getLoadingAi();
-          ImageView loadingAiKit = App.kitchenController.getLoadingAi();
-          List<ImageView> loadingImages = Arrays.asList(loadingAiCon, loadingAiKit, loadingAiLab);
+          List<ImageView> loadingImages = getLoadingIcons();
 
           // get talking image in each room
-          ImageView talkingAiCon = App.controlRoomController.getTalkingAi();
-          ImageView talkingAiLab = App.labController.getTalkingAi();
-          ImageView talkingAiKit = App.kitchenController.getTalkingAi();
-          List<ImageView> talkingImages = Arrays.asList(talkingAiCon, talkingAiKit, talkingAiLab);
+          List<ImageView> talkingImages = getTalkingIcons();
 
           // show loading image
           for (ImageView imageView : loadingImages) {
@@ -656,28 +542,7 @@ public class GameState {
 
           gptTask.setOnSucceeded(
               event -> {
-                // remove loading image
-                for (ImageView imageView : loadingImages) {
-                  imageView.setVisible(false);
-                }
-
-                // show talking image for 3 seconds
-                for (ImageView imageView : talkingImages) {
-                  imageView.setVisible(true);
-                }
-
-                Timeline imageVisibilityTimeline =
-                    new Timeline(
-                        new KeyFrame(
-                            Duration.seconds(3),
-                            e -> {
-                              // Set all images to invisible
-                              for (ImageView imageView : talkingImages) {
-                                imageView.setVisible(false);
-                              }
-                            }));
-
-                imageVisibilityTimeline.play();
+                setTalkingIcons(loadingImages, talkingImages);
               });
 
           // starts the task on a separate thread
@@ -694,5 +559,166 @@ public class GameState {
     } catch (Exception e) {
       System.out.println("API error");
     }
+  }
+
+  private static List<ImageView> getLoadingIcons() {
+    // get loading image in each room
+    ImageView loadingAiCon = App.controlRoomController.getLoadingAi();
+    ImageView loadingAiLab = App.labController.getLoadingAi();
+    ImageView loadingAiKit = App.kitchenController.getLoadingAi();
+    return Arrays.asList(loadingAiCon, loadingAiKit, loadingAiLab);
+  }
+
+  private static List<ImageView> getTalkingIcons() {
+    // get talking image in each room
+    ImageView talkingAiCon = App.controlRoomController.getTalkingAi();
+    ImageView talkingAiLab = App.labController.getTalkingAi();
+    ImageView talkingAiKit = App.kitchenController.getTalkingAi();
+    return Arrays.asList(talkingAiCon, talkingAiKit, talkingAiLab);
+  }
+
+  private static void setTalkingIcons(
+      List<ImageView> talkingImages, List<ImageView> loadingImages) {
+    for (ImageView imageView : loadingImages) {
+      imageView.setVisible(false);
+    }
+
+    // show talking image for 3 seconds
+    for (ImageView imageView : talkingImages) {
+      imageView.setVisible(true);
+    }
+
+    Timeline imageVisibilityTimeline =
+        new Timeline(
+            new KeyFrame(
+                Duration.seconds(3),
+                e -> {
+                  // Set all images to invisible
+                  for (ImageView imageView : talkingImages) {
+                    imageView.setVisible(false);
+                  }
+                }));
+
+    imageVisibilityTimeline.play();
+  }
+
+  public static void movementEvent(MouseEvent event, Pane room) {
+
+    double mouseX = event.getX();
+    double mouseY = event.getY();
+    // Create a circle for the click animation
+    Circle clickCircle = new Circle(5); // Adjust the radius as needed
+    clickCircle.setFill(Color.BLUE); // Set the color of the circle
+    clickCircle.setCenterX(mouseX);
+    clickCircle.setCenterY(mouseY);
+
+    // Add the circle to the room
+    room.getChildren().add(clickCircle);
+
+    // Create a fade transition for the circle
+    FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.4), clickCircle);
+    fadeOut.setFromValue(1.0);
+    fadeOut.setToValue(0.0);
+
+    // Create a scale transition for the circle
+    ScaleTransition scale = new ScaleTransition(Duration.seconds(0.4), clickCircle);
+    scale.setToX(3.0); // Adjust the scale factor as needed
+    scale.setToY(3.0); // Adjust the scale factor as needed
+
+    // Play both the fade and scale transitions in parallel
+    ParallelTransition parallelTransition = new ParallelTransition(fadeOut, scale);
+    parallelTransition.setOnFinished(
+        e -> {
+          // Remove the circle from the pane when the animation is done
+          room.getChildren().remove(clickCircle);
+        });
+
+    parallelTransition.play();
+  }
+
+  @FXML protected HBox inventoryHBox;
+  @FXML protected TextArea chatBox;
+  @FXML protected TextField messageBox;
+  @FXML protected Button sendMessage;
+  @FXML private ProgressBar timerProgressBar;
+  @FXML private Label timerLabel;
+
+  private String riddleAnswer;
+  private String riddle;
+  private int hints;
+  private int riddleHints = 0;
+  private int currentPuzzle = 0;
+  private int chosenDifficulty = 0;
+  private int chosenTime = 0;
+  private int width = 1920;
+  private int height = 1080;
+  private Thread timerThread;
+  private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
+
+  private ChatCompletionRequest chatBoxChatCompletionRequest =
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
+  private ChatCompletionRequest riddleHintChatCompletionRequest =
+      new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
+  private String firstDigits;
+  private String secondDigits;
+  private String thirdDigits;
+
+  // create timer task to run in background persistently
+  private Task<Void> timerTask =
+      new Task<>() {
+        @Override
+        protected Void call() throws InterruptedException, IOException {
+          try {
+            // set time to chosen
+            Integer timer = instance.chosenTime;
+            Integer maxTime = instance.chosenTime;
+            updateMessage(instance.chosenTime / 60 + ":00");
+            updateProgress(timer, maxTime);
+
+            // add && to this while loop to end timer early for anything
+
+            while (timer != 0) {
+              Thread.sleep(1000);
+              timer--;
+              int minutes = timer / 60;
+              int seconds = timer % 60;
+              updateMessage(minutes + ":" + String.format("%02d", seconds));
+              updateProgress(timer, maxTime);
+            }
+
+            // add code here if you want something to happen when the timer ends
+            // this is a background thread so use Platform.runLater() for anything that happens in
+            // the
+            // UI
+            Runnable menuTask =
+                () -> {
+                  System.out.println("Timer ended");
+                  stopAllThreads();
+                  App.gameOver();
+                };
+
+            Platform.runLater(menuTask);
+            return null;
+          } catch (InterruptedException e) {
+            System.out.println("Timer stopped");
+            return null;
+          }
+        }
+      };
+
+  private GameState() {
+    Random rng = new Random();
+    List<String> answerList =
+        List.of("Planet", "Earth", "Galaxy", "Universe", "Space", "Sun", "Star");
+    riddleAnswer = answerList.get(rng.nextInt(answerList.size()));
+    System.out.println(riddleAnswer);
+    firstDigits = String.format("%02d", rng.nextInt(100));
+    secondDigits = String.format("%02d", rng.nextInt(100));
+    thirdDigits = String.format("%02d", rng.nextInt(100));
+    code = firstDigits + secondDigits + thirdDigits;
+    System.out.println(firstDigits);
+    System.out.println(secondDigits);
+    System.out.println(thirdDigits);
+    System.out.println(code);
   }
 }
