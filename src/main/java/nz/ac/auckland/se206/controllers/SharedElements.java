@@ -21,20 +21,23 @@ public class SharedElements {
   private static VBox[] dialogueBoxList = new VBox[3];
 
   public static void newGame() throws ApiProxyException {
+    // clear all previous instances
     taskBarHBoxList = new HBox[3];
     inventoryHBoxList = new HBox[3];
     dialogueBoxList = new VBox[3];
+    // create new instances
     instance = new SharedElements();
   }
 
   public static VBox getDialogueBox() {
     System.out.println("getDialogueBox");
-
+    // allocate a dialogue box instance to each scene
     return dialogueBoxList[instance.loadedScenes];
   }
 
   public static HBox getTaskBarBox() {
     System.out.println("getTaskBarBox");
+    // allocate a task bar instance to each scene
     return taskBarHBoxList[instance.loadedScenes];
   }
 
@@ -47,27 +50,33 @@ public class SharedElements {
   }
 
   public static void addInventoryItem(ImageView[] item) {
+    // add item to each inventory instance
     for (int i = 0; i < 3; i++) {
       inventoryHBoxList[i].getChildren().add(item[i]);
     }
   }
 
   public static void removeInventoryItem(ImageView[] item) {
+    // remove item from each inventory instance
     for (int i = 0; i < 3; i++) {
       inventoryHBoxList[i].getChildren().remove(item[i]);
     }
   }
 
   public static void appendChat(String message) {
+    // append message to master chat box with a newline below
     instance.chatBox.appendText(message + "\n\n");
     instance.chatBox.setScrollTop(Double.MAX_VALUE);
   }
 
   public static void setHintsText(int hints) {
+    // set master hint button text
     if (hints == 0) {
+      // disable hints button if no hints left
       instance.hintButton.setText("No Hints Left");
       instance.hintButton.setDisable(true);
     } else if (hints < 0) {
+      // set hints to unlimited if on easy mode
       instance.hintButton.setText("Hints Left: Unlimited");
     } else {
       instance.hintButton.setText("Hints Left: " + hints);
@@ -116,28 +125,23 @@ public class SharedElements {
   private boolean isPaperPrinted = false;
 
   private SharedElements() throws ApiProxyException {
+    // create new master timer label and progress bar
     timerLabel = new Label();
-    timerLabel.setFont(new javafx.scene.text.Font("System", 24));
     timerProgressBar = new ProgressBar();
-    timerProgressBar.setPrefWidth(609);
-    timerProgressBar.setPrefHeight(35);
 
+    // bind master timer label and progress bar to game state timer
     Task<Void> timerTask = GameState.getTimer();
 
     timerLabel.textProperty().bind(timerTask.messageProperty());
     timerProgressBar.progressProperty().bind(timerTask.progressProperty());
 
+    // create new master message box
     messageBox = new TextField();
-    messageBox.setPrefWidth(270);
-    messageBox.setPrefHeight(25);
+    // create new master chat box
     chatBox = new TextArea();
-    chatBox.setPrefWidth(330);
-    chatBox.setPrefHeight(935);
-    chatBox.setEditable(false);
-    chatBox.setWrapText(true);
-    chatBox.setFocusTraversable(false);
+    // create new master hint button
     hintButton = new Button();
-    hintButton.setText("Hint");
+    // assign script to hint button
     hintButton.setOnAction(
         event -> {
           try {
@@ -148,7 +152,9 @@ public class SharedElements {
             System.out.println("setting up error");
           }
         });
+    // create new master send button
     sendMessage = new Button();
+    // assign script to send button
     sendMessage.setOnAction(
         event -> {
           try {
@@ -161,6 +167,7 @@ public class SharedElements {
 
     loadedScenes = 0;
     for (int i = 0; i < 3; i++) {
+      // create new child timer label and progress bar
       ProgressBar timerProgressBarChild = new ProgressBar();
       timerProgressBarChild.setPrefWidth(609);
       timerProgressBarChild.setPrefHeight(35);
@@ -170,6 +177,8 @@ public class SharedElements {
       powerLabelChild.setText("Power Left:");
       powerLabelChild.setFont(new javafx.scene.text.Font("System", 24));
 
+      // use HBox to place elements side by side
+      // use VBox to place elements on top of each other
       HBox inventoryHorizontalBoxChild = new HBox();
       HBox taskBarHorizontalBoxChild = new HBox();
       HBox timerHorizontalBoxChild = new HBox();
@@ -184,16 +193,23 @@ public class SharedElements {
           .getChildren()
           .addAll(timerVerticalBoxChild, inventoryHorizontalBoxChild);
 
+      // add new instance to list
       taskBarHBoxList[i] = taskBarHorizontalBoxChild;
       inventoryHBoxList[i] = inventoryHorizontalBoxChild;
 
+      // bind child timer label and progress bar to master timer label and progress bar
       timerLabelChild.textProperty().bind(timerLabel.textProperty());
       timerProgressBarChild.progressProperty().bind(timerProgressBar.progressProperty());
 
+      // create new child message box
+      // bidirectionally bind child message box text to master message box
       TextField messageBoxChild = new TextField();
       messageBoxChild.textProperty().bindBidirectional(messageBox.textProperty());
       messageBoxChild.setPrefWidth(270);
       messageBoxChild.setPrefHeight(25);
+
+      // create new child chat box
+      // bind child chat box text to master chat box
       TextArea chatBoxChild = new TextArea();
       chatBoxChild.setPrefWidth(330);
       chatBoxChild.setPrefHeight(910);
@@ -201,18 +217,29 @@ public class SharedElements {
       chatBoxChild.setWrapText(true);
       chatBoxChild.setFocusTraversable(false);
       chatBoxChild.textProperty().bind(chatBox.textProperty());
+
+      // create new child send button
+      // bind child send button click behaviour to master send button
+      // bind child send button disable property to master send button
       Button sendMessageChild = new Button();
       sendMessageChild.setText("Submit");
       sendMessageChild.setPrefWidth(60);
       sendMessageChild.setPrefHeight(25);
       sendMessageChild.onActionProperty().bind(sendMessage.onActionProperty());
       sendMessageChild.disableProperty().bind(sendMessage.disableProperty());
+
+      // create new child hint button
+      // bind child hint button click behaviour to master hint button
+      // bind child hint button disable property to master hint button
       Button hintButtonChild = new Button();
       hintButtonChild.setPrefWidth(330);
       hintButtonChild.setPrefHeight(25);
       hintButtonChild.textProperty().bind(hintButton.textProperty());
       hintButtonChild.onActionProperty().bind(hintButton.onActionProperty());
       hintButtonChild.disableProperty().bind(hintButton.disableProperty());
+
+      // use HBox to place elements side by side
+      // use VBox to place elements on top of each other
       VBox dialogueBoxChild = new VBox();
       HBox sendBoxChild = new HBox();
 
@@ -221,6 +248,7 @@ public class SharedElements {
       // place chat box and send button below chat box
       dialogueBoxChild.getChildren().addAll(chatBoxChild, hintButtonChild, sendBoxChild);
 
+      // add new instance to list
       dialogueBoxList[i] = dialogueBoxChild;
     }
   }

@@ -121,8 +121,6 @@ public class ControlRoomController {
                 centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
         Runnable leaveRoom =
             () -> {
-              running.setOpacity(0);
-              character.setOpacity(1);
               System.out.println("exit door clicked");
               if (GameState.isExitUnlocked) {
                 fadeBlack();
@@ -169,8 +167,6 @@ public class ControlRoomController {
         Runnable accessKeypad =
             () -> {
               try {
-                running.setOpacity(0);
-                character.setOpacity(1);
                 App.setRoot(AppUi.KEYPAD);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -215,8 +211,6 @@ public class ControlRoomController {
         Runnable leaveRoom =
             () -> {
               try {
-                running.setOpacity(0);
-                character.setOpacity(1);
                 App.setRoot(AppUi.KITCHEN);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -324,6 +318,8 @@ public class ControlRoomController {
   }
 
   public void fadeBlack() {
+    // stop timer
+    GameState.stopTimer();
     // Create a black rectangle that covers the entire AnchorPane
     AnchorPane anchorPane = (AnchorPane) dialogueHorizontalBox.getParent();
     AnchorPane blackRectangle = new AnchorPane();

@@ -28,8 +28,8 @@ public class MenuController {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
     creditsVisible = false;
-    int difficulty = 5;
-    int time = 240;
+    difficulty = 5;
+    time = 240;
     System.out.println(difficulty);
     System.out.println(time);
   }
@@ -78,10 +78,9 @@ public class MenuController {
 
   @FXML
   private void onStartGame(ActionEvent event) throws IOException, ApiProxyException {
-
+    System.out.println("time" + time);
     GameState.newGame();
     SharedElements.newGame();
-
     GameState.setDifficulty(difficulty);
     GameState.setTime(time);
 
@@ -100,6 +99,7 @@ public class MenuController {
     Parent kitchen = kitchenLoader.load();
     App.kitchenController = kitchenLoader.getController();
 
+    // load all other scenes
     SceneManager.addUi(AppUi.ENDING, App.loadFxml("ending"));
     SceneManager.addUi(AppUi.KITCHEN, kitchen);
     SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
@@ -120,8 +120,8 @@ public class MenuController {
       App.setRoot(AppUi.CONTROL_ROOM);
 
     } catch (Exception e) {
-      // TODO handle exception appropriately
       System.out.println("Error");
+      e.printStackTrace();
     }
   }
 

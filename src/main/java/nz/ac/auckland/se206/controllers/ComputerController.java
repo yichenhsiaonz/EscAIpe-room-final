@@ -126,12 +126,6 @@ public class ComputerController {
             System.out.println("Riddle solved");
 
             // Load prompt to congratulate user on solving riddle
-            GameState.setChatCompletionRequest(
-                new ChatCompletionRequest()
-                    .setN(1)
-                    .setTemperature(0.2)
-                    .setTopP(0.5)
-                    .setMaxTokens(100));
             try {
               GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()));
             } catch (ApiProxyException e) {

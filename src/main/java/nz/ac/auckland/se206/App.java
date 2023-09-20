@@ -19,7 +19,6 @@ import nz.ac.auckland.se206.controllers.ControlRoomController;
 import nz.ac.auckland.se206.controllers.GameOverController;
 import nz.ac.auckland.se206.controllers.KitchenController;
 import nz.ac.auckland.se206.controllers.LabController;
-import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /**
@@ -83,8 +82,6 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws IOException, ApiProxyException {
-    GameState.newGame();
-    SharedElements.newGame();
     DisplayMode mode =
         GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
     double width = mode.getWidth();
