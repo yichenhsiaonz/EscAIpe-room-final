@@ -37,10 +37,11 @@ public class LabController {
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
+  @FXML private ImageView doorGlow;
 
   private boolean moving = false;
-  double startX = 1400;
-  double startY = 900;
+  double startX = 1300;
+  double startY = 630;
 
   public void initialize() {
     // Initialization code goes here
@@ -63,6 +64,8 @@ public class LabController {
 
       double mouseX = event.getX();
       double mouseY = event.getY();
+
+      System.out.println("Mouse clicked at: " + mouseX + ", " + mouseY);
 
       // Create a circle for the click animation
       Circle clickCircle = new Circle(5); // Adjust the radius as needed
@@ -120,7 +123,7 @@ public class LabController {
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(660, 900, character, running);
+        double movementDelay = GameState.goTo(360, 680, character, running);
         Runnable goToPrinter =
             () -> {
               character.setOpacity(1);
@@ -200,12 +203,12 @@ public class LabController {
   // add glow highlight to right arrow when hover
   @FXML
   public void onRightHovered(MouseEvent event) {
-    rightGlowArrow.setVisible(true);
+    doorGlow.setVisible(true);
   }
 
   @FXML
   public void onRightUnhovered(MouseEvent event) {
-    rightGlowArrow.setVisible(false);
+    doorGlow.setVisible(false);
   }
 
   // get image of loading AI
