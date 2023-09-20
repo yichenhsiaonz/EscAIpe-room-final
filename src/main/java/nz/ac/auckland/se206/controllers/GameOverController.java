@@ -26,7 +26,7 @@ public class GameOverController {
   }
 
   @FXML
-  private void onMenu() throws IOException {
+  private void onMenuButtonClicked() throws IOException {
     App.setRoot(AppUi.MENU);
   }
 

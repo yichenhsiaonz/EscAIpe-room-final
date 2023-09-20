@@ -32,8 +32,8 @@ public class ControlRoomController {
   @FXML private ImageView character;
   @FXML private ImageView running;
   @FXML private Pane room;
-  @FXML private HBox dialogueHBox;
-  @FXML private VBox bottomVBox;
+  @FXML private HBox dialogueHorizontalBox;
+  @FXML private VBox bottomVerticalBox;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
@@ -48,8 +48,8 @@ public class ControlRoomController {
   /** Initializes the control room. */
   public void initialize() {
     // Initialization code goes here
-    dialogueHBox.getChildren().add(SharedElements.getDialogueBox());
-    bottomVBox.getChildren().add(SharedElements.getTaskBarBox());
+    dialogueHorizontalBox.getChildren().add(SharedElements.getDialogueBox());
+    bottomVerticalBox.getChildren().add(SharedElements.getTaskBarBox());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
@@ -121,8 +121,6 @@ public class ControlRoomController {
                 centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
         Runnable leaveRoom =
             () -> {
-              running.setOpacity(0);
-              character.setOpacity(1);
               System.out.println("exit door clicked");
               if (GameState.isExitUnlocked) {
                 fadeBlack();
@@ -169,8 +167,6 @@ public class ControlRoomController {
         Runnable accessKeypad =
             () -> {
               try {
-                running.setOpacity(0);
-                character.setOpacity(1);
                 App.setRoot(AppUi.KEYPAD);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -215,8 +211,6 @@ public class ControlRoomController {
         Runnable leaveRoom =
             () -> {
               try {
-                running.setOpacity(0);
-                character.setOpacity(1);
                 App.setRoot(AppUi.KITCHEN);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -310,7 +304,7 @@ public class ControlRoomController {
   public void onMoveCharacter(MouseEvent event) {
     if (!moving) {
       moving = true;
-      GameState.movementEvent(event, room);
+      GameState.onCharacterMovementClick(event, room);
       double mouseX = event.getX();
       double mouseY = event.getY();
 
@@ -324,8 +318,10 @@ public class ControlRoomController {
   }
 
   public void fadeBlack() {
+    // stop timer
+    GameState.stopTimer();
     // Create a black rectangle that covers the entire AnchorPane
-    AnchorPane anchorPane = (AnchorPane) dialogueHBox.getParent();
+    AnchorPane anchorPane = (AnchorPane) dialogueHorizontalBox.getParent();
     AnchorPane blackRectangle = new AnchorPane();
     blackRectangle.setStyle("-fx-background-color: black;");
     blackRectangle.setOpacity(0.0);

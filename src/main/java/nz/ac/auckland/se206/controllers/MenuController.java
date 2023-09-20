@@ -19,13 +19,17 @@ public class MenuController {
 
   @FXML private Label creditsLabel;
   @FXML private AnchorPane contentPane;
-  private boolean creditsVisible = false;
-  private int difficulty = 5;
-  private int time = 240;
+
+  private boolean creditsVisible;
+  private int difficulty;
+  private int time;
 
   public void initialize() {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
+    creditsVisible = false;
+    difficulty = 5;
+    time = 240;
     System.out.println(difficulty);
     System.out.println(time);
   }
@@ -74,10 +78,9 @@ public class MenuController {
 
   @FXML
   private void onStartGame(ActionEvent event) throws IOException, ApiProxyException {
-
+    System.out.println("time" + time);
     GameState.newGame();
     SharedElements.newGame();
-
     GameState.setDifficulty(difficulty);
     GameState.setTime(time);
 
@@ -96,6 +99,7 @@ public class MenuController {
     Parent kitchen = kitchenLoader.load();
     App.kitchenController = kitchenLoader.getController();
 
+    // load all other scenes
     SceneManager.addUi(AppUi.ENDING, App.loadFxml("ending"));
     SceneManager.addUi(AppUi.KITCHEN, kitchen);
     SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
@@ -108,16 +112,16 @@ public class MenuController {
 
       // choose prompt according to difficulty
       if (difficulty == -1 || difficulty == 5) {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringEAndM()));
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringHints()));
       } else {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringH()));
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringNoHints()));
       }
 
       App.setRoot(AppUi.CONTROL_ROOM);
 
     } catch (Exception e) {
-      // TODO handle exception appropriately
       System.out.println("Error");
+      e.printStackTrace();
     }
   }
 

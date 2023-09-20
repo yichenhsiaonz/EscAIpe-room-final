@@ -16,9 +16,9 @@
    <center>
       <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="dialogueHBox" layoutX="602.0" layoutY="496.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <HBox fx:id="dialogueHorizontalBox" layoutX="602.0" layoutY="496.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <VBox fx:id="bottomVBox">
+                  <VBox fx:id="bottomVerticalBox">
                      <children>
                         <Pane fx:id="room" prefHeight="910.0" prefWidth="1491.0">
                            <children>

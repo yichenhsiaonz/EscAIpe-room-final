@@ -32,8 +32,8 @@ public class KitchenController {
   @FXML private ImageView fridgeOpenGlow;
   @FXML private ImageView fridgeClosed;
   @FXML private ImageView fridgeOpen;
-  @FXML private HBox dialogueHBox;
-  @FXML private VBox bottomVBox;
+  @FXML private HBox dialogueHorizontalBox;
+  @FXML private VBox bottomVerticalBox;
   @FXML private Circle doorMarker;
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
@@ -46,20 +46,24 @@ public class KitchenController {
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
+    // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
     VBox dialogue = SharedElements.getDialogueBox();
     SharedElements.incremnetLoadedScenes();
-    dialogueHBox.getChildren().addAll(dialogue);
-    bottomVBox.getChildren().addAll(bottom);
+    // add shared elements to the correct places
+    dialogueHorizontalBox.getChildren().addAll(dialogue);
+    bottomVerticalBox.getChildren().addAll(bottom);
     bottom.toFront();
     dialogue.toFront();
 
+    // scale the room to the screen size
     GameState.scaleToScreen(contentPane);
 
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();
     int doorMarkerY = (int) doorMarker.getLayoutY();
 
+    // move character to door marker position
     GameState.goToInstant(doorMarkerX, doorMarkerY, character, running);
   }
 
@@ -102,13 +106,18 @@ public class KitchenController {
    */
   @FXML
   public void onMoveCharacter(MouseEvent event) {
+    // check if character is already moving to prevent multiple movements
     if (!moving) {
-      GameState.movementEvent(event, room);
+      // create click indicator
+      GameState.onCharacterMovementClick(event, room);
+      // get mouse position
       double mouseX = event.getX();
       double mouseY = event.getY();
 
       moving = true;
+      // move character to mouse position
       double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
+      // allow character to move again after movement animation is finished
       Runnable resumeMoving =
           () -> {
             moving = false;
@@ -125,21 +134,23 @@ public class KitchenController {
    */
   @FXML
   public void onDoorClicked(MouseEvent event) throws IOException {
+    // check if character is already moving to prevent multiple movements
     if (!moving) {
       moving = true;
+
+      // move character to door marker position
       double movementDelay =
           GameState.goTo(doorMarker.getLayoutX(), doorMarker.getLayoutY(), character, running);
+      // load the control room scene after movement animation is finished
       Runnable leaveRoom =
           () -> {
             try {
-              running.setOpacity(0);
               App.setRoot(AppUi.CONTROL_ROOM);
             } catch (IOException e) {
               e.printStackTrace();
             }
             moving = false;
           };
-
       GameState.delayRun(leaveRoom, movementDelay);
     }
   }
@@ -163,49 +174,64 @@ public class KitchenController {
    */
   @FXML
   public void onToasterClicked(MouseEvent event) {
+    // check if character is already moving to prevent multiple movements
     if (!moving) {
       moving = true;
+      // move character to toaster marker position
       double movementDelay =
           GameState.goTo(
               toasterMarker.getLayoutX(), toasterMarker.getLayoutY(), character, running);
+      // set active puzzle to toaster puzzle
       GameState.setPuzzleToast();
       if (GameState.hasBread && !GameState.hasToast) {
+        // run if the user has bread and doesn't have toast
         Runnable putInToast =
             () -> {
               System.out.println("toaster clicked");
+              // remove bread from inventory
               GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
+              // put notification in chat box
               SharedElements.appendChat("You put a slice of bread in the toaster");
+              // flag that the user has no bread
               GameState.hasBread = false;
             };
         Runnable waitForToast =
             () -> {
               SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
             };
-        Runnable ToastFinish =
+        Runnable toastFinish =
             () -> {
               System.out.println("toaster clicked");
+              // add toasted bread to inventory
               GameState.addItem(GameState.Items.BREAD_TOASTED);
+              // put notification in chat box
               SharedElements.appendChat("A charred slice of toast pops out of the toaster");
               // Load prompt to congratulate user on toasting bread
               try {
                 GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()));
               } catch (ApiProxyException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
               }
+              // flag that the user has toast
               GameState.hasToast = true;
+              // flag that the toaster puzzle has been completed
+              // so that no more hints are given for this puzzle
               GameState.toasterPuzzleHints = false;
+              // allow character to move again
               moving = false;
             };
 
         GameState.delayRun(putInToast, movementDelay);
         GameState.delayRun(waitForToast, 2);
-        GameState.delayRun(ToastFinish, 4);
+        GameState.delayRun(toastFinish, 4);
       } else if (GameState.hasToast) {
+        // run if the user has toast already
         Runnable toasterRunnable =
             () -> {
               System.out.println("toaster clicked");
+              // put notification in chat box
               SharedElements.appendChat("Looks like the toaster is toast.");
+              // allow character to move again
               moving = false;
             };
         GameState.delayRun(toasterRunnable, movementDelay);
@@ -213,7 +239,9 @@ public class KitchenController {
         Runnable toasterRunnable =
             () -> {
               System.out.println("toaster clicked");
+              // put notification in chat box
               SharedElements.appendChat("This toaster looks like it's been tampered with");
+              // allow character to move again
               moving = false;
             };
         GameState.delayRun(toasterRunnable, movementDelay);
@@ -239,16 +267,19 @@ public class KitchenController {
    */
   @FXML
   public void onFridgeOpenClicked(MouseEvent event) {
+    // check if character is already moving to prevent multiple movements
     if (!moving) {
       moving = true;
+      // move character to fridge marker position
       double movementDelay =
           GameState.goTo(fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
 
       Runnable openFridgeRunnable =
           () -> {
-            running.setOpacity(0);
             System.out.println("open fridge clicked");
+            // put notification in chat box
             SharedElements.appendChat("There's nothing left in the fridge.");
+            // allow character to move again
             moving = false;
           };
       GameState.delayRun(openFridgeRunnable, movementDelay);
@@ -274,26 +305,35 @@ public class KitchenController {
   @FXML
   public void onFridgeClosedClicked(MouseEvent event) {
     try {
+      // check if character is already moving to prevent multiple movements
       if (!moving) {
         moving = true;
+        // move character to fridge marker position
         double movementDelay =
             GameState.goTo(
                 fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
         Runnable closedFridgeRunnable =
             () -> {
+              // change fridge image to open fridge
               fridgeClosed.setVisible(false);
               fridgeOpen.setVisible(true);
+              // change floor hitbox to account for open fridge
               floor.setImage(new Image("images/Kitchen/floorfridgeopen.png"));
+              // flag that the user has bread
               GameState.hasBread = true;
+              // add bread to inventory
               GameState.addItem(GameState.Items.BREAD_UNTOASTED);
+              // put notification in chat box
               SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
               System.out.println("closed fridge clicked");
+              // allow character to move again
               moving = false;
             };
         GameState.delayRun(closedFridgeRunnable, movementDelay);
       }
     } catch (Exception e) {
-      // TODO: handle exception
+      System.out.println("get bread error");
+      e.printStackTrace();
     }
   }
 
