@@ -96,6 +96,7 @@ public class MenuController {
     Parent kitchen = kitchenLoader.load();
     App.kitchenController = kitchenLoader.getController();
 
+    SceneManager.addUi(AppUi.ENDING, App.loadFxml("ending"));
     SceneManager.addUi(AppUi.KITCHEN, kitchen);
     SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
     SceneManager.addUi(AppUi.COMPUTER, App.loadFxml("computer"));

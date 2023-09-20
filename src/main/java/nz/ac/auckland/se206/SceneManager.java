@@ -7,7 +7,7 @@ public class SceneManager {
   public enum AppUi {
     MENU,
     CONTROL_ROOM,
-    ROOM3,
+    ENDING,
     COMPUTER,
     KEYPAD,
     KITCHEN,
