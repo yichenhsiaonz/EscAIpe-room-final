@@ -124,12 +124,13 @@ public class ComputerController {
 
           if (lastMsg.getRole().equals("assistant") && lastMsg.getContent().startsWith("Correct")) {
             System.out.println("Riddle solved");
+            // flag that riddle has been solved and hints are no longer needed
+            GameState.computerPuzzleHints = false;
 
             // Load prompt to congratulate user on solving riddle
             try {
               GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()));
             } catch (ApiProxyException e) {
-              // TODO Auto-generated catch block
               e.printStackTrace();
             }
           }

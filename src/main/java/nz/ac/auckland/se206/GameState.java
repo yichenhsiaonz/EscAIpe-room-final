@@ -186,7 +186,7 @@ public class GameState {
     gptTask.setOnSucceeded(
         event -> {
           // hide loading image and show talking image
-          setTalkingIcons(loadingImages, talkingImages);
+          setTalkingIcons(talkingImages, loadingImages);
         });
 
     // starts the task on a separate thread
@@ -476,8 +476,8 @@ public class GameState {
           } else {
             hint =
                 "The user used the hint button. The user has found a toaster that looks like it has"
-                    + " been modified. The user needs toast to use it, but doesn't have any. Write"
-                    + " a two sentence hint that there is toast in the fridge";
+                    + " been modified. The user needs bread to use it, but doesn't have any. Write"
+                    + " a two sentence hint that there is bread in the fridge";
             // flag to prevent hint from being given again
             toasterPuzzleHints = false;
           }
@@ -492,6 +492,7 @@ public class GameState {
           instance.hints--;
           // flag to prevent hint from being given again
           paperPuzzleHints = false;
+          System.out.println(hint);
           runGpt(new ChatMessage("user", hint));
         } else if (instance.currentPuzzle == 3 && computerPuzzleHints) {
           // prompt for when user has interacted with computer puzzle
@@ -587,7 +588,7 @@ public class GameState {
           // hide loading image and show talking image
           gptTask.setOnSucceeded(
               event -> {
-                setTalkingIcons(loadingImages, talkingImages);
+                setTalkingIcons(talkingImages, loadingImages);
               });
 
           // starts the task on a separate thread
@@ -624,8 +625,8 @@ public class GameState {
   }
 
   private static void setTalkingIcons(
-      // hide loading images
       List<ImageView> talkingImages, List<ImageView> loadingImages) {
+    // hide loading images
     for (ImageView imageView : loadingImages) {
       imageView.setVisible(false);
     }

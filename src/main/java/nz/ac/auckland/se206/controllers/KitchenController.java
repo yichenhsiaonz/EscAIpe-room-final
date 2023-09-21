@@ -312,6 +312,8 @@ public class KitchenController {
         double movementDelay =
             GameState.goTo(
                 fridgeMarker.getLayoutX(), fridgeMarker.getLayoutY(), character, running);
+        // flag that the current puzzle is the toast puzzle
+        GameState.setPuzzleToast();
         Runnable closedFridgeRunnable =
             () -> {
               // change fridge image to open fridge
