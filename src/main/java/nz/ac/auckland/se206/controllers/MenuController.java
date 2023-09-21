@@ -19,10 +19,9 @@ public class MenuController {
 
   @FXML private Label creditsLabel;
   @FXML private AnchorPane contentPane;
-
-  private boolean creditsVisible;
-  private int difficulty;
-  private int time;
+  @FXML private boolean creditsVisible;
+  @FXML private int difficulty;
+  @FXML private int time;
 
   public void initialize() {
     // Initialization code goes here

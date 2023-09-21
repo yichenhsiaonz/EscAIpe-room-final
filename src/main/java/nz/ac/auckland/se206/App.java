@@ -58,14 +58,17 @@ public class App extends Application {
   }
 
   public static void gameOver() {
+    // get the scene root's node and fade it to transparent
     Timeline timeline = new Timeline();
     KeyFrame key =
         new KeyFrame(Duration.millis(2000), new KeyValue(scene.getRoot().opacityProperty(), 0));
     timeline.getKeyFrames().add(key);
+    // at the end of the animation, set the root to the game over scene
     timeline.setOnFinished(
         e -> {
           try {
             setRoot(AppUi.GAMEOVER);
+            // begin the game over scene's transition animation
             GameOverController.instance.showGameOver();
           } catch (IOException ex) {
             System.out.println("Error");
@@ -82,29 +85,43 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws IOException, ApiProxyException {
+    // get the window size of the primary screen
     DisplayMode mode =
         GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+    // save the window size
     double width = mode.getWidth();
     double height = mode.getHeight();
     GameState.setWindowWidth((int) width);
     GameState.setWindowHeight((int) height);
+    // check if the window is wider than 16:9
     if (height / 9 > width / 16) {
+      // if so, set the width to 16:9 and calculate the height
       height = width / 1920 * 1080;
     } else {
+      // otherwise, set the height to 16:9 and calculate the width
       width = height / 1080 * 1920;
     }
+    // save the new window size
     GameState.setWidth((int) width);
     GameState.setHeight((int) height);
+
+    // load the menu scene and the game over scene
     SceneManager.addUi(AppUi.MENU, loadFxml("menu"));
     SceneManager.addUi(AppUi.GAMEOVER, loadFxml("gameover"));
+
+    // set the scene to the menu scene
     scene = new Scene(SceneManager.getUiRoot(AppUi.MENU));
+    // set the background color to black
     scene.setFill(Color.BLACK);
+    // place the scene on the stage
     stage.setScene(scene);
+    // set the stage to full screen
     stage.setFullScreen(true);
+    // disable the full screen exit key
     stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     stage.show();
     SceneManager.getUiRoot(AppUi.MENU).requestFocus();
-
+    // fully close the application when the window is closed
     stage.onCloseRequestProperty().setValue(e -> System.exit(0));
   }
 }

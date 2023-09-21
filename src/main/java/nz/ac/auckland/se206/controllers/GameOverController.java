@@ -31,8 +31,11 @@ public class GameOverController {
   }
 
   public void showGameOver() {
+    // set the opacity of the game over label and menu button to 0
     gameOverLabel.setOpacity(0);
     menuButton.setOpacity(0);
+
+    // create a timeline to fade in the game over label and menu button
     Timeline timeline1 = new Timeline();
     KeyFrame key1 =
         new KeyFrame(Duration.millis(2000), new KeyValue(gameOverLabel.opacityProperty(), 1));
@@ -43,6 +46,7 @@ public class GameOverController {
     timeline1.getKeyFrames().add(key2);
     timeline1.setOnFinished(
         e -> {
+          // when the fade in for the label is finished, start the fade in for the menu button
           timeline2.play();
         });
 

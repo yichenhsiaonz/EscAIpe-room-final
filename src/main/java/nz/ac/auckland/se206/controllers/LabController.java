@@ -54,12 +54,16 @@ public class LabController {
    */
   @FXML
   public void onMoveCharacter(MouseEvent event) {
+    // check if the character is already moving to prevent multiple clicks
     if (!moving) {
+      moving = true;
+      // show click animation
       GameState.onCharacterMovementClick(event, room);
+      // move character to clicked location
       double mouseX = event.getX();
       double mouseY = event.getY();
-      moving = true;
       double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
+      // allow character to move again after movement delay
       Runnable resumeMoving =
           () -> {
             moving = false;
@@ -87,6 +91,8 @@ public class LabController {
       if (!moving) {
         moving = true;
         double movementDelay = GameState.goTo(360, 680, character, running);
+        // flag that the current puzzle is the paper puzzle
+        GameState.setPuzzlePaper();
         Runnable goToPrinter =
             () -> {
               System.out.println("Printer clicked");
@@ -94,14 +100,17 @@ public class LabController {
               if (SharedElements.isPaperPrinted() == false) {
                 SharedElements.appendChat("Printer is empty!");
               } else {
+                // append notification to chat box
                 SharedElements.appendChat("There is a printed piece of paper, you take it.");
+                // add paper to inventory
                 GameState.addItem(GameState.Items.PAPER);
                 SharedElements.takePaper();
+                // flag that the paper puzzle has been completed to prevent hints from being shown
+                GameState.paperPuzzleHints = false;
                 // Load prompt to congratulate user on printing paper
                 try {
                   GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
                 } catch (ApiProxyException e) {
-                  // TODO Auto-generated catch block
                   e.printStackTrace();
                 }
               }
@@ -112,8 +121,7 @@ public class LabController {
         GameState.delayRun(goToPrinter, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
@@ -135,12 +143,13 @@ public class LabController {
   @FXML
   public void onRightClicked(MouseEvent event) throws IOException {
 
-    consumeMouseEvent(event);
-
     try {
+      // check if the character is already moving to prevent multiple clicks
       if (!moving) {
         moving = true;
+        // move character to door position
         double movementDelay = GameState.goTo(startX, startY, character, running);
+        // set root to control room and allow character to move again after movement delay
         Runnable leaveRoom =
             () -> {
               try {
@@ -154,8 +163,7 @@ public class LabController {
         GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
