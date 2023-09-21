@@ -53,6 +53,8 @@ public class SharedElements {
     // add item to each inventory instance
     for (int i = 0; i < 3; i++) {
       inventoryHBoxList[i].getChildren().add(item[i]);
+      item[i].setFitWidth(inventoryHBoxList[i].getHeight());
+      item[i].setFitHeight(inventoryHBoxList[i].getHeight());
     }
   }
 

@@ -49,17 +49,24 @@ public class ComputerController {
 
   @FXML
   private void print() {
+    // flag that the paper has been printed from the computer
     SharedElements.printPaper();
+
+    // show the print button
     printButton.setOpacity(1);
+    // disable the print hightlight
     printHighlight.disableProperty().set(true);
+    // show the printing message below
     printingMessage.setOpacity(1);
 
+    // hide the printing text after 2 seconds
+    // show the finished printing icon
     Runnable printing =
         () -> {
           printingMessage.setOpacity(0);
           finishedPrinting.setOpacity(1);
         };
-
+      
     GameState.delayRun(printing, 2);
   }
 

@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -341,11 +342,13 @@ public class GameState {
 
   public static void addItem(Items item) {
     String itemToAdd;
+    String itemToAddGlow;
     EventHandler<MouseEvent> clickBehaviour;
     // read flag and adjust image and click behaviour accordingly
     switch (item) {
       case BREAD_TOASTED:
         itemToAdd = "/images/Items/breadToasted.png";
+        itemToAddGlow = "/images/Items/breadToastedGlow.png";
         clickBehaviour =
             (event) -> {
               System.out.println("bread toasted clicked");
@@ -357,6 +360,7 @@ public class GameState {
         break;
       case BREAD_UNTOASTED:
         itemToAdd = "/images/Items/breadUntoasted.png";
+        itemToAddGlow = "/images/Items/breadUntoastedGlow.png";
         clickBehaviour =
             (event) -> {
               System.out.println("bread untoasted clicked");
@@ -365,6 +369,7 @@ public class GameState {
         break;
       case PAPER:
         itemToAdd = "/images/Items/paper.png";
+        itemToAddGlow = "/images/Items/paperGlow.png";
         clickBehaviour =
             (event) -> {
               System.out.println("paper clicked");
@@ -376,6 +381,7 @@ public class GameState {
         break;
       case USB:
         itemToAdd = "/images/Items/usb.png";
+        itemToAddGlow = "/images/Items/usbGlow.png";
         clickBehaviour =
             (event) -> {
               System.out.println("usb clicked");
@@ -386,6 +392,7 @@ public class GameState {
         break;
       default:
         itemToAdd = null;
+        itemToAddGlow = null;
         clickBehaviour = null;
         break;
     }
@@ -396,6 +403,16 @@ public class GameState {
       for (int i = 0; i < 3; i++) {
         ImageView itemImage = new ImageView(itemToAdd);
         itemImage.setOnMouseClicked(clickBehaviour);
+        // set glow behaviour
+        itemImage.setOnMouseEntered(
+            event -> {
+              itemImage.setImage(new Image(itemToAddGlow));
+            });
+        itemImage.setOnMouseExited(
+            event -> {
+              itemImage.setImage(new Image(itemToAdd));
+            });
+        itemImage.setPreserveRatio(true);
         itemCopies[i] = itemImage;
       }
       // add item to each inventory instance
