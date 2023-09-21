@@ -19,55 +19,54 @@ public class MenuController {
 
   @FXML private Label creditsLabel;
   @FXML private AnchorPane contentPane;
-
   private boolean creditsVisible;
-  private int difficulty;
-  private int time;
+  private int difficultyValue;
+  private int timeValue;
 
   public void initialize() {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
     creditsVisible = false;
-    difficulty = 5;
-    time = 240;
-    System.out.println(difficulty);
-    System.out.println(time);
+    difficultyValue = 5;
+    timeValue = 240;
+    System.out.println(difficultyValue);
+    System.out.println(timeValue);
   }
 
   @FXML
   private void onEasySelected() {
-    difficulty = -1;
-    System.out.println(difficulty);
+    difficultyValue = -1;
+    System.out.println(difficultyValue);
   }
 
   @FXML
   private void onMediumSelected(ActionEvent event) {
-    difficulty = 5;
-    System.out.println(difficulty);
+    difficultyValue = 5;
+    System.out.println(difficultyValue);
   }
 
   @FXML
   private void onHardSelected(ActionEvent event) {
-    difficulty = 0;
-    System.out.println(difficulty);
+    difficultyValue = 0;
+    System.out.println(difficultyValue);
   }
 
   @FXML
   private void onTwoSelected(ActionEvent event) {
-    time = 120;
-    System.out.println(time);
+    timeValue = 120;
+    System.out.println(timeValue);
   }
 
   @FXML
   private void onFourSelected(ActionEvent event) {
-    time = 240;
-    System.out.println(time);
+    timeValue = 240;
+    System.out.println(timeValue);
   }
 
   @FXML
   private void onSixSelected(ActionEvent event) {
-    time = 360;
-    System.out.println(time);
+    timeValue = 360;
+    System.out.println(timeValue);
   }
 
   @FXML
@@ -78,11 +77,11 @@ public class MenuController {
 
   @FXML
   private void onStartGame(ActionEvent event) throws IOException, ApiProxyException {
-    System.out.println("time" + time);
+    System.out.println("time" + timeValue);
     GameState.newGame();
     SharedElements.newGame();
-    GameState.setDifficulty(difficulty);
-    GameState.setTime(time);
+    GameState.setDifficulty(difficultyValue);
+    GameState.setTime(timeValue);
 
     // get controller for control room
     FXMLLoader controlLoader = new FXMLLoader(getClass().getResource("/fxml/controlRoom.fxml"));
@@ -111,7 +110,7 @@ public class MenuController {
       GameState.startTimer();
 
       // choose prompt according to difficulty
-      if (difficulty == -1 || difficulty == 5) {
+      if (difficultyValue == -1 || difficultyValue == 5) {
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringHints()));
       } else {
         GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringNoHints()));

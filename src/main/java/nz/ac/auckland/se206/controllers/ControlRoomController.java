@@ -67,16 +67,19 @@ public class ControlRoomController {
   public void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
     try {
+      // check if the character is already moving to prevent multiple clicks
       if (!moving) {
         moving = true;
+        // move character to clicked location
         double movementDelay =
             GameState.goTo(
                 computerMarker.getLayoutX(), computerMarker.getLayoutY(), character, running);
+        // flag the current puzzle as the computer puzzle for hints
+        // set root to the computer
+        // enable movement after delay
         Runnable accessComputer =
             () -> {
               try {
-                running.setOpacity(0);
-                character.setOpacity(1);
                 GameState.setPuzzleComputer();
                 App.setRoot(AppUi.COMPUTER);
               } catch (IOException e) {
@@ -88,8 +91,7 @@ public class ControlRoomController {
         GameState.delayRun(accessComputer, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
@@ -111,30 +113,34 @@ public class ControlRoomController {
    */
   @FXML
   public void clickExit(MouseEvent event) {
-    consumeMouseEvent(event);
 
     try {
+      // check if the character is already moving to prevent multiple clicks
       if (!moving) {
         moving = true;
+        // move character to center door marker position
         double movementDelay =
             GameState.goTo(
                 centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
+
         Runnable leaveRoom =
             () -> {
               System.out.println("exit door clicked");
               if (GameState.isExitUnlocked) {
+                // if the exit is unlocked, fade to black for ending scene
                 fadeBlack();
               } else {
+                // otherwise, display notification in chat
                 SharedElements.appendChat("The exit is locked and will not budge.");
               }
+              // enable movement after delay
               moving = false;
             };
 
         GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
@@ -159,11 +165,14 @@ public class ControlRoomController {
   public void clickKeypad(MouseEvent event) throws IOException {
     System.out.println("keypad clicked");
     try {
+      // check if the character is already moving to prevent multiple clicks
       if (!moving) {
         moving = true;
+        // move character to clicked location
         double movementDelay =
             GameState.goTo(
                 keypadMarker.getLayoutX(), keypadMarker.getLayoutY(), character, running);
+        // set root to the keypad after delay and enable movement
         Runnable accessKeypad =
             () -> {
               try {
@@ -177,8 +186,7 @@ public class ControlRoomController {
         GameState.delayRun(accessKeypad, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
@@ -200,14 +208,15 @@ public class ControlRoomController {
    */
   @FXML
   public void onRightClicked(MouseEvent event) throws IOException {
-    consumeMouseEvent(event);
-
     try {
+      // check if the character is already moving to prevent multiple clicks
       if (!moving) {
         moving = true;
+        // move character to clicked location
         double movementDelay =
             GameState.goTo(
                 rightDoorMarker.getLayoutX(), rightDoorMarker.getLayoutY(), character, running);
+        // set root to the kitchen after delay and enable movement
         Runnable leaveRoom =
             () -> {
               try {
@@ -221,8 +230,7 @@ public class ControlRoomController {
         GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
@@ -244,19 +252,19 @@ public class ControlRoomController {
    */
   @FXML
   public void onLeftClicked(MouseEvent event) {
-    consumeMouseEvent(event);
 
     try {
+      // check if the character is already moving to prevent multiple clicks
       if (!moving) {
         moving = true;
+        // move character to clicked location
         double movementDelay =
             GameState.goTo(
                 leftDoorMarker.getLayoutX(), leftDoorMarker.getLayoutY(), character, running);
+        // set root to the lab after delay and enable movement
         Runnable leaveRoom =
             () -> {
               try {
-                running.setOpacity(0);
-                character.setOpacity(1);
                 App.setRoot(AppUi.LAB);
               } catch (IOException e) {
                 e.printStackTrace();
@@ -267,8 +275,7 @@ public class ControlRoomController {
         GameState.delayRun(leaveRoom, movementDelay);
       }
     } catch (Exception e) {
-      // TODO handle exception appropriately
-      System.out.println("Error");
+      e.printStackTrace();
     }
   }
 
@@ -302,13 +309,17 @@ public class ControlRoomController {
    */
   @FXML
   public void onMoveCharacter(MouseEvent event) {
+    // check if the character is already moving to prevent multiple clicks
     if (!moving) {
       moving = true;
+      // play click animation
       GameState.onCharacterMovementClick(event, room);
+      // move character to clicked location
       double mouseX = event.getX();
       double mouseY = event.getY();
 
       double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
+      // resume movement after delay
       Runnable resumeMoving =
           () -> {
             moving = false;
@@ -344,6 +355,7 @@ public class ControlRoomController {
           try {
             App.setRoot(AppUi.ENDING);
           } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Error changing to ending scene");
           }
         });

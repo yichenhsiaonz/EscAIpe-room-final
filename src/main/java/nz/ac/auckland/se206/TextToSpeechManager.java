@@ -7,6 +7,7 @@ public class TextToSpeechManager {
   private static TextToSpeech textToSpeech = new TextToSpeech();
 
   public static void speak(String... sentences) {
+    // Run in a separate thread to avoid blocking the UI thread
     Task<Void> task =
         new Task<Void>() {
           @Override

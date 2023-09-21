@@ -124,12 +124,13 @@ public class ComputerController {
 
           if (lastMsg.getRole().equals("assistant") && lastMsg.getContent().startsWith("Correct")) {
             System.out.println("Riddle solved");
+            // flag that riddle has been solved and hints are no longer needed
+            GameState.computerPuzzleHints = false;
 
             // Load prompt to congratulate user on solving riddle
             try {
               GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()));
             } catch (ApiProxyException e) {
-              // TODO Auto-generated catch block
               e.printStackTrace();
             }
           }
@@ -149,13 +150,18 @@ public class ComputerController {
    */
   @FXML
   private void onMessageSent(ActionEvent event) throws ApiProxyException, IOException {
+    // get message from text field
     String message = inputText.getText();
     if (message.trim().isEmpty()) {
+      // end method if message is empty
       return;
     }
+    // clear text field
     inputText.clear();
+    // create chat message and append it to the text area
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
+    // send message to gpt
     runGpt(msg);
   }
 }
