@@ -49,12 +49,10 @@
     -fx-line-spacing: 5px;
 }
 
-#levelLabels {
+#errorLabel {
     -fx-font-family: 'Press Start 2P';
-    -fx-font-size: 16px;
     -fx-text-fill: white;
-    -fx-alignment: center;
-    -fx-line-spacing: 5px;
+    -fx-font-size: 10px;
 }
 
 #optionsGrid {
