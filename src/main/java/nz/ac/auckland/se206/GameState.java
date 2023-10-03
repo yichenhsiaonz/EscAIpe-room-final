@@ -136,6 +136,10 @@ public class GameState {
     return String.valueOf(instance.secondDigits);
   }
 
+  public static Boolean getMuted() {
+    return instance.muted;
+  }
+
   // get gpt response
   public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
     // get loading image in each room
@@ -171,6 +175,7 @@ public class GameState {
                   () -> {
                     // append message to chat box
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                    SharedElements.chatBubbleSpeak(result.getChatMessage().getContent());
                     // enable gpt related buttons
                     if (instance.hints != 0) {
                       SharedElements.enableHintsButton();
@@ -595,6 +600,7 @@ public class GameState {
                           SharedElements.enableSendButton();
                           // append hint to chat box
                           SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                          SharedElements.chatBubbleSpeak(result.getChatMessage().getContent());
                         });
                     return null;
                   } catch (Exception e) {
@@ -614,7 +620,24 @@ public class GameState {
           Thread gptThread = new Thread(gptTask);
           gptThread.start();
         } else {
-          System.out.println("No more hints");
+          if(toasterPuzzleHints){
+            hint =
+                "The user used the hint button. There is a modified toaster in the kitchen. Tell them this in"
+                    + " one sentence.";
+          } else if (paperPuzzleHints){
+            hint =
+                "The user used the hint button. Something appeared queued on the printer in the lab. Tell them this in"
+                    + " one sentence.";
+          } else if (computerPuzzleHints){
+            hint =
+                "The user used the hint button. There is a scientist's computer in the control room. Tell them this in"
+                    + " one sentence.";
+          
+          } else {
+            hint =
+            "The user used the hint button, but the user already has the password they need to leave. Tell them this in"
+                + " one sentence.";
+          }
           runGpt(new ChatMessage("user", hint));
         }
 
@@ -717,6 +740,7 @@ public class GameState {
     timeline.play();
   }
 
+  public boolean muted = false;
   private String riddleAnswer;
   private String riddle;
   private int hints;

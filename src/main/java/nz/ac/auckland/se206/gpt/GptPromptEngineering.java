@@ -51,7 +51,7 @@ public class GptPromptEngineering {
   /** Generates a GPT prompt engineering string for solving riddle. */
   public static String solveRiddle() {
     return "The user has solved a"
-        + " riddle on the computer and found the last digits of the passcode to escape."
+        + " riddle on the computer and found two digits of the passcode to escape."
         + " Commend the user in one sentence";
   }
 

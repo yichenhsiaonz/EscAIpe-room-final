@@ -8,10 +8,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import nz.ac.auckland.se206.GameState;
+import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 public class SharedElements {
@@ -21,6 +28,7 @@ public class SharedElements {
   private static VBox[] inventoryVBoxList = new VBox[3];
   private static VBox[] dialogueBoxList = new VBox[3];
   private static Button[] hintButtonList = new Button[3];
+  private static HBox[] chatBubbleList = new HBox[3];
 
   public static void newGame() throws ApiProxyException {
     // clear all previous instances
@@ -28,6 +36,7 @@ public class SharedElements {
     inventoryVBoxList = new VBox[3];
     dialogueBoxList = new VBox[3];
     hintButtonList = new Button[3];
+    chatBubbleList = new HBox[3];
     // create new instances
     instance = new SharedElements();
   }
@@ -52,6 +61,10 @@ public class SharedElements {
 
   public static Button getHintButton() {
     return hintButtonList[instance.loadedScenes];
+  }
+
+  public static HBox getChatBubble() {
+    return chatBubbleList[instance.loadedScenes];
   }
 
   public static void incremnetLoadedScenes() {
@@ -82,6 +95,20 @@ public class SharedElements {
     // append message to master chat box with a newline below
     instance.chatBox.appendText(message + "\n\n");
     instance.chatBox.setScrollTop(Double.MAX_VALUE);
+  }
+
+  public static void chatBubbleSpeak(String message) {
+    for(int i = 0; i < 3; i++) {
+      chatBubbleList[i].setVisible(true);
+    }
+    instance.chatLabel.setText(message);
+    if (GameState.getMuted() == false) {
+      TextToSpeechManager.cutOff();
+      TextToSpeechManager.speak(message);
+    }
+    for (int i = 0; i < 3; i++) {
+      chatBubbleList[i].setVisible(true);
+    }
   }
 
   public static void setHintsText(int hints) {
@@ -135,6 +162,7 @@ public class SharedElements {
   @FXML private TextArea chatBox;
   @FXML private Button sendMessage;
   @FXML private Button hintButton;
+  @FXML private Label chatLabel;
 
   private int loadedScenes;
   private boolean isPaperPrinted = false;
@@ -179,6 +207,9 @@ public class SharedElements {
             System.out.println("setting up error");
           }
         });
+
+    // create master chat label
+    chatLabel = new Label();
 
     loadedScenes = 0;
     for (int i = 0; i < 3; i++) {
@@ -269,6 +300,47 @@ public class SharedElements {
       // add new instance to list
       hintButtonList[i] = hintButtonChild;
       dialogueBoxList[i] = dialogueBoxChild;
+
+      // create new child chat label
+      Label chatLabelChild = new Label();
+      chatLabelChild.setFont(new javafx.scene.text.Font("Courier New", 20));
+      chatLabelChild.setWrapText(true);
+      chatBoxChild.setPrefWidth(1200);
+      chatBoxChild.setMaxWidth(1200);
+      chatBoxChild.setMaxHeight(200);
+      chatLabelChild.setAlignment(Pos.CENTER);
+      chatLabelChild.textProperty().bind(chatLabel.textProperty());
+
+      StackPane chatLabelPaneChild = new StackPane();
+      chatLabelPaneChild.setPrefHeight(216);
+      chatLabelPaneChild.setAlignment(Pos.CENTER);
+      Image backgroundImage = new Image("images/ChatBubble/bubble-mid.png", 216, 216, false, true);
+      chatLabelPaneChild.setBackground(
+          new Background(
+              new BackgroundImage(
+                  backgroundImage,
+                  null,
+                  BackgroundRepeat.NO_REPEAT,
+                  BackgroundPosition.CENTER,
+                  null)));
+      chatLabelPaneChild.setMaxWidth(1200);
+
+      chatLabelPaneChild.getChildren().add(chatLabelChild);
+
+      ImageView leftChatImage = new ImageView("images/ChatBubble/bubble-left.png");
+      leftChatImage.setPreserveRatio(true);
+      leftChatImage.setFitHeight(216);
+      ImageView rightChatImage = new ImageView("images/ChatBubble/bubble-right.png");
+      rightChatImage.setPreserveRatio(true);
+      rightChatImage.setFitHeight(216);
+
+      HBox chatBoxHorizontalBoxChild = new HBox();
+      chatBoxHorizontalBoxChild.setAlignment(Pos.CENTER_LEFT);
+      chatBoxHorizontalBoxChild
+          .getChildren()
+          .addAll(leftChatImage, chatLabelPaneChild, rightChatImage);
+      chatBoxHorizontalBoxChild.setVisible(false);
+      chatBubbleList[i] = chatBoxHorizontalBoxChild;
     }
   }
 }

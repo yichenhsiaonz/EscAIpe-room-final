@@ -53,10 +53,12 @@ public class KitchenController {
     HBox bottom = SharedElements.getTaskBarBox();
     VBox dialogue = SharedElements.getDialogueBox();
     VBox inventory = SharedElements.getInventoryBox();
+    HBox chatBubble = SharedElements.getChatBubble();
 
     // add shared elements to the correct places
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
+    dialogueHorizontalBox.getChildren().add(chatBubble);
     hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
     // scale the room to the screen size

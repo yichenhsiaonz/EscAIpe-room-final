@@ -54,10 +54,12 @@ public class ControlRoomController {
     HBox bottom = SharedElements.getTaskBarBox();
     VBox dialogue = SharedElements.getDialogueBox();
     VBox inventory = SharedElements.getInventoryBox();
+    HBox chatBubble = SharedElements.getChatBubble();
 
     // add shared elements to the correct places
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
+    dialogueHorizontalBox.getChildren().add(chatBubble);
     hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
@@ -229,17 +231,17 @@ public class ControlRoomController {
         // set root to the kitchen after delay and enable movement
         Runnable leaveRoom =
             () -> {
-                GameState.fadeOut(room);
-                Runnable loadKitchen =
-                    () -> {
-                      try {
-                        App.setRoot(AppUi.KITCHEN);
-                        KitchenController.instance.fadeIn();
-                      } catch (IOException e) {
-                        e.printStackTrace();
-                      }
-                    };
-                GameState.delayRun(loadKitchen, 1);
+              GameState.fadeOut(room);
+              Runnable loadKitchen =
+                  () -> {
+                    try {
+                      App.setRoot(AppUi.KITCHEN);
+                      KitchenController.instance.fadeIn();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                  };
+              GameState.delayRun(loadKitchen, 1);
               moving = false;
             };
 
@@ -280,17 +282,17 @@ public class ControlRoomController {
         // set root to the lab after delay and enable movement
         Runnable leaveRoom =
             () -> {
-                GameState.fadeOut(room);
-                Runnable loadLab =
-                    () -> {
-                      try {
-                        App.setRoot(AppUi.LAB);
-                        LabController.instance.fadeIn();
-                      } catch (IOException e) {
-                        e.printStackTrace();
-                      }
-                    };
-                GameState.delayRun(loadLab, 1);
+              GameState.fadeOut(room);
+              Runnable loadLab =
+                  () -> {
+                    try {
+                      App.setRoot(AppUi.LAB);
+                      LabController.instance.fadeIn();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                  };
+              GameState.delayRun(loadLab, 1);
               moving = false;
             };
 
@@ -405,7 +407,7 @@ public class ControlRoomController {
     System.exit(0);
   }
 
-  public void fadeIn(){
+  public void fadeIn() {
     GameState.fadeIn(room);
   }
 }
