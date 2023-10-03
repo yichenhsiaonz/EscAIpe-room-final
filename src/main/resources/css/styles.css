@@ -35,6 +35,10 @@
     -fx-border-width: 5px;
 }
 
+#timeButton {
+    -fx-font-size: 20px;
+}
+
 #menuLabel {
     -fx-font-family: 'Press Start 2P';
     -fx-font-size: 18px;
