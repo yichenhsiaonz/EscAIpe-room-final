@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.SceneManager.AppUi;
@@ -111,6 +112,14 @@ public class App extends Application {
 
     // set the scene to the menu scene
     scene = new Scene(SceneManager.getUiRoot(AppUi.MENU));
+
+    // add css file
+    String cssFile = getClass().getResource("/css/styles.css").toExternalForm();
+    scene.getStylesheets().add(cssFile);
+
+    // load font
+    Font.loadFont(getClass().getResource("/fonts/PressStart2P-Regular.ttf").toExternalForm(), 12);
+
     // set the background color to black
     scene.setFill(Color.BLACK);
     // place the scene on the stage

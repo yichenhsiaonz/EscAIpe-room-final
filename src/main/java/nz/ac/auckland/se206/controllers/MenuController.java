@@ -27,8 +27,8 @@ public class MenuController {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
     creditsVisible = false;
-    difficultyValue = 5;
-    timeValue = 240;
+    difficultyValue = -5;
+    timeValue = 0;
     System.out.println(difficultyValue);
     System.out.println(timeValue);
   }
@@ -77,6 +77,11 @@ public class MenuController {
 
   @FXML
   private void onStartGame(ActionEvent event) throws IOException, ApiProxyException {
+
+    if (difficultyValue == -5 || timeValue == 0) {
+      return;
+    }
+    
     System.out.println("time" + timeValue);
     GameState.newGame();
     SharedElements.newGame();
