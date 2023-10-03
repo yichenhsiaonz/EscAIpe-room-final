@@ -42,7 +42,7 @@
                                     <Image url="@../images/Lab/pixil-frame-0.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="126.0" fitWidth="96.0" layoutX="464.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="usb" fitHeight="126.0" fitWidth="96.0" layoutX="464.0" layoutY="632.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/usb-157656_1280.png" />
                                  </image>
@@ -52,6 +52,12 @@
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="618.0" layoutX="-66.0" layoutY="-56.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1948.0" />
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="322.0" layoutX="-55.0" layoutY="712.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1936.0" />
                               <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="137.0" layoutX="148.0" layoutY="562.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="206.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="79.0" layoutX="464.0" layoutY="622.0" onMouseEntered="#onUSBhovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="98.0" />
+                              <ImageView fx:id="usbGlow" fitHeight="126.0" fitWidth="96.0" layoutX="464.0" layoutY="632.0" onMouseClicked="#onUSBclicked" onMouseExited="#onUSBunhovered" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../images/usb-highlight.png" />
+                                 </image>
+                              </ImageView>
                               <ImageView fx:id="printerGlow" fitHeight="250.0" fitWidth="250.0" layoutX="140.0" layoutY="521.0" onMouseClicked="#onPrinterClicked" onMouseExited="#onPrinterUnhovered" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../images/Lab/pixil-frameglow.png" />

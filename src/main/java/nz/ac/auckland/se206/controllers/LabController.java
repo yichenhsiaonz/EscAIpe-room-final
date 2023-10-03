@@ -32,6 +32,8 @@ public class LabController {
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
   @FXML private ImageView doorGlow;
+  @FXML private ImageView usbGlow;
+  @FXML private ImageView usb;
 
   private boolean moving = false;
   private double startX = 1300;
@@ -191,5 +193,22 @@ public class LabController {
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);
+  }
+
+  @FXML
+  public void onUSBhovered(MouseEvent event) {
+    usbGlow.setVisible(true);
+  }
+
+  @FXML
+  public void onUSBunhovered(MouseEvent event) {
+    usbGlow.setVisible(false);
+  }
+
+  @FXML
+  public void onUSBclicked(MouseEvent event) {
+    usbGlow.setOpacity(0);
+    usb.setOpacity(0);
+    GameState.foundUSB();
   }
 }

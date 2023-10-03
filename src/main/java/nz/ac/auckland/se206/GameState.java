@@ -53,6 +53,7 @@ public class GameState {
   public static boolean paperPuzzleHints = true;
   public static boolean computerPuzzleHints = true;
   public static boolean isExitUnlocked = false;
+  public static boolean isUsbEnding = false;
   public static String code;
   public static String endingCongrats = "";
   public static String endingReveal = "";
@@ -67,6 +68,10 @@ public class GameState {
     computerPuzzleHints = true;
     // create new instance
     instance = new GameState();
+  }
+
+  public static void foundUSB() {
+    isUsbEnding = true;
   }
 
   private static void inventoryMapAdd(Items item, ImageView[] itemImageView) {
