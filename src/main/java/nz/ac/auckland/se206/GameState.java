@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
@@ -65,6 +66,7 @@ public class GameState {
     toasterPuzzleHints = true;
     paperPuzzleHints = true;
     computerPuzzleHints = true;
+    isExitUnlocked = false;
     // create new instance
     instance = new GameState();
   }
@@ -699,6 +701,20 @@ public class GameState {
         });
 
     parallelTransition.play();
+  }
+
+  public static void fadeOut(Pane room) {
+    Timeline timeline = new Timeline();
+    KeyFrame key = new KeyFrame(Duration.millis(1000), new KeyValue(room.opacityProperty(), 0));
+    timeline.getKeyFrames().add(key);
+    timeline.play();
+  }
+
+  public static void fadeIn(Pane room) {
+    Timeline timeline = new Timeline();
+    KeyFrame key = new KeyFrame(Duration.millis(1000), new KeyValue(room.opacityProperty(), 1));
+    timeline.getKeyFrames().add(key);
+    timeline.play();
   }
 
   private String riddleAnswer;

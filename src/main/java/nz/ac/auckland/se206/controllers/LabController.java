@@ -18,6 +18,7 @@ import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 public class LabController {
+  public static LabController instance;
   @FXML private AnchorPane contentPane;
   @FXML private Rectangle printer;
   @FXML private ImageView rightArrow;
@@ -28,23 +29,34 @@ public class LabController {
   @FXML private Pane room;
   @FXML private HBox dialogueHorizontalBox;
   @FXML private VBox bottomVerticalBox;
+  @FXML private Pane inventoryPane;
+  @FXML private VBox hintVerticalBox;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
   @FXML private ImageView doorGlow;
 
   private boolean moving = false;
-  private double startX = 1300;
-  private double startY = 630;
+  private double startX = 1512;
+  private double startY = 814;
 
   public void initialize() {
-    // Initialization code goes here
-    dialogueHorizontalBox.getChildren().add(SharedElements.getDialogueBox());
-    bottomVerticalBox.getChildren().add(SharedElements.getTaskBarBox());
+    // get shared elements from the SharedElements class
+    HBox bottom = SharedElements.getTaskBarBox();
+    VBox dialogue = SharedElements.getDialogueBox();
+    VBox inventory = SharedElements.getInventoryBox();
+
+    // add shared elements to the correct places
+
+    bottomVerticalBox.getChildren().add(bottom);
+    inventoryPane.getChildren().add(inventory);
+    hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
     GameState.goToInstant(startX, startY, character, running);
+    room.setOpacity(0);
+    instance = this;
   }
 
   /**
@@ -90,7 +102,7 @@ public class LabController {
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(360, 680, character, running);
+        double movementDelay = GameState.goTo(619, 834, character, running);
         // flag that the current puzzle is the paper puzzle
         GameState.setPuzzlePaper();
         Runnable goToPrinter =
@@ -152,11 +164,17 @@ public class LabController {
         // set root to control room and allow character to move again after movement delay
         Runnable leaveRoom =
             () -> {
-              try {
-                App.setRoot(AppUi.CONTROL_ROOM);
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+              GameState.fadeOut(room);
+              Runnable loadControlRoom =
+                  () -> {
+                    try {
+                      App.setRoot(AppUi.CONTROL_ROOM);
+                      ControlRoomController.instance.fadeIn();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                  };
+              GameState.delayRun(loadControlRoom, 1);
               moving = false;
             };
 
@@ -191,5 +209,9 @@ public class LabController {
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);
+  }
+
+  public void fadeIn() {
+    GameState.fadeIn(room);
   }
 }

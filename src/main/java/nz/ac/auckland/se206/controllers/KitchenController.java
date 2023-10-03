@@ -22,6 +22,7 @@ import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 /** Controller class for the room view. */
 public class KitchenController {
 
+  public static KitchenController instance;
   @FXML private AnchorPane contentPane;
   @FXML private ImageView floor;
   @FXML private ImageView character;
@@ -34,6 +35,8 @@ public class KitchenController {
   @FXML private ImageView fridgeOpen;
   @FXML private HBox dialogueHorizontalBox;
   @FXML private VBox bottomVerticalBox;
+  @FXML private VBox hintVerticalBox;
+  @FXML private Pane inventoryPane;
   @FXML private Circle doorMarker;
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
@@ -49,13 +52,13 @@ public class KitchenController {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
     VBox dialogue = SharedElements.getDialogueBox();
-    SharedElements.incremnetLoadedScenes();
-    // add shared elements to the correct places
-    dialogueHorizontalBox.getChildren().addAll(dialogue);
-    bottomVerticalBox.getChildren().addAll(bottom);
-    bottom.toFront();
-    dialogue.toFront();
+    VBox inventory = SharedElements.getInventoryBox();
 
+    // add shared elements to the correct places
+    bottomVerticalBox.getChildren().add(bottom);
+    inventoryPane.getChildren().add(inventory);
+    hintVerticalBox.getChildren().add(SharedElements.getHintButton());
+    SharedElements.incremnetLoadedScenes();
     // scale the room to the screen size
     GameState.scaleToScreen(contentPane);
 
@@ -65,6 +68,8 @@ public class KitchenController {
 
     // move character to door marker position
     GameState.goToInstant(doorMarkerX, doorMarkerY, character, running);
+    room.setOpacity(0);
+    instance = this;
   }
 
   /**
@@ -144,11 +149,17 @@ public class KitchenController {
       // load the control room scene after movement animation is finished
       Runnable leaveRoom =
           () -> {
-            try {
-              App.setRoot(AppUi.CONTROL_ROOM);
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+              GameState.fadeOut(room);
+              Runnable loadControlRoom =
+                  () -> {
+                    try {
+                      App.setRoot(AppUi.CONTROL_ROOM);
+                      ControlRoomController.instance.fadeIn();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                  };
+              GameState.delayRun(loadControlRoom, 1);
             moving = false;
           };
       GameState.delayRun(leaveRoom, movementDelay);
@@ -362,5 +373,9 @@ public class KitchenController {
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);
+  }
+
+  public void fadeIn() {
+    GameState.fadeIn(room);
   }
 }

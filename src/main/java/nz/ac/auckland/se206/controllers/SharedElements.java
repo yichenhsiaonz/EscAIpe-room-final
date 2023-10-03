@@ -2,6 +2,7 @@ package nz.ac.auckland.se206.controllers;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -17,14 +18,16 @@ public class SharedElements {
 
   private static SharedElements instance;
   private static HBox[] taskBarHBoxList = new HBox[3];
-  private static HBox[] inventoryHBoxList = new HBox[3];
+  private static VBox[] inventoryVBoxList = new VBox[3];
   private static VBox[] dialogueBoxList = new VBox[3];
+  private static Button[] hintButtonList = new Button[3];
 
   public static void newGame() throws ApiProxyException {
     // clear all previous instances
     taskBarHBoxList = new HBox[3];
-    inventoryHBoxList = new HBox[3];
+    inventoryVBoxList = new VBox[3];
     dialogueBoxList = new VBox[3];
+    hintButtonList = new Button[3];
     // create new instances
     instance = new SharedElements();
   }
@@ -41,6 +44,16 @@ public class SharedElements {
     return taskBarHBoxList[instance.loadedScenes];
   }
 
+  public static VBox getInventoryBox() {
+    System.out.println("getInventoryBox");
+    // allocate an inventory instance to each scene
+    return inventoryVBoxList[instance.loadedScenes];
+  }
+
+  public static Button getHintButton() {
+    return hintButtonList[instance.loadedScenes];
+  }
+
   public static void incremnetLoadedScenes() {
     instance.loadedScenes++;
   }
@@ -52,16 +65,16 @@ public class SharedElements {
   public static void addInventoryItem(ImageView[] item) {
     // add item to each inventory instance
     for (int i = 0; i < 3; i++) {
-      inventoryHBoxList[i].getChildren().add(item[i]);
-      item[i].setFitWidth(inventoryHBoxList[i].getHeight());
-      item[i].setFitHeight(inventoryHBoxList[i].getHeight());
+      inventoryVBoxList[i].getChildren().add(item[i]);
+      item[i].setFitWidth(100);
+      item[i].setFitHeight(100);
     }
   }
 
   public static void removeInventoryItem(ImageView[] item) {
     // remove item from each inventory instance
     for (int i = 0; i < 3; i++) {
-      inventoryHBoxList[i].getChildren().remove(item[i]);
+      inventoryVBoxList[i].getChildren().remove(item[i]);
     }
   }
 
@@ -181,7 +194,12 @@ public class SharedElements {
 
       // use HBox to place elements side by side
       // use VBox to place elements on top of each other
-      HBox inventoryHorizontalBoxChild = new HBox();
+      VBox inventoryVerticalBoxChild = new VBox();
+      inventoryVerticalBoxChild.setPrefWidth(180);
+      inventoryVerticalBoxChild.setPrefHeight(400);
+      inventoryVerticalBoxChild.setSpacing(30);
+      inventoryVerticalBoxChild.setAlignment(Pos.TOP_CENTER);
+      inventoryVerticalBoxChild.setLayoutY(5);
       HBox taskBarHorizontalBoxChild = new HBox();
       HBox timerHorizontalBoxChild = new HBox();
       VBox timerVerticalBoxChild = new VBox();
@@ -191,13 +209,11 @@ public class SharedElements {
       // place header above progress bar and label
       timerVerticalBoxChild.getChildren().addAll(powerLabelChild, timerHorizontalBoxChild);
       // place timer and inventory side by side
-      taskBarHorizontalBoxChild
-          .getChildren()
-          .addAll(timerVerticalBoxChild, inventoryHorizontalBoxChild);
+      taskBarHorizontalBoxChild.getChildren().addAll(timerVerticalBoxChild);
 
       // add new instance to list
       taskBarHBoxList[i] = taskBarHorizontalBoxChild;
-      inventoryHBoxList[i] = inventoryHorizontalBoxChild;
+      inventoryVBoxList[i] = inventoryVerticalBoxChild;
 
       // bind child timer label and progress bar to master timer label and progress bar
       timerLabelChild.textProperty().bind(timerLabel.textProperty());
@@ -248,9 +264,10 @@ public class SharedElements {
       // place chat box and send button side by side
       sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild);
       // place chat box and send button below chat box
-      dialogueBoxChild.getChildren().addAll(chatBoxChild, hintButtonChild, sendBoxChild);
+      dialogueBoxChild.getChildren().addAll(chatBoxChild, sendBoxChild);
 
       // add new instance to list
+      hintButtonList[i] = hintButtonChild;
       dialogueBoxList[i] = dialogueBoxChild;
     }
   }
