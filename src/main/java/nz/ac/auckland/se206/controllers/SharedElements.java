@@ -309,6 +309,9 @@ public class SharedElements {
       hintButtonChild.onActionProperty().bind(hintButton.onActionProperty());
       hintButtonChild.disableProperty().bind(hintButton.disableProperty());
 
+      // add css to hint button
+      hintButtonChild.getStyleClass().add("chat-button");
+
       // add new instance to list
       hintButtonList[i] = hintButtonChild;
 
@@ -361,11 +364,16 @@ public class SharedElements {
       showChatButtonChild.setText("Chat History");
       showChatButtonChild.onActionProperty().bind(showChatBox.onActionProperty());
 
+      // add css to show chat button
+      showChatButtonChild.getStyleClass().add("chat-button");
+
       Button showHintButtonChild = new Button();
       showHintButtonChild.setPrefWidth(165);
       showHintButtonChild.setPrefHeight(25);
       showHintButtonChild.setText("Hints Given");
       showHintButtonChild.onActionProperty().bind(showHintBox.onActionProperty());
+
+      showHintButtonChild.getStyleClass().add("chat-button");
 
       // Power left label
       Label powerLabelChild = new Label();
@@ -428,28 +436,6 @@ public class SharedElements {
       sendBoxAnchorPane.setPrefHeight(133);
       AnchorPane.setTopAnchor(sendBoxChild, 54.0);
 
-      // create return to menu button
-      Button menuButtonChild = new Button();
-      menuButtonChild.setText("Return to Menu");
-      menuButtonChild.setPrefWidth(165);
-      menuButtonChild.setPrefHeight(25);
-      menuButtonChild.setOnAction(
-          event -> {
-            try {
-              GameState.stopAllThreads();
-              App.setRoot(AppUi.MENU);
-            } catch (Exception e) {
-              e.printStackTrace();
-              System.out.println("return to menu error");
-            }
-          });
-
-      // return to menu anchor box
-      // use this to position the button
-      AnchorPane menuAnchorPane = new AnchorPane(menuButtonChild);
-      menuAnchorPane.setPrefHeight(133);
-      AnchorPane.setTopAnchor(menuButtonChild, 54.0);
-
       // create mute button
       Button muteButtonChild = new Button();
       muteButtonChild.setText("Mute");
@@ -474,7 +460,7 @@ public class SharedElements {
           new Background(new BackgroundFill(Color.web("006b5b"), null, null)));
       taskBarHorizontalBoxChild
           .getChildren()
-          .addAll(timerAnchorPane, sendBoxAnchorPane, menuAnchorPane, muteAnchorPane);
+          .addAll(timerAnchorPane, sendBoxAnchorPane, muteAnchorPane);
 
       // add new instance to list
       taskBarHorizontalBoxList[i] = taskBarHorizontalBoxChild;

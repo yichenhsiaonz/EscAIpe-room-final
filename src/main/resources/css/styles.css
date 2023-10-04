@@ -73,3 +73,23 @@
 #contentPane Text {
     -fx-fill: white;
 }
+
+/* ------ UI design ------ */
+.chat-button {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 10px;
+    -fx-padding: 10px 10px 5px 10px;
+    -fx-margin: 0 0 0 10px
+}
+
+.chat-button:hover {
+    -fx-background-color: white;
+    -fx-border-color: #006b73;
+    -fx-text-fill: #28969c;
+}

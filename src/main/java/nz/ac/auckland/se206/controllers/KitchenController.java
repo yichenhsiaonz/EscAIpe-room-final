@@ -380,8 +380,9 @@ public class KitchenController {
   }
 
   @FXML
-  private void onQuitGame(ActionEvent event) {
-    System.exit(0);
+  private void onBackToMenu(ActionEvent event) throws IOException {
+    GameState.stopAllThreads();
+    App.setRoot(AppUi.MENU);
   }
 
   public void fadeIn() {

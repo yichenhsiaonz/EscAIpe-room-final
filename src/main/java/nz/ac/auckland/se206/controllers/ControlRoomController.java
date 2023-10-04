@@ -406,12 +406,8 @@ public class ControlRoomController {
 
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
+    GameState.stopAllThreads();
     App.setRoot(AppUi.MENU);
-  }
-
-  @FXML
-  private void onQuitGame(ActionEvent event) {
-    System.exit(0);
   }
 
   public void fadeIn() {

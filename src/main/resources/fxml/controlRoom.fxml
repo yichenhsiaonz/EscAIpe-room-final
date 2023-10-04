@@ -150,7 +150,7 @@
                   </AnchorPane>
                      </children>
             </VBox>
-            <Button layoutX="1843.0" layoutY="9.0" mnemonicParsing="false" onAction="#onQuitGame" text="Exit Game" />
+            <Button layoutX="1800.0" layoutY="9.0" mnemonicParsing="false" onAction="#onBackToMenu" text="BACK TO MENU" />
          </children>
          <BorderPane.margin>
             <Insets />
