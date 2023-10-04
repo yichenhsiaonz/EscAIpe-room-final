@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.TextToSpeechManager;
 
 /** Controller class for the Control Room. */
 public class ControlRoomController {
@@ -408,6 +409,12 @@ public class ControlRoomController {
   private void onBackToMenu(ActionEvent event) throws IOException {
     GameState.stopAllThreads();
     App.setRoot(AppUi.MENU);
+  }
+
+  @FXML
+  private void onMute(ActionEvent event) {
+    TextToSpeechManager.cutOff();
+    GameState.toggleMuted();
   }
 
   public void fadeIn() {

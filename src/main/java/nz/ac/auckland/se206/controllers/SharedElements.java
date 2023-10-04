@@ -436,23 +436,6 @@ public class SharedElements {
       sendBoxAnchorPane.setPrefHeight(133);
       AnchorPane.setTopAnchor(sendBoxChild, 54.0);
 
-      // create mute button
-      Button muteButtonChild = new Button();
-      muteButtonChild.setText("Mute");
-      muteButtonChild.setPrefWidth(165);
-      muteButtonChild.setPrefHeight(25);
-      muteButtonChild.setOnAction(
-          event -> {
-            TextToSpeechManager.cutOff();
-            GameState.toggleMuted();
-          });
-
-      // mute button anchor box
-      // use this to position the button
-      AnchorPane muteAnchorPane = new AnchorPane(muteButtonChild);
-      muteAnchorPane.setPrefHeight(133);
-      AnchorPane.setTopAnchor(muteButtonChild, 54.0);
-
       // Place timer / history buttons next to the send message box
       HBox taskBarHorizontalBoxChild = new HBox();
       taskBarHorizontalBoxChild.setPrefSize(1920, 133);
@@ -460,7 +443,7 @@ public class SharedElements {
           new Background(new BackgroundFill(Color.web("006b5b"), null, null)));
       taskBarHorizontalBoxChild
           .getChildren()
-          .addAll(timerAnchorPane, sendBoxAnchorPane, muteAnchorPane);
+          .addAll(timerAnchorPane, sendBoxAnchorPane);
 
       // add new instance to list
       taskBarHorizontalBoxList[i] = taskBarHorizontalBoxChild;
