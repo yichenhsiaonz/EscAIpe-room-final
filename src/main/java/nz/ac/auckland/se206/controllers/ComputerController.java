@@ -66,7 +66,7 @@ public class ComputerController {
           printingMessage.setOpacity(0);
           finishedPrinting.setOpacity(1);
         };
-      
+
     GameState.delayRun(printing, 2);
   }
 
@@ -136,7 +136,7 @@ public class ComputerController {
 
             // Load prompt to congratulate user on solving riddle
             try {
-              GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()));
+              GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()), false);
             } catch (ApiProxyException e) {
               e.printStackTrace();
             }
