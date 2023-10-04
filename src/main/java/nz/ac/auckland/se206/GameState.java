@@ -57,6 +57,7 @@ public class GameState {
   public static String code;
   public static String endingCongrats = "";
   public static String endingReveal = "";
+  public static String usbEndingReveal = "";
   private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
 
   public static void newGame() {
