@@ -1,12 +1,16 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager;
@@ -18,6 +22,7 @@ import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 public class MenuController {
 
   @FXML private Label creditsLabel;
+  @FXML private Label errorLabel;
   @FXML private AnchorPane contentPane;
   private boolean creditsVisible;
   private int difficultyValue;
@@ -27,8 +32,8 @@ public class MenuController {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
     creditsVisible = false;
-    difficultyValue = 5;
-    timeValue = 240;
+    difficultyValue = -5;
+    timeValue = 0;
     System.out.println(difficultyValue);
     System.out.println(timeValue);
   }
@@ -77,6 +82,20 @@ public class MenuController {
 
   @FXML
   private void onStartGame(ActionEvent event) throws IOException, ApiProxyException {
+
+    // show error message if level or time not selected
+    if (difficultyValue == -5 || timeValue == 0) {
+      errorLabel.setVisible(true);
+
+      // hide error message
+      Duration duration = Duration.seconds(3);
+      KeyFrame keyFrame = new KeyFrame(duration, e -> errorLabel.setVisible(false));
+      Timeline timeline = new Timeline(keyFrame);
+      timeline.play();
+
+      return;
+    }
+
     System.out.println("time" + timeValue);
     GameState.newGame();
     SharedElements.newGame();

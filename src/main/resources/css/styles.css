@@ -1,0 +1,75 @@
+#menuButton {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 18px;
+    -fx-padding: 10px 10px 5px 10px;
+}
+
+#menuButton:hover {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-text-fill: #28969c;
+}
+
+.toggle-button {
+    -fx-font-family: 'Press Start 2P';
+    -fx-background-color: #28969c;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-line-spacing: 15px;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #63babf;
+}
+
+.toggle-button:selected {
+    -fx-background-color: white;
+    -fx-text-fill: #28969c;
+    -fx-border-color: #28969c;
+    -fx-border-width: 5px;
+}
+
+#timeButton {
+    -fx-font-size: 20px;
+}
+
+#menuLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#creditsLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-text-fill: white;
+    -fx-line-spacing: 5px;
+}
+
+#errorLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+}
+
+#optionsGrid {
+    -fx-background-color: rgb(37, 69, 80);
+    -fx-alignment: center;
+    -fx-padding: 20px;
+    -fx-background-radius: 15px;
+}
+
+#contentPane {
+    -fx-background-color: rgb(1, 10, 26);
+}
+
+#contentPane Text {
+    -fx-fill: white;
+}
