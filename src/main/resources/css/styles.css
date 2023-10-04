@@ -67,14 +67,28 @@
 }
 
 #contentPane {
-    -fx-background-color: rgb(1, 10, 26);
-}
-
-#contentPane Text {
-    -fx-fill: white;
+    -fx-background-color: rgb(0, 9, 25);
 }
 
 /* ------ UI design ------ */
+#muteButton {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 18px;
+    -fx-padding: 10px 10px 5px 10px;
+}
+
+#muteButton:hover {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-text-fill: #28969c;
+}
+
 .chat-button {
     -fx-background-color: #28969c;
     -fx-border-color: #006b73;
@@ -83,7 +97,7 @@
     -fx-border-radius: 20px;
     -fx-border-width: 3px;
     -fx-font-family: 'Press Start 2P';
-    -fx-font-size: 10px;
+    -fx-font-size: 15px;
     -fx-padding: 10px 10px 5px 10px;
     -fx-margin: 0 0 0 10px
 }
@@ -92,4 +106,111 @@
     -fx-background-color: white;
     -fx-border-color: #006b73;
     -fx-text-fill: #28969c;
+}
+
+/* to do... */
+.task-bar {
+    -fx-spacing: 200px;
+    -fx-padding: 10px;
+
+}
+
+/* to do... */
+.send-box {
+    -fx-alignment: top-center;
+    -fx-padding: 0 0 0 100;
+    -fx-spacing: 20px;
+
+}
+
+.progress-bar {
+    -fx-accent: #2cf3e5; /* Progress color */
+}
+
+.progress-bar .track {
+    -fx-background-radius: 50px;
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 50px;
+}
+
+.power-label {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-padding: 20px 0 10px 0;
+}
+
+.timer-label {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+
+.message-box {
+    -fx-border-color: #006b73;
+    -fx-border-width: 3px;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+}
+
+.send-button {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-padding: 10px 10px 5px 10px;
+    -fx-margin: 0 0 0 10px;
+    -fx-pref-width: 150px;
+}
+
+.send-button:hover {
+    -fx-background-color: white;
+    -fx-border-color: #006b73;
+    -fx-text-fill: #28969c;
+}
+
+.button-box {
+    -fx-spacing: 10px;
+}
+
+.text-box {
+    -fx-font-family: 'Press Start 2P';
+    -fx-text-fill: black;
+    -fx-border-width: 3px;
+    -fx-border-color: #28969c #28969c transparent #28969c;
+    -fx-background-color: rgba(255, 255, 255, 0.848);
+}
+
+.text-box .prompt-text {
+    -fx-fill: #585858; /* Set the color of the prompt text */
+}
+
+.text-box .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-box .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-box .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+#inventoryLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
 }
