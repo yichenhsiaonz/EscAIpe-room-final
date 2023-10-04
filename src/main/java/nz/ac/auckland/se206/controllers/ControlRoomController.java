@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -32,7 +33,7 @@ public class ControlRoomController {
   @FXML private ImageView keypadGlow;
   @FXML private ImageView character;
   @FXML private ImageView running;
-  @FXML private Pane room;
+  @FXML private AnchorPane room;
   @FXML private HBox dialogueHorizontalBox;
   @FXML private Pane inventoryPane;
   @FXML private VBox hintVerticalBox;
@@ -52,11 +53,17 @@ public class ControlRoomController {
   public void initialize() {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
-    VBox dialogue = SharedElements.getDialogueBox();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
     VBox inventory = SharedElements.getInventoryBox();
     HBox chatBubble = SharedElements.getChatBubble();
 
     // add shared elements to the correct places
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);

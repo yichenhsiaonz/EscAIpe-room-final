@@ -20,7 +20,7 @@
          <children>
             <VBox fx:id="bottomVerticalBox" alignment="TOP_CENTER">
                <children>
-                  <Pane fx:id="room">
+                  <AnchorPane fx:id="room">
                      <children>
                         <ImageView preserveRatio="true">
                            <image>
@@ -156,7 +156,7 @@
                            </children>
                         </VBox>
                      </children>
-                  </Pane>
+                  </AnchorPane>
                </children>
             </VBox>
             <Button layoutX="1843.0" layoutY="9.0" mnemonicParsing="false" onAction="#onQuitGame" text="Exit Game" />

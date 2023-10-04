@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,7 +27,7 @@ public class LabController {
   @FXML private ImageView printerGlow;
   @FXML private ImageView character;
   @FXML private ImageView running;
-  @FXML private Pane room;
+  @FXML private AnchorPane room;
   @FXML private HBox dialogueHorizontalBox;
   @FXML private VBox bottomVerticalBox;
   @FXML private Pane inventoryPane;
@@ -43,12 +44,18 @@ public class LabController {
   public void initialize() {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
-    VBox dialogue = SharedElements.getDialogueBox();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
     VBox inventory = SharedElements.getInventoryBox();
     HBox chatBubble = SharedElements.getChatBubble();
 
     // add shared elements to the correct places
 
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);
@@ -123,7 +130,8 @@ public class LabController {
                 GameState.paperPuzzleHints = false;
                 // Load prompt to congratulate user on printing paper
                 try {
-                  GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
+                  GameState.runGpt(
+                      new ChatMessage("user", GptPromptEngineering.printPaper()), false);
                 } catch (ApiProxyException e) {
                   e.printStackTrace();
                 }

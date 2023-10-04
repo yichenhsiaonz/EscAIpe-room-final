@@ -22,7 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -136,12 +135,16 @@ public class GameState {
     return String.valueOf(instance.secondDigits);
   }
 
-  public static Boolean getMuted() {
+  public static boolean getMuted() {
     return instance.muted;
   }
 
+  public static void toggleMuted() {
+    instance.muted = !instance.muted;
+  }
+
   // get gpt response
-  public static ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
+  public static ChatMessage runGpt(ChatMessage msg, boolean hintFlag) throws ApiProxyException {
     // get loading image in each room
     List<ImageView> loadingImages = getLoadingIcons();
 
@@ -176,6 +179,12 @@ public class GameState {
                     // append message to chat box
                     SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
                     SharedElements.chatBubbleSpeak(result.getChatMessage().getContent());
+
+                    // if the message is a hint, add it to the hint text
+                    if (hintFlag) {
+                      SharedElements.appendHint(result.getChatMessage().getContent());
+                    }
+
                     // enable gpt related buttons
                     if (instance.hints != 0) {
                       SharedElements.enableHintsButton();
@@ -186,6 +195,7 @@ public class GameState {
 
             } catch (Exception e) {
               System.out.println("API error");
+              e.printStackTrace();
               return null;
             }
           }
@@ -458,7 +468,7 @@ public class GameState {
     messageBox.clear();
     // send message to gpt
     ChatMessage msg = new ChatMessage("user", message);
-    GameState.runGpt(msg);
+    GameState.runGpt(msg, false);
   }
 
   public static void setRiddle(String riddle) {
@@ -487,9 +497,7 @@ public class GameState {
       // run as long as hints not equal to 0 (negative means unlimited)
       if (instance.hints != 0) {
         // default prompt for when user hasn't interacted with any puzzles
-        String hint =
-            "The user used the hint button, but you have no more hints to give. Tell them this in"
-                + " one sentence.";
+        String hint;
         if (instance.currentPuzzle == 1 && toasterPuzzleHints) {
           // prompt for when user has interacted with toaster puzzle
           if (hasBread) {
@@ -506,7 +514,7 @@ public class GameState {
             toasterPuzzleHints = false;
           }
           instance.hints--;
-          runGpt(new ChatMessage("user", hint));
+          runGpt(new ChatMessage("user", hint), true);
         } else if (instance.currentPuzzle == 2 && paperPuzzleHints) {
           // prompt for when user has interacted with paper puzzle
           hint =
@@ -516,8 +524,7 @@ public class GameState {
           instance.hints--;
           // flag to prevent hint from being given again
           paperPuzzleHints = false;
-          System.out.println(hint);
-          runGpt(new ChatMessage("user", hint));
+          runGpt(new ChatMessage("user", hint), true);
         } else if (instance.currentPuzzle == 3 && computerPuzzleHints) {
           // prompt for when user has interacted with computer puzzle
           // uses a new gpt request for riddle hints
@@ -530,7 +537,8 @@ public class GameState {
                     + instance.riddle
                     + "\" The solution is \""
                     + instance.riddleAnswer
-                    + "\". Write a very vague two sentence hint without giving away the answer";
+                    + "\". Write a very vague two sentence hint with no flowery language without"
+                    + " giving away the answer";
             instance.hints--;
             instance.riddleHints++;
           } else if (instance.riddleHints == 1) {
@@ -540,22 +548,22 @@ public class GameState {
                     + instance.riddle
                     + "\" The solution to the riddle is \""
                     + instance.riddleAnswer
-                    + "\". Write a two sentence hint without giving away the answer";
+                    + "\". Write a very clear two sentence hint with no flowery language without"
+                    + " giving away the answer";
             instance.hints--;
             instance.riddleHints++;
-          } else if (instance.riddleHints >= 2) {
+          } else {
             hint =
                 "I have found a computer with a password. The password is the solution to the"
                     + " riddle \""
                     + instance.riddle
                     + "\" The solution to the riddle is \""
                     + instance.riddleAnswer
-                    + "\". Write another very clear two sentence hint without giving away the"
-                    + " answer";
+                    + "\". Write another very clear two sentence hint with no flowery language and"
+                    + " without giving away the answer";
             instance.hints--;
             instance.riddleHints++;
-          } else {
-            System.out.println("No more hints");
+            computerPuzzleHints = false;
           }
           instance.riddleHintChatCompletionRequest.addMessage("user", hint);
 
@@ -600,11 +608,13 @@ public class GameState {
                           SharedElements.enableSendButton();
                           // append hint to chat box
                           SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                          SharedElements.appendHint(result.getChatMessage().getContent());
                           SharedElements.chatBubbleSpeak(result.getChatMessage().getContent());
                         });
                     return null;
                   } catch (Exception e) {
                     System.out.println("API error");
+                    e.printStackTrace();
                     return null;
                   }
                 }
@@ -620,25 +630,30 @@ public class GameState {
           Thread gptThread = new Thread(gptTask);
           gptThread.start();
         } else {
-          if(toasterPuzzleHints){
+          if (toasterPuzzleHints && !instance.toasterLocationShown) {
             hint =
-                "The user used the hint button. There is a modified toaster in the kitchen. Tell them this in"
-                    + " one sentence.";
-          } else if (paperPuzzleHints){
+                "The user used the hint button. There is a modified toaster in the kitchen. Tell"
+                    + " them this in one sentence.";
+            instance.hints--;
+            instance.toasterLocationShown = true;
+          } else if (paperPuzzleHints && !instance.paperLocationShown) {
             hint =
-                "The user used the hint button. Something appeared queued on the printer in the lab. Tell them this in"
-                    + " one sentence.";
-          } else if (computerPuzzleHints){
+                "The user used the hint button. Something appeared queued on the printer in the"
+                    + " lab. Tell them this in one sentence.";
+            instance.hints--;
+            instance.paperLocationShown = true;
+          } else if (computerPuzzleHints && !instance.computerLocationShown) {
             hint =
-                "The user used the hint button. There is a scientist's computer in the control room. Tell them this in"
-                    + " one sentence.";
-          
+                "The user used the hint button. There is a scientist's computer in the control"
+                    + " room. Tell them this in one sentence.";
+            instance.hints--;
+            instance.computerLocationShown = true;
           } else {
             hint =
-            "The user used the hint button, but the user already has the password they need to leave. Tell them this in"
-                + " one sentence.";
+                "The user used the hint button, but you have no more hints to give. Tell them this"
+                    + " in one sentence.";
           }
-          runGpt(new ChatMessage("user", hint));
+          runGpt(new ChatMessage("user", hint), true);
         }
 
         System.out.println(instance.currentPuzzle);
@@ -647,6 +662,7 @@ public class GameState {
       }
     } catch (Exception e) {
       System.out.println("API error");
+      e.printStackTrace();
     }
   }
 
@@ -692,7 +708,7 @@ public class GameState {
     imageVisibilityTimeline.play();
   }
 
-  public static void onCharacterMovementClick(MouseEvent event, Pane room) {
+  public static void onCharacterMovementClick(MouseEvent event, AnchorPane room) {
 
     double mouseX = event.getX();
     double mouseY = event.getY();
@@ -726,23 +742,26 @@ public class GameState {
     parallelTransition.play();
   }
 
-  public static void fadeOut(Pane room) {
+  public static void fadeOut(AnchorPane room) {
     Timeline timeline = new Timeline();
     KeyFrame key = new KeyFrame(Duration.millis(1000), new KeyValue(room.opacityProperty(), 0));
     timeline.getKeyFrames().add(key);
     timeline.play();
   }
 
-  public static void fadeIn(Pane room) {
+  public static void fadeIn(AnchorPane room) {
     Timeline timeline = new Timeline();
     KeyFrame key = new KeyFrame(Duration.millis(1000), new KeyValue(room.opacityProperty(), 1));
     timeline.getKeyFrames().add(key);
     timeline.play();
   }
 
-  public boolean muted = false;
+  private boolean muted = false;
   private String riddleAnswer;
   private String riddle;
+  private boolean toasterLocationShown = false;
+  private boolean paperLocationShown = false;
+  private boolean computerLocationShown = false;
   private int hints;
   private int riddleHints = 0;
   private int currentPuzzle = 0;

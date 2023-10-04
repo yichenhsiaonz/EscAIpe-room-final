@@ -111,9 +111,9 @@ public class MenuController {
 
       // choose prompt according to difficulty
       if (difficultyValue == -1 || difficultyValue == 5) {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringHints()));
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringHints()), false);
       } else {
-        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringNoHints()));
+        GameState.runGpt(new ChatMessage("user", GptPromptEngineering.introStringNoHints()), false);
       }
 
       App.setRoot(AppUi.CONTROL_ROOM);

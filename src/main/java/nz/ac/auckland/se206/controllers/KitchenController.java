@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -40,7 +41,7 @@ public class KitchenController {
   @FXML private Circle doorMarker;
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
-  @FXML private Pane room;
+  @FXML private AnchorPane room;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
@@ -51,11 +52,17 @@ public class KitchenController {
   public void initialize() {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
-    VBox dialogue = SharedElements.getDialogueBox();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
     VBox inventory = SharedElements.getInventoryBox();
     HBox chatBubble = SharedElements.getChatBubble();
 
     // add shared elements to the correct places
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);
@@ -151,17 +158,17 @@ public class KitchenController {
       // load the control room scene after movement animation is finished
       Runnable leaveRoom =
           () -> {
-              GameState.fadeOut(room);
-              Runnable loadControlRoom =
-                  () -> {
-                    try {
-                      App.setRoot(AppUi.CONTROL_ROOM);
-                      ControlRoomController.instance.fadeIn();
-                    } catch (IOException e) {
-                      e.printStackTrace();
-                    }
-                  };
-              GameState.delayRun(loadControlRoom, 1);
+            GameState.fadeOut(room);
+            Runnable loadControlRoom =
+                () -> {
+                  try {
+                    App.setRoot(AppUi.CONTROL_ROOM);
+                    ControlRoomController.instance.fadeIn();
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                };
+            GameState.delayRun(loadControlRoom, 1);
             moving = false;
           };
       GameState.delayRun(leaveRoom, movementDelay);
@@ -221,7 +228,7 @@ public class KitchenController {
               SharedElements.appendChat("A charred slice of toast pops out of the toaster");
               // Load prompt to congratulate user on toasting bread
               try {
-                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()));
+                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()), false);
               } catch (ApiProxyException e) {
                 e.printStackTrace();
               }

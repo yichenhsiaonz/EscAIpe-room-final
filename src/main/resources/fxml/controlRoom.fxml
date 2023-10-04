@@ -19,8 +19,8 @@
          <children>
             <VBox fx:id="bottomVerticalBox" alignment="TOP_CENTER">
                <children>
-                        <Pane fx:id="room">
-                           <children>
+                  <AnchorPane fx:id="room">
+                     <children>
                               <ImageView preserveRatio="true">
                                  <image>
                                     <Image url="@../images/bg.png" />
@@ -96,11 +96,11 @@
                                     <Image url="@../images/Character/walking.gif" />
                                  </image>
                               </ImageView>
-                              <Circle fx:id="leftDoorMarker" fill="DODGERBLUE" layoutX="399.0" layoutY="789.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="rightDoorMarker" fill="DODGERBLUE" layoutX="1510.0" layoutY="789.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="keypadMarker" fill="DODGERBLUE" layoutX="1136.0" layoutY="667.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="centerDoorMarker" fill="DODGERBLUE" layoutX="960.0" layoutY="653.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                              <Circle fx:id="computerMarker" fill="DODGERBLUE" layoutX="620.0" layoutY="699.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="leftDoorMarker" fill="DODGERBLUE" layoutX="390.0" layoutY="777.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="rightDoorMarker" fill="DODGERBLUE" layoutX="1527.0" layoutY="777.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="keypadMarker" fill="DODGERBLUE" layoutX="1147.0" layoutY="650.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="centerDoorMarker" fill="DODGERBLUE" layoutX="960.0" layoutY="640.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                              <Circle fx:id="computerMarker" fill="DODGERBLUE" layoutX="637.0" layoutY="694.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <HBox fx:id="dialogueHorizontalBox">
                            <children>
                               <VBox fx:id="hintVerticalBox" alignment="TOP_CENTER">
@@ -128,7 +128,7 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <VBox alignment="TOP_CENTER" layoutX="1706.0" layoutY="263.0" spacing="20.0">
+                        <VBox alignment="TOP_CENTER" layoutX="1726.0" layoutY="245.0" spacing="20.0">
                            <children>
                               <Label text="Inventory" textAlignment="RIGHT" textFill="WHITE">
                                  <font>
@@ -146,8 +146,8 @@
                               </Pane>
                            </children>
                         </VBox>
-                           </children>
-                        </Pane>
+                     </children>
+                  </AnchorPane>
                      </children>
             </VBox>
             <Button layoutX="1843.0" layoutY="9.0" mnemonicParsing="false" onAction="#onQuitGame" text="Exit Game" />

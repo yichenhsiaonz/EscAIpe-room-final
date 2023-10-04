@@ -20,7 +20,7 @@
          <children>
             <VBox fx:id="bottomVerticalBox" alignment="TOP_CENTER">
                <children>
-                        <Pane fx:id="room">
+                        <AnchorPane fx:id="room">
                            <children>
                               <ImageView pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -42,7 +42,7 @@
                                     <Image url="@../images/Lab/pixil-frame-0.png" />
                                  </image>
                               </ImageView>
-                              <Polygon fill="#2197ff00" layoutX="646.0" layoutY="357.0" onMouseClicked="#consumeMouseEvent" points="-114.0, 144.0, -499.0, 151.0, -499.0, 469.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <Polygon fill="#2197ff00" layoutX="662.0" layoutY="448.0" onMouseClicked="#consumeMouseEvent" points="-145.0, 190.0, -499.0, 151.0, -441.0, 499.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                               <Polygon fill="#2197ff00" layoutX="1800.0" layoutY="599.0" onMouseClicked="#consumeMouseEvent" points="-194.0, 263.0, -200.0, -248.0, -101.0, -198.0, -115.0, 342.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff00" height="707.0" layoutX="140.0" layoutY="37.0" onMouseClicked="#consumeMouseEvent" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1548.0" />
                               <Rectangle fx:id="printer" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="137.0" layoutX="377.0" layoutY="739.0" onMouseEntered="#onPrinterHovered" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="206.0" />
@@ -108,7 +108,7 @@
                            </children>
                         </VBox>
                            </children>
-                        </Pane>
+                        </AnchorPane>
                </children>
             </VBox>
             <Button layoutX="1843.0" layoutY="9.0" mnemonicParsing="false" onAction="#onQuitGame" text="Exit Game" />
