@@ -34,6 +34,7 @@ public class LabController {
   @FXML private ImageView doorGlow;
   @FXML private ImageView usbGlow;
   @FXML private ImageView usb;
+  @FXML private Rectangle usbClick;
 
   private boolean moving = false;
   private double startX = 1300;
@@ -218,6 +219,7 @@ public class LabController {
             () -> {
               usbGlow.setOpacity(0);
               usb.setOpacity(0);
+              room.getChildren().remove(usbClick);
               GameState.foundUSB();
               moving = false;
             };
