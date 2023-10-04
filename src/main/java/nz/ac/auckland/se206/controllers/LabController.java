@@ -207,8 +207,25 @@ public class LabController {
 
   @FXML
   public void onUSBclicked(MouseEvent event) {
-    usbGlow.setOpacity(0);
-    usb.setOpacity(0);
-    GameState.foundUSB();
+
+    try {
+      // check if the character is already moving to prevent multiple clicks
+      if (!moving) {
+        moving = true;
+        // move character to usb position
+        double movementDelay = GameState.goTo(590, 690, character, running);
+        Runnable goToUsb =
+            () -> {
+              usbGlow.setOpacity(0);
+              usb.setOpacity(0);
+              GameState.foundUSB();
+              moving = false;
+            };
+
+        GameState.delayRun(goToUsb, movementDelay);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
