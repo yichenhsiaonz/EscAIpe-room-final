@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +19,7 @@ import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 public class LabController {
+  public static LabController instance;
   @FXML private AnchorPane contentPane;
   @FXML private Rectangle printer;
   @FXML private ImageView rightArrow;
@@ -25,9 +27,11 @@ public class LabController {
   @FXML private ImageView printerGlow;
   @FXML private ImageView character;
   @FXML private ImageView running;
-  @FXML private Pane room;
+  @FXML private AnchorPane room;
   @FXML private HBox dialogueHorizontalBox;
   @FXML private VBox bottomVerticalBox;
+  @FXML private Pane inventoryPane;
+  @FXML private VBox hintVerticalBox;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
@@ -37,17 +41,34 @@ public class LabController {
   @FXML private Rectangle usbClick;
 
   private boolean moving = false;
-  private double startX = 1300;
-  private double startY = 630;
+  private double startX = 1512;
+  private double startY = 814;
 
   public void initialize() {
-    // Initialization code goes here
-    dialogueHorizontalBox.getChildren().add(SharedElements.getDialogueBox());
-    bottomVerticalBox.getChildren().add(SharedElements.getTaskBarBox());
+    // get shared elements from the SharedElements class
+    HBox bottom = SharedElements.getTaskBarBox();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
+    VBox inventory = SharedElements.getInventoryBox();
+    HBox chatBubble = SharedElements.getChatBubble();
+
+    // add shared elements to the correct places
+
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
+    bottomVerticalBox.getChildren().add(bottom);
+    inventoryPane.getChildren().add(inventory);
+    dialogueHorizontalBox.getChildren().add(chatBubble);
+    hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
     GameState.goToInstant(startX, startY, character, running);
+    room.setOpacity(0);
+    instance = this;
   }
 
   /**
@@ -93,7 +114,7 @@ public class LabController {
     try {
       if (!moving) {
         moving = true;
-        double movementDelay = GameState.goTo(360, 680, character, running);
+        double movementDelay = GameState.goTo(619, 834, character, running);
         // flag that the current puzzle is the paper puzzle
         GameState.setPuzzlePaper();
         Runnable goToPrinter =
@@ -112,7 +133,8 @@ public class LabController {
                 GameState.paperPuzzleHints = false;
                 // Load prompt to congratulate user on printing paper
                 try {
-                  GameState.runGpt(new ChatMessage("user", GptPromptEngineering.printPaper()));
+                  GameState.runGpt(
+                      new ChatMessage("user", GptPromptEngineering.printPaper()), false);
                 } catch (ApiProxyException e) {
                   e.printStackTrace();
                 }
@@ -155,11 +177,17 @@ public class LabController {
         // set root to control room and allow character to move again after movement delay
         Runnable leaveRoom =
             () -> {
-              try {
-                App.setRoot(AppUi.CONTROL_ROOM);
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+              GameState.fadeOut(room);
+              Runnable loadControlRoom =
+                  () -> {
+                    try {
+                      App.setRoot(AppUi.CONTROL_ROOM);
+                      ControlRoomController.instance.fadeIn();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                  };
+              GameState.delayRun(loadControlRoom, 1);
               moving = false;
             };
 
@@ -229,5 +257,9 @@ public class LabController {
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+  public void fadeIn() {
+    GameState.fadeIn(room);
+
   }
 }

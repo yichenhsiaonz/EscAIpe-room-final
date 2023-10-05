@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -22,6 +23,7 @@ import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 /** Controller class for the room view. */
 public class KitchenController {
 
+  public static KitchenController instance;
   @FXML private AnchorPane contentPane;
   @FXML private ImageView floor;
   @FXML private ImageView character;
@@ -34,10 +36,12 @@ public class KitchenController {
   @FXML private ImageView fridgeOpen;
   @FXML private HBox dialogueHorizontalBox;
   @FXML private VBox bottomVerticalBox;
+  @FXML private VBox hintVerticalBox;
+  @FXML private Pane inventoryPane;
   @FXML private Circle doorMarker;
   @FXML private Circle toasterMarker;
   @FXML private Circle fridgeMarker;
-  @FXML private Pane room;
+  @FXML private AnchorPane room;
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
@@ -48,14 +52,22 @@ public class KitchenController {
   public void initialize() {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
-    VBox dialogue = SharedElements.getDialogueBox();
-    SharedElements.incremnetLoadedScenes();
-    // add shared elements to the correct places
-    dialogueHorizontalBox.getChildren().addAll(dialogue);
-    bottomVerticalBox.getChildren().addAll(bottom);
-    bottom.toFront();
-    dialogue.toFront();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
+    VBox inventory = SharedElements.getInventoryBox();
+    HBox chatBubble = SharedElements.getChatBubble();
 
+    // add shared elements to the correct places
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
+    bottomVerticalBox.getChildren().add(bottom);
+    inventoryPane.getChildren().add(inventory);
+    dialogueHorizontalBox.getChildren().add(chatBubble);
+    hintVerticalBox.getChildren().add(SharedElements.getHintButton());
+    SharedElements.incremnetLoadedScenes();
     // scale the room to the screen size
     GameState.scaleToScreen(contentPane);
 
@@ -65,6 +77,8 @@ public class KitchenController {
 
     // move character to door marker position
     GameState.goToInstant(doorMarkerX, doorMarkerY, character, running);
+    room.setOpacity(0);
+    instance = this;
   }
 
   /**
@@ -144,11 +158,17 @@ public class KitchenController {
       // load the control room scene after movement animation is finished
       Runnable leaveRoom =
           () -> {
-            try {
-              App.setRoot(AppUi.CONTROL_ROOM);
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+            GameState.fadeOut(room);
+            Runnable loadControlRoom =
+                () -> {
+                  try {
+                    App.setRoot(AppUi.CONTROL_ROOM);
+                    ControlRoomController.instance.fadeIn();
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                };
+            GameState.delayRun(loadControlRoom, 1);
             moving = false;
           };
       GameState.delayRun(leaveRoom, movementDelay);
@@ -208,7 +228,7 @@ public class KitchenController {
               SharedElements.appendChat("A charred slice of toast pops out of the toaster");
               // Load prompt to congratulate user on toasting bread
               try {
-                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()));
+                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()), false);
               } catch (ApiProxyException e) {
                 e.printStackTrace();
               }
@@ -362,5 +382,9 @@ public class KitchenController {
   @FXML
   private void onQuitGame(ActionEvent event) {
     System.exit(0);
+  }
+
+  public void fadeIn() {
+    GameState.fadeIn(room);
   }
 }
