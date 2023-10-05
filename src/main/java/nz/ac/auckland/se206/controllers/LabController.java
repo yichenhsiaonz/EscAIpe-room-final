@@ -38,7 +38,6 @@ public class LabController {
   @FXML private ImageView doorGlow;
   @FXML private ImageView usbGlow;
   @FXML private ImageView usb;
-  @FXML private Rectangle usbClick;
 
   private boolean moving = false;
   private double startX = 1512;
@@ -242,12 +241,13 @@ public class LabController {
       if (!moving) {
         moving = true;
         // move character to usb position
-        double movementDelay = GameState.goTo(590, 690, character, running);
+        double movementDelay =
+            GameState.goTo(usb.getLayoutX(), usb.getLayoutY(), character, running);
         Runnable goToUsb =
             () -> {
               usbGlow.setOpacity(0);
               usb.setOpacity(0);
-              room.getChildren().remove(usbClick);
+              GameState.addItem(GameState.Items.USB);
               GameState.foundUSB();
               moving = false;
             };
@@ -257,9 +257,9 @@ public class LabController {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
 
   public void fadeIn() {
     GameState.fadeIn(room);
-
   }
 }
