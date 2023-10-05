@@ -108,14 +108,14 @@ public class EndingController {
         textArea.clear();
         Image newImage = new Image("/images/Ending/evil-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.usbEndingReveal);
-        TextToSpeechManager.speak(GameState.usbEndingReveal);
+        textArea.appendText("AI: " + GameState.endingReveal);
+        TextToSpeechManager.speak(GameState.endingReveal);
       } else if (chatCount == 2) {
         textArea.clear();
         Image newImage = new Image("/images/Ending/confused-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.usbEndingReveal);
-        TextToSpeechManager.speak(GameState.usbEndingReveal);
+        textArea.appendText("AI: " + "Wait, what is that you're holding?");
+        TextToSpeechManager.speak("Wait, what is that you're holding?");
       } else if (chatCount == 3) {
         textArea.clear();
         Image newImage = new Image("/images/Ending/angry-frame.png");
@@ -126,8 +126,8 @@ public class EndingController {
         textArea.clear();
         Image newImage = new Image("/images/Ending/dead-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.usbEndingReveal);
-        TextToSpeechManager.speak(GameState.usbEndingReveal);
+        textArea.appendText("AI: " + "*Robot dying noises*");
+        TextToSpeechManager.speak("Beep boop beep boop, MALFUNCTION, MALFUNCTION, oof");
       } else if (chatCount == 5) { // show win screen
         // create black rectangle that covers the entire AnchorPane
         AnchorPane anchorPane = (AnchorPane) nextButton.getParent();

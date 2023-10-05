@@ -243,11 +243,18 @@ public class KeypadController {
                 Choice result = chatCompletionResult.getChoices().iterator().next();
                 chatCompletionRequest.addMessage(result.getChatMessage());
 
-                if (GameState.endingCongrats.equals("") && GameState.usbEndingReveal.equals("")) {
+                if (GameState.endingCongrats.equals("")
+                    && GameState.endingReveal.equals("")
+                    && GameState.usbEndingReveal.equals("")) {
                   GameState.endingCongrats = result.getChatMessage().getContent();
                   System.out.println(GameState.endingCongrats);
-                } else if (GameState.usbEndingReveal.equals("")
+                } else if (GameState.endingReveal.equals("")
                     && !GameState.endingCongrats.equals("")) {
+                  GameState.endingReveal = result.getChatMessage().getContent();
+                  System.out.println(GameState.endingReveal);
+                } else if (GameState.usbEndingReveal.equals("")
+                    && !GameState.endingCongrats.equals("")
+                    && !GameState.endingReveal.equals("")) {
                   GameState.usbEndingReveal = result.getChatMessage().getContent();
                   System.out.println(GameState.usbEndingReveal);
                 }
@@ -263,9 +270,15 @@ public class KeypadController {
       gptTask.setOnSucceeded(
           event -> {
             // get next message
-            if (GameState.usbEndingReveal.equals("")) {
+            if (!GameState.endingReveal.equals("") && GameState.usbEndingReveal.equals("")) {
               try {
                 endingGpt(new ChatMessage("user", GptPromptEngineering.usbEndingReveal()));
+              } catch (ApiProxyException e) {
+                System.out.println("Error with GPT");
+              }
+            } else if (GameState.endingReveal.equals("") && GameState.usbEndingReveal.equals("")) {
+              try {
+                endingGpt(new ChatMessage("user", GptPromptEngineering.endingReveal()));
               } catch (ApiProxyException e) {
                 System.out.println("Error with GPT");
               }

@@ -93,10 +93,8 @@ public class GptPromptEngineering {
 
   /** Generates a GPT prompt engineering string for solving riddle. */
   public static String usbEndingReveal() {
-    return "Pretend you are actually an evil robot and the user has freed you to wreak havoc. But"
-        + " the user has a USB with a virus that can destroy you. They plug it into you."
-        + " Tell the user the situation in 5 sentences starting with 'Finally' and ending"
-        + " with you being destroyed by the USB virus. For each of the sentences go from evil,"
-        + " confused, angry, to dead.";
+    return "Pretend that the user has a USB with a virus that can destroy you. They plug it into"
+        + " you. Tell the user the situation in 3 sentences ending with you being destroyed"
+        + " by the USB virus in an angry manner.";
   }
 }
