@@ -23,6 +23,7 @@ public class EndingController {
   @FXML private Button nextButton;
   @FXML private ImageView winImage;
   @FXML private Button menuButton;
+  @FXML private ImageView trueWin;
 
   private int chatCount = 0;
 
@@ -158,7 +159,7 @@ public class EndingController {
               nextButton.setVisible(false);
 
               // show win screen
-              winImage.setVisible(true);
+              trueWin.setVisible(true);
               menuButton.setVisible(true);
             });
 
