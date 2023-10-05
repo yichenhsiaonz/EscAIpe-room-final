@@ -436,6 +436,7 @@ public class SharedElements {
       menuButtonChild.setOnAction(
           event -> {
             try {
+              TextToSpeechManager.cutOff();
               GameState.stopAllThreads();
               App.setRoot(AppUi.MENU);
             } catch (Exception e) {

@@ -173,56 +173,123 @@ public class KeypadController {
    */
   public ChatMessage endingGpt(ChatMessage msg) throws ApiProxyException {
 
-    chatCompletionRequest.addMessage(msg);
+    if (!GameState.isUsbEnding) {
+      chatCompletionRequest.addMessage(msg);
 
-    // task for gpt chat generation
-    Task<ChatMessage> gptTask =
-        new Task<ChatMessage>() {
+      // task for gpt chat generation
+      Task<ChatMessage> gptTask =
+          new Task<ChatMessage>() {
 
-          @Override
-          protected ChatMessage call() throws Exception {
-            System.out.println("Get message: " + Thread.currentThread().getName());
+            @Override
+            protected ChatMessage call() throws Exception {
+              System.out.println("Get message: " + Thread.currentThread().getName());
 
-            try {
-              // get response from gpt
-              ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+              try {
+                // get response from gpt
+                ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
 
-              Choice result = chatCompletionResult.getChoices().iterator().next();
-              chatCompletionRequest.addMessage(result.getChatMessage());
+                Choice result = chatCompletionResult.getChoices().iterator().next();
+                chatCompletionRequest.addMessage(result.getChatMessage());
 
-              if (GameState.endingCongrats.equals("") && GameState.endingReveal.equals("")) {
-                GameState.endingCongrats = result.getChatMessage().getContent();
-                System.out.println(GameState.endingCongrats);
-              } else if (GameState.endingReveal.equals("")
-                  && !GameState.endingCongrats.equals("")) {
-                GameState.endingReveal = result.getChatMessage().getContent();
-                System.out.println(GameState.endingReveal);
+                if (GameState.endingCongrats.equals("") && GameState.endingReveal.equals("")) {
+                  GameState.endingCongrats = result.getChatMessage().getContent();
+                  System.out.println(GameState.endingCongrats);
+                } else if (GameState.endingReveal.equals("")
+                    && !GameState.endingCongrats.equals("")) {
+                  GameState.endingReveal = result.getChatMessage().getContent();
+                  System.out.println(GameState.endingReveal);
+                }
+
+                return result.getChatMessage();
+              } catch (ApiProxyException e) {
+                System.out.println("Error with GPT");
+                return null;
               }
-
-              return result.getChatMessage();
-            } catch (ApiProxyException e) {
-              System.out.println("Error with GPT");
-              return null;
             }
-          }
-        };
+          };
 
-    gptTask.setOnSucceeded(
-        event -> {
-          // get next message
-          if (GameState.endingReveal.equals("")) {
-            try {
-              endingGpt(new ChatMessage("user", GptPromptEngineering.endingReveal()));
-            } catch (ApiProxyException e) {
-              System.out.println("Error with GPT");
+      gptTask.setOnSucceeded(
+          event -> {
+            // get next message
+            if (GameState.endingReveal.equals("")) {
+              try {
+                endingGpt(new ChatMessage("user", GptPromptEngineering.endingReveal()));
+              } catch (ApiProxyException e) {
+                System.out.println("Error with GPT");
+              }
             }
-          }
-        });
+          });
 
-    // starts the task on a separate thread
-    Thread gptThread = new Thread(gptTask, "Ending Thread");
-    gptThread.start();
+      // starts the task on a separate thread
+      Thread gptThread = new Thread(gptTask, "Ending Thread");
+      gptThread.start();
 
-    return gptTask.getValue();
+      return gptTask.getValue();
+    } else {
+      chatCompletionRequest.addMessage(msg);
+
+      // task for gpt chat generation
+      Task<ChatMessage> gptTask =
+          new Task<ChatMessage>() {
+
+            @Override
+            protected ChatMessage call() throws Exception {
+              System.out.println("Get message: " + Thread.currentThread().getName());
+
+              try {
+                // get response from gpt
+                ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+
+                Choice result = chatCompletionResult.getChoices().iterator().next();
+                chatCompletionRequest.addMessage(result.getChatMessage());
+
+                if (GameState.endingCongrats.equals("")
+                    && GameState.endingReveal.equals("")
+                    && GameState.usbEndingReveal.equals("")) {
+                  GameState.endingCongrats = result.getChatMessage().getContent();
+                  System.out.println(GameState.endingCongrats);
+                } else if (GameState.endingReveal.equals("")
+                    && !GameState.endingCongrats.equals("")) {
+                  GameState.endingReveal = result.getChatMessage().getContent();
+                  System.out.println(GameState.endingReveal);
+                } else if (GameState.usbEndingReveal.equals("")
+                    && !GameState.endingCongrats.equals("")
+                    && !GameState.endingReveal.equals("")) {
+                  GameState.usbEndingReveal = result.getChatMessage().getContent();
+                  System.out.println(GameState.usbEndingReveal);
+                }
+
+                return result.getChatMessage();
+              } catch (ApiProxyException e) {
+                System.out.println("Error with GPT");
+                return null;
+              }
+            }
+          };
+
+      gptTask.setOnSucceeded(
+          event -> {
+            // get next message
+            if (!GameState.endingReveal.equals("") && GameState.usbEndingReveal.equals("")) {
+              try {
+                endingGpt(new ChatMessage("user", GptPromptEngineering.usbEndingReveal()));
+              } catch (ApiProxyException e) {
+                System.out.println("Error with GPT");
+              }
+            } else if (GameState.endingReveal.equals("") && GameState.usbEndingReveal.equals("")) {
+              try {
+                endingGpt(new ChatMessage("user", GptPromptEngineering.endingReveal()));
+              } catch (ApiProxyException e) {
+                System.out.println("Error with GPT");
+              }
+            }
+          });
+
+      // starts the task on a separate thread
+      Thread gptThread = new Thread(gptTask, "Ending Thread");
+      gptThread.start();
+
+      return gptTask.getValue();
+    }
   }
 }
