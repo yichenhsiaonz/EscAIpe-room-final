@@ -62,12 +62,16 @@ public class GameState {
 
   public static void newGame() {
     // reset flags
+    endingCongrats = "";
+    endingReveal = "";
+    usbEndingReveal = "";
     hasBread = false;
     hasToast = false;
     toasterPuzzleHints = true;
     paperPuzzleHints = true;
     computerPuzzleHints = true;
     isExitUnlocked = false;
+    isUsbEnding = false;
     // create new instance
     instance = new GameState();
   }
@@ -500,6 +504,13 @@ public class GameState {
   public static void getPuzzleHint() throws ApiProxyException {
     try {
       SharedElements.disableHintsButton();
+      System.out.println("current puzzle: " + instance.currentPuzzle);
+      System.out.println("toaster puzzle hints: " + toasterPuzzleHints);
+      System.out.println("paper puzzle hints: " + paperPuzzleHints);
+      System.out.println("computer puzzle hints: " + computerPuzzleHints);
+      System.out.println("Toaster Location Shown: " + instance.toasterLocationShown);
+      System.out.println("Paper Location Shown: " + instance.paperLocationShown);
+      System.out.println("Computer Location Shown: " + instance.computerLocationShown);
       // run as long as hints not equal to 0 (negative means unlimited)
       if (instance.hints != 0) {
         // default prompt for when user hasn't interacted with any puzzles

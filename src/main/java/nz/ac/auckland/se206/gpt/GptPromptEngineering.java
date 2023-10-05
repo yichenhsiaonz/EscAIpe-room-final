@@ -11,9 +11,9 @@ public class GptPromptEngineering {
         // give the AI information that can hint to the user where the puzzles are
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
         + " scientists printing paper in the lab. You don't know how to access the"
-        + " scientists' computer in the control room. Anything the user asks for outside of"
+        + " scientists' computer in the control room. You should only respond with"
         // try to prevent the AI from giving the user information that is not in the game
-        + " the given information should be answered with \"<access denied>\". In 3"
+        + " information that is given. In 2"
         + " sentences, introduce yourself and tell the user to find a way to escape. If the"
         // force user to use the hint button for hints
         + " user asks for a hint, do not give them a hint and tell them to use the hint"
@@ -28,9 +28,9 @@ public class GptPromptEngineering {
         // give the AI information that can hint to the user where the puzzles are
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
         + " scientists printing paper in the lab. You don't know how to access the"
-        + " scientists' computer in the control room. Anything the user asks for outside of"
+        + " scientists' computer in the control room. You should only respond with"
         // try to prevent the AI from giving the user information that is not in the game
-        + " the given information should be answered with \"<access denied>\". In 3"
+        + " the information that is given. In 2"
         + " sentences, introduce yourself and tell the user to find a way to escape."
         // prevent all hints for hard mode
         + " If the user asks for a hint, do not give them a hint";
