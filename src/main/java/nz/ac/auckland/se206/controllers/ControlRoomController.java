@@ -238,6 +238,7 @@ public class ControlRoomController {
         // set root to the kitchen after delay and enable movement
         Runnable leaveRoom =
             () -> {
+              GameState.playSound("/sounds/door-opening.m4a");
               GameState.fadeOut(room);
               Runnable loadKitchen =
                   () -> {

@@ -22,6 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -59,6 +61,7 @@ public class GameState {
   public static String endingReveal = "";
   public static String usbEndingReveal = "";
   private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
+  private static MediaPlayer mediaPlayer;
 
   public static void newGame() {
     // reset flags
@@ -861,5 +864,25 @@ public class GameState {
     System.out.println(secondDigits);
     System.out.println(thirdDigits);
     System.out.println(code);
+  }
+
+  public static void playSound(String soundFile) {
+    try {
+      Media sound = new Media(GameState.class.getResource(soundFile).toExternalForm());
+
+      // Stop any currently playing sound
+      stopSound();
+
+      mediaPlayer = new MediaPlayer(sound);
+      mediaPlayer.play();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void stopSound() {
+    if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+      mediaPlayer.stop();
+    }
   }
 }
