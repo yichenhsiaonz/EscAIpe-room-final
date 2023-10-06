@@ -158,6 +158,7 @@ public class KitchenController {
       // load the control room scene after movement animation is finished
       Runnable leaveRoom =
           () -> {
+            GameState.playSound("/sounds/door-opening.m4a");
             GameState.fadeOut(room);
             Runnable loadControlRoom =
                 () -> {
@@ -221,6 +222,7 @@ public class KitchenController {
             };
         Runnable toastFinish =
             () -> {
+              GameState.playSound("/sounds/toaster.mp3");
               System.out.println("toaster clicked");
               // add toasted bread to inventory
               GameState.addItem(GameState.Items.BREAD_TOASTED);

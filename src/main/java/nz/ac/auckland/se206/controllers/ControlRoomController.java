@@ -147,6 +147,7 @@ public class ControlRoomController {
               System.out.println("exit door clicked");
               if (GameState.isExitUnlocked) {
                 // if the exit is unlocked, fade to black for ending scene
+                GameState.playSound("/sounds/gate-open.m4a");
                 fadeBlack();
               } else {
                 // otherwise, display notification in chat
@@ -290,6 +291,7 @@ public class ControlRoomController {
         // set root to the lab after delay and enable movement
         Runnable leaveRoom =
             () -> {
+              GameState.playSound("/sounds/door-opening.m4a");
               GameState.fadeOut(room);
               Runnable loadLab =
                   () -> {

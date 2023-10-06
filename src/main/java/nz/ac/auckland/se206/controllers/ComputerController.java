@@ -49,6 +49,7 @@ public class ComputerController {
 
   @FXML
   private void print() {
+    GameState.playSound("/sounds/printer.m4a");
     // flag that the paper has been printed from the computer
     SharedElements.printPaper();
 

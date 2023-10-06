@@ -176,6 +176,7 @@ public class LabController {
         // set root to control room and allow character to move again after movement delay
         Runnable leaveRoom =
             () -> {
+              GameState.playSound("/sounds/door-opening.m4a");
               GameState.fadeOut(room);
               Runnable loadControlRoom =
                   () -> {
