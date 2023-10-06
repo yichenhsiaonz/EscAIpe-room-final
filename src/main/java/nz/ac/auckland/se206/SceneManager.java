@@ -9,9 +9,7 @@ public class SceneManager {
     CONTROL_ROOM,
     ENDING,
     COMPUTER,
-    KEYPAD,
     KITCHEN,
-    CHAT,
     LAB,
     GAMEOVER
   }

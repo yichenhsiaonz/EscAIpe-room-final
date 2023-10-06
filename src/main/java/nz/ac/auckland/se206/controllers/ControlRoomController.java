@@ -390,7 +390,7 @@ public class ControlRoomController {
     // stop timer
     GameState.stopTimer();
     // Create a black rectangle that covers the entire AnchorPane
-    AnchorPane anchorPane = (AnchorPane) dialogueHorizontalBox.getParent();
+    AnchorPane anchorPane = contentPane;
     AnchorPane blackRectangle = new AnchorPane();
     blackRectangle.setStyle("-fx-background-color: black;");
     blackRectangle.setOpacity(0.0);
