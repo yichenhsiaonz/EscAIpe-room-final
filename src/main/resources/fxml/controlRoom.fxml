@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.ControlRoomController">
@@ -101,6 +103,81 @@
                               <Circle fx:id="keypadMarker" fill="DODGERBLUE" layoutX="1147.0" layoutY="650.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="centerDoorMarker" fill="DODGERBLUE" layoutX="960.0" layoutY="640.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="computerMarker" fill="DODGERBLUE" layoutX="637.0" layoutY="694.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+                        <AnchorPane fx:id="keyPadAnchorPane" prefHeight="947.0" prefWidth="1920.0" style="-fx-background-color: #000000B3;" visible="false">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6f6f6f" height="553.0" layoutX="800.0" layoutY="180.0" stroke="BLACK" strokeType="INSIDE" width="320.0" />
+                              <Button fx:id="closeKeypadButton" layoutX="931.0" layoutY="746.0" mnemonicParsing="false" onAction="#onCloseKeypadClicked" prefHeight="38.0" prefWidth="58.0" text="Exit">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="oneButton" layoutX="810.0" layoutY="317.0" mnemonicParsing="false" onAction="#onOneClicked" prefHeight="100.0" prefWidth="100.0" text="1">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="twoButton" layoutX="910.0" layoutY="317.0" mnemonicParsing="false" onAction="#onTwoClicked" prefHeight="100.0" prefWidth="100.0" text="2">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="threeButton" layoutX="1010.0" layoutY="317.0" mnemonicParsing="false" onAction="#onThreeClicked" prefHeight="100.0" prefWidth="100.0" text="3">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="fourButton" layoutX="810.0" layoutY="419.0" mnemonicParsing="false" onAction="#onFourClicked" prefHeight="100.0" prefWidth="100.0" text="4">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="fiveButton" layoutX="910.0" layoutY="419.0" mnemonicParsing="false" onAction="#onFiveClicked" prefHeight="100.0" prefWidth="100.0" text="5">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="sixButton" layoutX="1010.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSixClicked" prefHeight="100.0" prefWidth="100.0" text="6">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="sevenButton" layoutX="810.0" layoutY="521.0" mnemonicParsing="false" onAction="#onSevenClicked" prefHeight="100.0" prefWidth="100.0" text="7">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="eightButton" layoutX="910.0" layoutY="521.0" mnemonicParsing="false" onAction="#onEightClicked" prefHeight="100.0" prefWidth="100.0" text="8">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="nineButton" layoutX="1010.0" layoutY="521.0" mnemonicParsing="false" onAction="#onNineClicked" prefHeight="100.0" prefWidth="100.0" text="9">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="deleteButton" layoutX="810.0" layoutY="623.0" mnemonicParsing="false" onAction="#onDeleteClicked" prefHeight="100.0" prefWidth="100.0" text="delete">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="zeroButton" layoutX="910.0" layoutY="623.0" mnemonicParsing="false" onAction="#onZeroClicked" prefHeight="100.0" prefWidth="100.0" text="0">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="enterButton" layoutX="1010.0" layoutY="623.0" mnemonicParsing="false" onAction="#onEnterClicked" prefHeight="100.0" prefWidth="100.0" text="enter">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Button>
+                              <TextField fx:id="codeText" alignment="CENTER_RIGHT" editable="false" layoutX="809.0" layoutY="190.0" prefHeight="85.0" prefWidth="302.0" promptText="code">
+                                 <font>
+                                    <Font name="Bank Gothic Light BT" size="48.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </AnchorPane>
                               <HBox fx:id="dialogueHorizontalBox">
                            <children>
                               <VBox fx:id="hintVerticalBox" alignment="TOP_CENTER">
