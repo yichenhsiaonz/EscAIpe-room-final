@@ -338,6 +338,7 @@ public class KitchenController {
         GameState.setPuzzleToast();
         Runnable closedFridgeRunnable =
             () -> {
+              GameState.playSound("/sounds/pick-up-item.m4a");
               // change fridge image to open fridge
               fridgeClosed.setVisible(false);
               fridgeOpen.setVisible(true);

@@ -123,6 +123,7 @@ public class LabController {
               if (SharedElements.isPaperPrinted() == false) {
                 SharedElements.appendChat("Printer is empty!");
               } else {
+                GameState.playSound("/sounds/pick-up-item.m4a");
                 // append notification to chat box
                 SharedElements.appendChat("There is a printed piece of paper, you take it.");
                 // add paper to inventory
@@ -246,8 +247,9 @@ public class LabController {
             GameState.goTo(usb.getLayoutX(), usb.getLayoutY(), character, running);
         Runnable goToUsb =
             () -> {
-              usbGlow.setOpacity(0);
-              usb.setOpacity(0);
+              GameState.playSound("/sounds/pick-up-item.m4a");
+              room.getChildren().remove(usbGlow);
+              room.getChildren().remove(usb);
               GameState.addItem(GameState.Items.USB);
               GameState.foundUSB();
               moving = false;
