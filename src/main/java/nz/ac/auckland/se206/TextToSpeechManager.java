@@ -8,6 +8,7 @@ public class TextToSpeechManager {
   private static Task<Void> task;
 
   public static void speak(String... sentences) {
+    cutOff();
     // Run in a separate thread to avoid blocking the UI thread
     task =
         new Task<Void>() {
@@ -22,6 +23,9 @@ public class TextToSpeechManager {
   }
 
   public static void cutOff() {
+    if (task != null) {
+      task.setOnSucceeded(null);
+    }
     textToSpeech.stop();
   }
 

@@ -46,7 +46,6 @@ public class EndingController {
   @FXML
   private void onNextClicked() throws ApiProxyException {
     if (!GameState.isUsbEnding) {
-      TextToSpeechManager.cutOff();
       if (chatCount == 0) { // show neutral AI
         textArea.clear();
         Image newImage = new Image("/images/Ending/neutral-frame.png");
@@ -98,7 +97,6 @@ public class EndingController {
 
       chatCount++;
     } else {
-      TextToSpeechManager.cutOff();
       if (chatCount == 0) { // show neutral AI
         textArea.clear();
         Image newImage = new Image("/images/Ending/neutral-frame.png");

@@ -117,8 +117,7 @@ public class SharedElements {
       chatBubbleList[i].setVisible(true);
     }
     instance.chatLabel.setText(message);
-    if (GameState.getMuted() == false) {
-      TextToSpeechManager.cutOff();
+    if (!GameState.getMuted()) {
       TextToSpeechManager.speak(message);
       TextToSpeechManager.setCompletedRunnable(
           () -> {
