@@ -553,6 +553,7 @@ public class ControlRoomController {
 
     // Check if the code is correct
     if (code.equals(GameState.code)) {
+      GameState.playSound("/sounds/unlock.m4a");
       // load the ai text for ending
       endingChatCompletionRequest =
           new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
