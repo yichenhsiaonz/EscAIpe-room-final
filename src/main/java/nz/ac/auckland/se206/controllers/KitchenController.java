@@ -381,6 +381,7 @@ public class KitchenController {
 
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
+    TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
     App.setRoot(AppUi.MENU);
   }
