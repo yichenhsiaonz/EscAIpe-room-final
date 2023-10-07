@@ -117,12 +117,22 @@ public class SharedElements {
       chatBubbleList[i].setVisible(true);
     }
     instance.chatLabel.setText(message);
-    if (GameState.getMuted() == false) {
-      TextToSpeechManager.cutOff();
+    if (!GameState.getMuted()) {
       TextToSpeechManager.speak(message);
-    }
-    for (int i = 0; i < 3; i++) {
-      chatBubbleList[i].setVisible(true);
+      TextToSpeechManager.setCompletedRunnable(
+          () -> {
+            for (int i = 0; i < 3; i++) {
+              chatBubbleList[i].setVisible(false);
+            }
+          });
+    } else {
+      GameState.delayRun(
+          () -> {
+            for (int i = 0; i < 3; i++) {
+              chatBubbleList[i].setVisible(false);
+            }
+          },
+          4);
     }
   }
 

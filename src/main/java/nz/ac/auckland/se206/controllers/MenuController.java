@@ -1,7 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -121,8 +120,6 @@ public class MenuController {
     SceneManager.addUi(AppUi.ENDING, App.loadFxml("ending"));
     SceneManager.addUi(AppUi.KITCHEN, kitchen);
     SceneManager.addUi(AppUi.CONTROL_ROOM, controlRoom);
-    SceneManager.addUi(AppUi.COMPUTER, App.loadFxml("computer"));
-    SceneManager.addUi(AppUi.KEYPAD, App.loadFxml("keypad"));
     SceneManager.addUi(AppUi.LAB, lab);
 
     try {
