@@ -8,7 +8,6 @@ public class SceneManager {
     MENU,
     CONTROL_ROOM,
     ENDING,
-    COMPUTER,
     KITCHEN,
     LAB,
     GAMEOVER

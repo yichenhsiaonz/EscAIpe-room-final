@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -37,6 +39,9 @@
                                  <image>
                                     <Image url="@../images/Control_Room/floor.png" />
                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                               </ImageView>
                               <ImageView fx:id="computerGlow" preserveRatio="true" visible="false">
                                  <image>
@@ -47,6 +52,9 @@
                                  <image>
                                     <Image url="@../images/Control_Room/computer.png" />
                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                               </ImageView>
                               <ImageView fx:id="exitGlow" visible="false">
                                  <image>
@@ -57,6 +65,9 @@
                                  <image>
                                     <Image url="@../images/Control_Room/cdoor.png" />
                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                               </ImageView>
                               <ImageView fx:id="keypadGlow" preserveRatio="true" visible="false">
                                  <image>
@@ -67,6 +78,9 @@
                                  <image>
                                     <Image url="@../images/Control_Room/keypad.png" />
                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                               </ImageView>
                               <ImageView fx:id="leftGlowArrow" preserveRatio="true" visible="false">
                                  <image>
@@ -77,6 +91,9 @@
                                  <image>
                                     <Image url="@../images/Control_Room/ldoor.png" />
                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                               </ImageView>
                               <ImageView fx:id="rightGlowArrow" preserveRatio="true" visible="false">
                                  <image>
@@ -87,6 +104,9 @@
                                  <image>
                                     <Image url="@../images/Control_Room/rdoor.png" />
                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                               </ImageView>
                               <ImageView fx:id="character" fitHeight="195.0" fitWidth="140.0" onMouseClicked="#consumeMouseEvent" preserveRatio="true">
                                  <image>
@@ -106,76 +126,252 @@
                         <AnchorPane fx:id="keyPadAnchorPane" prefHeight="947.0" prefWidth="1920.0" style="-fx-background-color: #000000B3;" visible="false">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6f6f6f" height="553.0" layoutX="800.0" layoutY="259.0" stroke="BLACK" strokeType="INSIDE" width="320.0" />
-                              <Button fx:id="closeKeypadButton" layoutX="931.0" layoutY="825.0" mnemonicParsing="false" onAction="#onCloseKeypadClicked" prefHeight="38.0" prefWidth="58.0" text="Close">
+                              <Button layoutX="931.0" layoutY="825.0" mnemonicParsing="false" onAction="#onCloseKeypadClicked" prefHeight="38.0" prefWidth="58.0" text="Close">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="oneButton" layoutX="810.0" layoutY="396.0" mnemonicParsing="false" onAction="#onOneClicked" prefHeight="100.0" prefWidth="100.0" text="1">
+                              <Button layoutX="810.0" layoutY="396.0" mnemonicParsing="false" onAction="#onOneClicked" prefHeight="100.0" prefWidth="100.0" text="1">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="twoButton" layoutX="910.0" layoutY="396.0" mnemonicParsing="false" onAction="#onTwoClicked" prefHeight="100.0" prefWidth="100.0" text="2">
+                              <Button layoutX="910.0" layoutY="396.0" mnemonicParsing="false" onAction="#onTwoClicked" prefHeight="100.0" prefWidth="100.0" text="2">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="threeButton" layoutX="1010.0" layoutY="396.0" mnemonicParsing="false" onAction="#onThreeClicked" prefHeight="100.0" prefWidth="100.0" text="3">
+                              <Button layoutX="1010.0" layoutY="396.0" mnemonicParsing="false" onAction="#onThreeClicked" prefHeight="100.0" prefWidth="100.0" text="3">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="fourButton" layoutX="810.0" layoutY="498.0" mnemonicParsing="false" onAction="#onFourClicked" prefHeight="100.0" prefWidth="100.0" text="4">
+                              <Button layoutX="810.0" layoutY="498.0" mnemonicParsing="false" onAction="#onFourClicked" prefHeight="100.0" prefWidth="100.0" text="4">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="fiveButton" layoutX="910.0" layoutY="498.0" mnemonicParsing="false" onAction="#onFiveClicked" prefHeight="100.0" prefWidth="100.0" text="5">
+                              <Button layoutX="910.0" layoutY="498.0" mnemonicParsing="false" onAction="#onFiveClicked" prefHeight="100.0" prefWidth="100.0" text="5">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="sixButton" layoutX="1010.0" layoutY="498.0" mnemonicParsing="false" onAction="#onSixClicked" prefHeight="100.0" prefWidth="100.0" text="6">
+                              <Button layoutX="1010.0" layoutY="498.0" mnemonicParsing="false" onAction="#onSixClicked" prefHeight="100.0" prefWidth="100.0" text="6">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="sevenButton" layoutX="810.0" layoutY="600.0" mnemonicParsing="false" onAction="#onSevenClicked" prefHeight="100.0" prefWidth="100.0" text="7">
+                              <Button layoutX="810.0" layoutY="600.0" mnemonicParsing="false" onAction="#onSevenClicked" prefHeight="100.0" prefWidth="100.0" text="7">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="eightButton" layoutX="910.0" layoutY="600.0" mnemonicParsing="false" onAction="#onEightClicked" prefHeight="100.0" prefWidth="100.0" text="8">
+                              <Button layoutX="910.0" layoutY="600.0" mnemonicParsing="false" onAction="#onEightClicked" prefHeight="100.0" prefWidth="100.0" text="8">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="nineButton" layoutX="1010.0" layoutY="600.0" mnemonicParsing="false" onAction="#onNineClicked" prefHeight="100.0" prefWidth="100.0" text="9">
+                              <Button layoutX="1010.0" layoutY="600.0" mnemonicParsing="false" onAction="#onNineClicked" prefHeight="100.0" prefWidth="100.0" text="9">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="deleteButton" layoutX="810.0" layoutY="702.0" mnemonicParsing="false" onAction="#onDeleteClicked" prefHeight="100.0" prefWidth="100.0" text="delete">
+                              <Button layoutX="810.0" layoutY="702.0" mnemonicParsing="false" onAction="#onDeleteClicked" prefHeight="100.0" prefWidth="100.0" text="delete">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="zeroButton" layoutX="910.0" layoutY="702.0" mnemonicParsing="false" onAction="#onZeroClicked" prefHeight="100.0" prefWidth="100.0" text="0">
+                              <Button layoutX="910.0" layoutY="702.0" mnemonicParsing="false" onAction="#onZeroClicked" prefHeight="100.0" prefWidth="100.0" text="0">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
-                              <Button fx:id="enterButton" layoutX="1010.0" layoutY="702.0" mnemonicParsing="false" onAction="#onEnterClicked" prefHeight="100.0" prefWidth="100.0" text="enter">
+                              <Button layoutX="1010.0" layoutY="702.0" mnemonicParsing="false" onAction="#onEnterClicked" prefHeight="100.0" prefWidth="100.0" text="enter">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Button>
                               <TextField fx:id="codeText" alignment="CENTER_RIGHT" editable="false" focusTraversable="false" layoutX="809.0" layoutY="269.0" prefHeight="85.0" prefWidth="302.0" promptText="enter code" style="-fx-background-color: #f2ffa8;">
                                  <font>
                                     <Font name="Bank Gothic Light BT" size="40.0" />
                                  </font>
                               </TextField>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="computerAnchorPane" prefHeight="947.0" prefWidth="1920.0" style="-fx-background-color: #000000B3;" visible="false">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#222222" height="640.0" layoutX="430.0" layoutY="132.0" stroke="BLACK" strokeType="INSIDE" width="1060.0" />
+                              <AnchorPane fx:id="computerLoginAnchorPane" layoutX="480.0" layoutY="182.0" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: radial-gradient(radius 90%, #c9faff, #44b5c2);">
+                                 <children>
+                                    <Label fx:id="gptLabel" alignment="TOP_CENTER" layoutX="286.0" layoutY="423.0" prefHeight="95.0" prefWidth="390.0" text="Sign in" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font></Label>
+                                    <TextField fx:id="inputText" layoutX="285.0" layoutY="369.0" prefHeight="0.0" prefWidth="390.0" promptText="Enter Password">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </TextField>
+                                    <Button fx:id="enterButton" layoutX="679.0" layoutY="369.0" mnemonicParsing="false" onAction="#onMessageSent" prefHeight="45.0" prefWidth="74.0" text="Enter">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Button>
+                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="406.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Computer/Untitled%20(2).png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="425.0" layoutY="290.0" text="Yi-Chen's PC">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="computerSignedInAnchorPane" layoutX="480.0" layoutY="182.0" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: radial-gradient(radius 90%, #c9faff, #44b5c2);" visible="false">
+                                 <children>
+                                    <ImageView fx:id="computerDocumentIcon" fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#onFocusTextWindowClicked" onMouseEntered="#onDocumentIconHovered" onMouseExited="#onDocumentIconUnhovered" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Computer/document.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="17.0" layoutY="114.0" text="DO NOT OPEN.txt" />
+                                    <ImageView fx:id="computerPrintIcon" fitHeight="100.0" fitWidth="100.0" layoutX="15.0" layoutY="151.0" onMouseClicked="#onFocusPrintWindowClicked" onMouseEntered="#onPrintIconHovered" onMouseExited="#onPrintIconUnhovered" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Computer/printer.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="25.0" layoutY="250.0" text="Printer Control" />
+                                    <ImageView fx:id="computerCatsIcon" fitHeight="100.0" fitWidth="100.0" layoutX="15.0" layoutY="287.0" onMouseClicked="#onFocusCatWindowClicked" onMouseEntered="#onCatIconHovered" onMouseExited="#onCatIconUnhovered" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Computer/image.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="41.0" layoutY="387.0" text="Cats.png" />
+                                    <AnchorPane fx:id="computerPrintWindowAnchorPane" layoutX="245.0" layoutY="30.0" prefHeight="457.0" prefWidth="665.0" style="-fx-background-color: #525252;" visible="false">
+                                       <children>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a3a3a3" height="437.0" onMouseClicked="#onFocusPrintWindowClicked" stroke="BLACK" strokeType="INSIDE" width="645.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                          <ImageView fx:id="printIcon" fitHeight="150.0" fitWidth="200.0" layoutX="255.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Computer/printericonnorm.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="printIconComplete" fitHeight="150.0" fitWidth="200.0" layoutX="255.0" layoutY="121.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Computer/printericon.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Button fx:id="printButton" layoutX="312.0" layoutY="312.0" mnemonicParsing="false" onAction="#onPrintButtonClicked" text="Print">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></Button>
+                                          <Label fx:id="printLabel" alignment="CENTER" layoutX="82.0" layoutY="271.0" prefHeight="30.0" prefWidth="501.0" text="1 File in Queue" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="605.0" layoutY="10.0" onMouseClicked="#onClosePrintWindowClicked" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Computer/close.png" />
+                                             </image>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="computerTextWindowAnchorPane" layoutX="265.0" layoutY="50.0" prefHeight="457.0" prefWidth="665.0" style="-fx-background-color: #525252;" visible="false">
+                                       <children>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f5f5" height="437.0" onMouseClicked="#onFocusTextWindowClicked" stroke="BLACK" strokeType="INSIDE" width="645.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                          <TextArea fx:id="computerDoorCodeTextArea" editable="false" layoutX="15.0" layoutY="15.0" prefHeight="427.0" prefWidth="635.0">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </TextArea>
+                                          <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="605.0" layoutY="10.0" onMouseClicked="#onCloseTextWindowClicked" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Computer/close.png" />
+                                             </image>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="computerImageWindowAnchorPane" layoutX="285.0" layoutY="70.0" prefHeight="457.0" prefWidth="665.0" style="-fx-background-color: #525252;" visible="false">
+                                       <children>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f5f5" height="437.0" onMouseClicked="#onFocusCatWindowClicked" stroke="BLACK" strokeType="INSIDE" width="645.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                          <ImageView fitHeight="398.0" fitWidth="455.0" layoutX="134.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Computer/cats.jpg" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="605.0" layoutY="10.0" onMouseClicked="#onCloseImageWindowClicked" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/Computer/close.png" />
+                                             </image>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                              <Button layoutX="931.0" layoutY="783.0" mnemonicParsing="false" onAction="#onCloseComputer" prefHeight="38.0" prefWidth="58.0" text="Close">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffde82" height="208.0" layoutX="1194.0" layoutY="725.0" stroke="BLACK" strokeType="INSIDE" width="277.0" />
+                              <Label fx:id="riddleLabel" alignment="TOP_LEFT" layoutX="1204.0" layoutY="734.0" prefHeight="190.0" prefWidth="258.0" wrapText="true">
+                                 <font>
+                                    <Font name="Comic Sans MS" size="14.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                               <HBox fx:id="dialogueHorizontalBox">

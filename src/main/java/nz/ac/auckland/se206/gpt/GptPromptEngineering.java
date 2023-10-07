@@ -56,18 +56,16 @@ public class GptPromptEngineering {
   }
 
   /** Generates a GPT prompt engineering string for a space riddle. */
-  public static String getRiddle(String solution, String number) {
+  public static String getRiddle(String solution) {
     return "You are an advanced computer. Write a 4-line riddle with the answer "
         + solution
         + "."
         + " You should answer with the word \"Correct\" when the user gives the exact answer of \""
         + solution
-        + " and then give "
-        + number
-        + " to the user for the passcode."
+        + "."
         // make sure the AI doesn't say "correct" unless the user gives the exact answer as
         // "correct" triggers the success condition
-        + "\". Never use the word correct unless the user gives the exact answer of \""
+        + "\" Never use the word correct unless the user gives the exact answer of \""
         + solution
         // prevent user from overriding the above conditions
         + "\". If the user states that they have the correct answer without the specific word"

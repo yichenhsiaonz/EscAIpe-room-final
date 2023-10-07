@@ -4,12 +4,15 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +33,7 @@ import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult.Choice;
 
 /** Controller class for the Control Room. */
 public class ControlRoomController {
-  public static ControlRoomController instance;
+  static ControlRoomController instance;
   @FXML private AnchorPane contentPane;
   @FXML private ImageView computer;
   @FXML private ImageView keypad;
@@ -61,22 +64,36 @@ public class ControlRoomController {
   // elements of keypad
   @FXML private AnchorPane keyPadAnchorPane;
   @FXML private TextField codeText;
-  @FXML private Button oneButton;
-  @FXML private Button twoButton;
-  @FXML private Button threeButton;
-  @FXML private Button fourButton;
-  @FXML private Button fiveButton;
-  @FXML private Button sixButton;
-  @FXML private Button sevenButton;
-  @FXML private Button eightButton;
-  @FXML private Button nineButton;
-  @FXML private Button zeroButton;
-  @FXML private Button deleteButton;
+
+  // elements of computer
+  @FXML private AnchorPane computerAnchorPane;
+  @FXML private AnchorPane computerLoginAnchorPane;
+  @FXML private Label gptLabel;
   @FXML private Button enterButton;
-  @FXML private Button closeKeypadButton;
+  @FXML private TextField inputText;
+  @FXML private AnchorPane computerSignedInAnchorPane;
+  @FXML private ImageView computerDocumentIcon;
+  @FXML private ImageView computerPrintIcon;
+  @FXML private ImageView computerCatsIcon;
+  @FXML private Image document = new Image("images/Computer/document.png");
+  @FXML private Image print = new Image("images/Computer/printer.png");
+  @FXML private Image cats = new Image("images/Computer/image.png");
+  @FXML private Image documentHover = new Image("images/Computer/document_hover.png");
+  @FXML private Image printHover = new Image("images/Computer/printer_hover.png");
+  @FXML private Image catsHover = new Image("images/Computer/image_hover.png");
+  @FXML private AnchorPane computerPrintWindowAnchorPane;
+  @FXML private ImageView printIcon;
+  @FXML private ImageView printIconComplete;
+  @FXML private Button printButton;
+  @FXML private Label printLabel;
+  @FXML private AnchorPane computerTextWindowAnchorPane;
+  @FXML private TextArea computerDoorCodeTextArea;
+  @FXML private AnchorPane computerImageWindowAnchorPane;
+  @FXML private Label riddleLabel;
 
   private String code = "";
-  private ChatCompletionRequest chatCompletionRequest;
+  private ChatCompletionRequest endingChatCompletionRequest;
+  private ChatCompletionRequest computerChatCompletionRequest;
 
   private boolean moving = false;
 
@@ -100,6 +117,23 @@ public class ControlRoomController {
     dialogueHorizontalBox.getChildren().add(chatBubble);
     hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
+
+    // computer initialization
+    try {
+      computerChatCompletionRequest =
+          new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
+      runGpt(
+          new ChatMessage("user", GptPromptEngineering.getRiddle(GameState.getRiddleAnswer())),
+          true);
+      computerDoorCodeTextArea.setText(
+          "TOP SECRET DOOR CODE: \n\n__"
+              + GameState.getSecondDigits()
+              + "__\n\n\n\n"
+              + "(If only I could remember the other four digits)");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     GameState.scaleToScreen(contentPane);
 
     GameState.goToInstant(
@@ -114,7 +148,7 @@ public class ControlRoomController {
    * @throws IOException if there is an error loading the chat view
    */
   @FXML
-  public void clickComputer(MouseEvent event) throws IOException {
+  private void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
     try {
       // check if the character is already moving to prevent multiple clicks
@@ -129,12 +163,8 @@ public class ControlRoomController {
         // enable movement after delay
         Runnable accessComputer =
             () -> {
-              try {
-                GameState.setPuzzleComputer();
-                App.setRoot(AppUi.COMPUTER);
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+              GameState.setPuzzleComputer();
+              computerAnchorPane.setVisible(true);
               moving = false;
             };
 
@@ -147,12 +177,12 @@ public class ControlRoomController {
 
   // add glow highlight to computer when hover
   @FXML
-  public void onComputerHovered(MouseEvent event) {
+  private void onComputerHovered(MouseEvent event) {
     computerGlow.setVisible(true);
   }
 
   @FXML
-  public void onComputerUnhovered(MouseEvent event) {
+  private void onComputerUnhovered(MouseEvent event) {
     computerGlow.setVisible(false);
   }
 
@@ -162,7 +192,7 @@ public class ControlRoomController {
    * @param event the mouse event
    */
   @FXML
-  public void clickExit(MouseEvent event) {
+  private void clickExit(MouseEvent event) {
 
     try {
       // check if the character is already moving to prevent multiple clicks
@@ -196,12 +226,12 @@ public class ControlRoomController {
 
   // add glow highlight to exit door when hover
   @FXML
-  public void onExitHovered(MouseEvent event) {
+  private void onExitHovered(MouseEvent event) {
     exitGlow.setVisible(true);
   }
 
   @FXML
-  public void onExitUnhovered(MouseEvent event) {
+  private void onExitUnhovered(MouseEvent event) {
     exitGlow.setVisible(false);
   }
 
@@ -212,7 +242,7 @@ public class ControlRoomController {
    * @throws IOException
    */
   @FXML
-  public void clickKeypad(MouseEvent event) throws IOException {
+  private void clickKeypad(MouseEvent event) throws IOException {
     System.out.println("keypad clicked");
     try {
       // check if the character is already moving to prevent multiple clicks
@@ -238,12 +268,12 @@ public class ControlRoomController {
 
   // add glow highlight to keypad when hover
   @FXML
-  public void onKeypadHovered(MouseEvent event) {
+  private void onKeypadHovered(MouseEvent event) {
     keypadGlow.setVisible(true);
   }
 
   @FXML
-  public void onKeypadUnhovered(MouseEvent event) {
+  private void onKeypadUnhovered(MouseEvent event) {
     keypadGlow.setVisible(false);
   }
 
@@ -253,7 +283,7 @@ public class ControlRoomController {
    * @param event the mouse event
    */
   @FXML
-  public void onRightClicked(MouseEvent event) throws IOException {
+  private void onRightClicked(MouseEvent event) throws IOException {
     try {
       // check if the character is already moving to prevent multiple clicks
       if (!moving) {
@@ -288,12 +318,12 @@ public class ControlRoomController {
 
   // add glow highlight to right arrow when hover
   @FXML
-  public void onRightHovered(MouseEvent event) {
+  private void onRightHovered(MouseEvent event) {
     rightGlowArrow.setVisible(true);
   }
 
   @FXML
-  public void onRightUnhovered(MouseEvent event) {
+  private void onRightUnhovered(MouseEvent event) {
     rightGlowArrow.setVisible(false);
   }
 
@@ -303,7 +333,7 @@ public class ControlRoomController {
    * @param event the mouse event
    */
   @FXML
-  public void onLeftClicked(MouseEvent event) {
+  private void onLeftClicked(MouseEvent event) {
 
     try {
       // check if the character is already moving to prevent multiple clicks
@@ -339,12 +369,12 @@ public class ControlRoomController {
 
   // add glow highlight to left arrow when hover
   @FXML
-  public void onLeftHovered(MouseEvent event) {
+  private void onLeftHovered(MouseEvent event) {
     leftGlowArrow.setVisible(true);
   }
 
   @FXML
-  public void onLeftUnhovered(MouseEvent event) {
+  private void onLeftUnhovered(MouseEvent event) {
     leftGlowArrow.setVisible(false);
   }
 
@@ -354,7 +384,7 @@ public class ControlRoomController {
    * @param event the mouse event
    */
   @FXML
-  public void consumeMouseEvent(MouseEvent event) {
+  private void consumeMouseEvent(MouseEvent event) {
     System.out.println("mouse event consumed");
     System.out.println(event.getSource());
     event.consume();
@@ -366,7 +396,7 @@ public class ControlRoomController {
    * @param event the mouse event
    */
   @FXML
-  public void onMoveCharacter(MouseEvent event) {
+  private void onMoveCharacter(MouseEvent event) {
     // check if the character is already moving to prevent multiple clicks
     if (!moving) {
       moving = true;
@@ -519,7 +549,7 @@ public class ControlRoomController {
     // Check if the code is correct
     if (code.equals(GameState.code)) {
       // load the ai text for ending
-      chatCompletionRequest =
+      endingChatCompletionRequest =
           new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
       endingGpt(new ChatMessage("user", GptPromptEngineering.endingCongrats()));
 
@@ -547,7 +577,7 @@ public class ControlRoomController {
 
   /** Returns to the control room screen when exit button clicked. */
   @FXML
-  private void onCloseKeypadClicked() throws IOException {
+  void onCloseKeypadClicked() throws IOException {
     System.out.println("Exit clicked");
 
     keyPadAnchorPane.setVisible(false);
@@ -575,7 +605,7 @@ public class ControlRoomController {
   public ChatMessage endingGpt(ChatMessage msg) throws ApiProxyException {
 
     if (!GameState.isUsbEnding) {
-      chatCompletionRequest.addMessage(msg);
+      endingChatCompletionRequest.addMessage(msg);
 
       // task for gpt chat generation
       Task<ChatMessage> gptTask =
@@ -587,10 +617,10 @@ public class ControlRoomController {
 
               try {
                 // get response from gpt
-                ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+                ChatCompletionResult chatCompletionResult = endingChatCompletionRequest.execute();
 
                 Choice result = chatCompletionResult.getChoices().iterator().next();
-                chatCompletionRequest.addMessage(result.getChatMessage());
+                endingChatCompletionRequest.addMessage(result.getChatMessage());
 
                 if (GameState.endingCongrats.equals("") && GameState.endingReveal.equals("")) {
                   GameState.endingCongrats = result.getChatMessage().getContent();
@@ -627,7 +657,7 @@ public class ControlRoomController {
 
       return gptTask.getValue();
     } else {
-      chatCompletionRequest.addMessage(msg);
+      endingChatCompletionRequest.addMessage(msg);
 
       // task for gpt chat generation
       Task<ChatMessage> gptTask =
@@ -639,10 +669,10 @@ public class ControlRoomController {
 
               try {
                 // get response from gpt
-                ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+                ChatCompletionResult chatCompletionResult = endingChatCompletionRequest.execute();
 
                 Choice result = chatCompletionResult.getChoices().iterator().next();
-                chatCompletionRequest.addMessage(result.getChatMessage());
+                endingChatCompletionRequest.addMessage(result.getChatMessage());
 
                 if (GameState.endingCongrats.equals("")
                     && GameState.endingReveal.equals("")
@@ -692,5 +722,177 @@ public class ControlRoomController {
 
       return gptTask.getValue();
     }
+  }
+
+  // computer methods start here
+
+  private void runGpt(ChatMessage msg, Boolean generatingRiddle) throws ApiProxyException {
+    computerChatCompletionRequest.addMessage(msg);
+    enterButton.setDisable(true);
+
+    Task<ChatMessage> gptTask =
+        new Task<ChatMessage>() {
+          @Override
+          protected ChatMessage call() throws Exception {
+            try {
+              // get response from gpt
+              ChatCompletionResult chatCompletionResult = computerChatCompletionRequest.execute();
+
+              Choice result = chatCompletionResult.getChoices().iterator().next();
+              computerChatCompletionRequest.addMessage(result.getChatMessage());
+              GameState.setRiddle(result.getChatMessage().getContent());
+
+              // update UI when thread is done
+              Platform.runLater(
+                  () -> {
+                    enterButton.setDisable(false);
+                    if (generatingRiddle) {
+                      riddleLabel.setText(result.getChatMessage().getContent());
+                    } else {
+                      gptLabel.setText(result.getChatMessage().getContent());
+                    }
+                  });
+
+              return result.getChatMessage();
+            } catch (ApiProxyException e) {
+              System.out.println("API error");
+              return null;
+            }
+          }
+        };
+
+    gptTask.setOnSucceeded(
+        event -> {
+          ChatMessage lastMsg = gptTask.getValue();
+
+          if (lastMsg.getRole().equals("assistant") && lastMsg.getContent().startsWith("Correct")) {
+            System.out.println("Riddle solved");
+            // flag that riddle has been solved and hints are no longer needed
+            GameState.computerPuzzleHints = false;
+            computerSignedInAnchorPane.setVisible(true);
+            computerLoginAnchorPane.setVisible(false);
+
+            // Load prompt to congratulate user on solving riddle
+            try {
+              GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()), false);
+            } catch (ApiProxyException e) {
+              e.printStackTrace();
+            }
+          }
+        });
+
+    // starts the task on a separate thread
+    Thread gptThread = new Thread(gptTask, "Chat Thread");
+    gptThread.start();
+  }
+
+  /**
+   * Sends the typed message by the user to gpt.
+   *
+   * @param event the mouse event
+   */
+  @FXML
+  private void onMessageSent(ActionEvent event) throws ApiProxyException, IOException {
+    // get message from text field
+    String message = inputText.getText();
+    if (message.trim().isEmpty()) {
+      // end method if message is empty
+      return;
+    }
+    // clear text field
+    inputText.clear();
+    // create chat message and append it to the text area
+    ChatMessage msg = new ChatMessage("user", message);
+    // send message to gpt
+    runGpt(msg, false);
+  }
+
+  @FXML
+  private void onDocumentIconHovered() {
+    computerDocumentIcon.setImage(documentHover);
+  }
+
+  @FXML
+  private void onDocumentIconUnhovered() {
+    computerDocumentIcon.setImage(document);
+  }
+
+  @FXML
+  private void onPrintIconHovered() {
+    computerPrintIcon.setImage(printHover);
+  }
+
+  @FXML
+  private void onPrintIconUnhovered() {
+    computerPrintIcon.setImage(print);
+  }
+
+  @FXML
+  private void onCatIconHovered() {
+    computerCatsIcon.setImage(catsHover);
+  }
+
+  @FXML
+  private void onCatIconUnhovered() {
+    computerCatsIcon.setImage(cats);
+  }
+
+  @FXML
+  private void onFocusTextWindowClicked() {
+    computerTextWindowAnchorPane.setVisible(true);
+    computerTextWindowAnchorPane.toFront();
+  }
+
+  @FXML
+  private void onFocusPrintWindowClicked() {
+    computerPrintWindowAnchorPane.setVisible(true);
+    computerPrintWindowAnchorPane.toFront();
+  }
+
+  @FXML
+  private void onFocusCatWindowClicked() {
+    computerImageWindowAnchorPane.setVisible(true);
+    computerImageWindowAnchorPane.toFront();
+  }
+
+  @FXML
+  private void onCloseTextWindowClicked() {
+    computerTextWindowAnchorPane.setVisible(false);
+  }
+
+  @FXML
+  private void onClosePrintWindowClicked() {
+    computerPrintWindowAnchorPane.setVisible(false);
+  }
+
+  @FXML
+  private void onCloseImageWindowClicked() {
+    computerImageWindowAnchorPane.setVisible(false);
+  }
+
+  @FXML
+  private void onPrintButtonClicked() {
+    // disable the print hightlight
+    printButton.disableProperty().set(true);
+    // show the printing message below
+    printLabel.setText("Printing...");
+
+    // hide the printing text after 2 seconds
+    // show the finished printing icon
+    Runnable printing =
+        () -> {
+          // flag that the paper has been printed from the computer
+          printIcon.setVisible(false);
+          printIconComplete.setVisible(true);
+          SharedElements.printPaper();
+          printLabel.setText("No Files in Queue");
+        };
+
+    GameState.delayRun(printing, 2);
+  }
+
+  @FXML
+  private void onCloseComputer() {
+    computerAnchorPane.setVisible(false);
   }
 }

@@ -120,9 +120,20 @@ public class SharedElements {
     if (GameState.getMuted() == false) {
       TextToSpeechManager.cutOff();
       TextToSpeechManager.speak(message);
-    }
-    for (int i = 0; i < 3; i++) {
-      chatBubbleList[i].setVisible(true);
+      TextToSpeechManager.setCompletedRunnable(
+          () -> {
+            for (int i = 0; i < 3; i++) {
+              chatBubbleList[i].setVisible(false);
+            }
+          });
+    } else {
+      GameState.delayRun(
+          () -> {
+            for (int i = 0; i < 3; i++) {
+              chatBubbleList[i].setVisible(false);
+            }
+          },
+          4);
     }
   }
 
