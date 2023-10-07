@@ -130,13 +130,13 @@ public class SharedElements {
     // set master hint button text
     if (hints == 0) {
       // disable hints button if no hints left
-      instance.hintButton.setText("No Hints Left");
+      instance.hintButton.setText("NO HINTS LEFT");
       instance.hintButton.setDisable(true);
     } else if (hints < 0) {
       // set hints to unlimited if on easy mode
-      instance.hintButton.setText("Hints Left: Unlimited");
+      instance.hintButton.setText("USE HINT: INFINITE");
     } else {
-      instance.hintButton.setText("Hints Left: " + hints);
+      instance.hintButton.setText("USE HINT: " + hints);
     }
   }
 
@@ -283,6 +283,7 @@ public class SharedElements {
       chatBoxChild.visibleProperty().bind(chatBox.visibleProperty());
       chatBoxChild.setPromptText("Chat history will appear here");
 
+      // add css to chat box
       chatBoxChild.getStyleClass().add("text-box");
 
       chatBoxList[i] = chatBoxChild;
@@ -299,6 +300,7 @@ public class SharedElements {
       hintBoxChild.visibleProperty().bind(hintBox.visibleProperty());
       hintBoxChild.setPromptText("Hints given will appear here");
 
+      // add css to hint box
       hintBoxChild.getStyleClass().add("text-box");
 
       hintBoxList[i] = hintBoxChild;
@@ -316,12 +318,8 @@ public class SharedElements {
       // add css to hint button
       hintButtonChild.getStyleClass().add("chat-button");
 
-      // add new instance to list
-      hintButtonList[i] = hintButtonChild;
-
       // create new child chat label
       Label chatBubbleLabelChild = new Label();
-      chatBubbleLabelChild.setFont(new javafx.scene.text.Font("Courier New", 20));
       chatBubbleLabelChild.setWrapText(true);
       chatBubbleLabelChild.setPrefWidth(1200);
       chatBubbleLabelChild.setMaxWidth(1200);
@@ -329,10 +327,13 @@ public class SharedElements {
       chatBubbleLabelChild.setAlignment(Pos.CENTER);
       chatBubbleLabelChild.textProperty().bind(chatLabel.textProperty());
 
+      // add css to bubble label
+      chatBubbleLabelChild.getStyleClass().add("bubble-label");
+
       StackPane chatBubbleLabelPaneChild = new StackPane();
-      chatBubbleLabelPaneChild.setPrefHeight(216);
+      chatBubbleLabelPaneChild.setPrefHeight(200);
       chatBubbleLabelPaneChild.setAlignment(Pos.CENTER);
-      Image backgroundImage = new Image("images/ChatBubble/bubble-mid.png", 216, 216, false, true);
+      Image backgroundImage = new Image("images/ChatBubble/middle-bubble.png", 216, 200, false, true);
       chatBubbleLabelPaneChild.setBackground(
           new Background(
               new BackgroundImage(
@@ -343,14 +344,16 @@ public class SharedElements {
                   null)));
       chatBubbleLabelPaneChild.setMaxWidth(1200);
 
+      // add css to middle bubble pane
       chatBubbleLabelPaneChild.getChildren().add(chatBubbleLabelChild);
 
-      ImageView leftChatImage = new ImageView("images/ChatBubble/bubble-left.png");
+      ImageView leftChatImage = new ImageView("images/ChatBubble/left-bubble.png");
       leftChatImage.setPreserveRatio(true);
-      leftChatImage.setFitHeight(216);
-      ImageView rightChatImage = new ImageView("images/ChatBubble/bubble-right.png");
+      leftChatImage.setFitHeight(200);
+
+      ImageView rightChatImage = new ImageView("images/ChatBubble/right-bubble.png");
       rightChatImage.setPreserveRatio(true);
-      rightChatImage.setFitHeight(216);
+      rightChatImage.setFitHeight(200);
 
       HBox chatBubbleHorizontalBoxChild = new HBox();
       chatBubbleHorizontalBoxChild.setAlignment(Pos.CENTER_LEFT);
@@ -377,6 +380,7 @@ public class SharedElements {
       showHintButtonChild.setText("HINT LIST");
       showHintButtonChild.onActionProperty().bind(showHintBox.onActionProperty());
 
+      // add css to show hint button
       showHintButtonChild.getStyleClass().add("chat-button");
 
       // Power left label
@@ -384,6 +388,7 @@ public class SharedElements {
       powerLabelChild.setText("Power Left:");
       powerLabelChild.setFont(new javafx.scene.text.Font("System", 24));
 
+      // add css to power left label
       powerLabelChild.getStyleClass().add("power-label");
 
       // create new child timer label and progress bar
@@ -393,12 +398,14 @@ public class SharedElements {
       Label timerLabelChild = new Label();
       timerLabelChild.setFont(new javafx.scene.text.Font("System", 24));
 
+      // add css to progress bar
       timerProgressBarChild.getStyleClass().add("progress-bar");
 
       // bind child timer label and progress bar to master timer label and progress bar
       timerLabelChild.textProperty().bind(timerLabel.textProperty());
       timerProgressBarChild.progressProperty().bind(timerProgressBar.progressProperty());
 
+      // add css to timer label
       timerLabelChild.getStyleClass().add("timer-label");
 
       HBox buttonBoxChild = new HBox();
@@ -408,6 +415,7 @@ public class SharedElements {
       // place buttons side by side
       buttonBoxChild.getChildren().addAll(showChatButtonChild, showHintButtonChild);
 
+      // add css to button box holding chat history and show hint buttons
       buttonBoxChild.getStyleClass().add("button-box");
 
       // place progress bar and label side by side
@@ -430,6 +438,7 @@ public class SharedElements {
       messageBoxChild.setPrefHeight(40);
       messageBoxChild.setPromptText("Talk to AI-23...");
 
+      // add css to message box
       messageBoxChild.getStyleClass().add("message-box");
 
       // create new child send button
@@ -442,14 +451,15 @@ public class SharedElements {
       sendMessageChild.onActionProperty().bind(sendMessage.onActionProperty());
       sendMessageChild.disableProperty().bind(sendMessage.disableProperty());
 
+      // add css to send button
       sendMessageChild.getStyleClass().add("send-button");
 
       // place chat box and send button side by side
       HBox sendBoxChild = new HBox();
-      sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild);
+      sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild, hintButtonChild);
       
+      // add css to send message hbox
       sendBoxChild.getStyleClass().add("send-box");
-
 
       // Place timer / history buttons next to the send message box
       HBox taskBarHorizontalBoxChild = new HBox();
@@ -460,6 +470,7 @@ public class SharedElements {
           .getChildren()
           .addAll(timerAnchorPane, sendBoxChild);
 
+      // add css to task bar
       taskBarHorizontalBoxChild.getStyleClass().add("task-bar");
 
       // add new instance to list

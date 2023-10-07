@@ -108,18 +108,21 @@
     -fx-text-fill: #28969c;
 }
 
-/* to do... */
+.bubble-label {
+    -fx-font-family: 'Space Grotesk';
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+}
+
 .task-bar {
     -fx-spacing: 200px;
     -fx-padding: 10px;
-
 }
 
-/* to do... */
 .send-box {
     -fx-alignment: top-center;
     -fx-padding: 0 0 0 100;
-    -fx-spacing: 20px;
+    -fx-spacing: 10px;
 
 }
 
@@ -185,7 +188,9 @@
 }
 
 .text-box {
-    -fx-font-family: 'Press Start 2P';
+    -fx-font-family: 'Space Grotesk';
+    -fx-font-size: 18px;
+    -fx-line-spacing: 5px;
     -fx-text-fill: black;
     -fx-border-width: 3px;
     -fx-border-color: #28969c #28969c transparent #28969c;

@@ -68,7 +68,6 @@ public class ControlRoomController {
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);
-    hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 

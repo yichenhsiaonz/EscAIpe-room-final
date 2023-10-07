@@ -68,17 +68,17 @@
                                  <children>
                                     <Pane>
                                        <children>
-                                          <ImageView fx:id="neutralAi" fitHeight="216.0" fitWidth="216.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="neutralAi" fitHeight="242.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/AIRobot/neutral.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="loadingAi" fitHeight="216.0" fitWidth="216.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                          <ImageView fx:id="loadingAi" fitHeight="242.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                              <image>
                                                 <Image url="@../images/AIRobot/loading.gif" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="talkingAi" fitHeight="216.0" fitWidth="216.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                          <ImageView fx:id="talkingAi" fitHeight="242.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                              <image>
                                                 <Image url="@../images/AIRobot/talking.gif" />
                                              </image>
@@ -111,7 +111,7 @@
                         </AnchorPane>
                </children>
             </VBox>
-            <Button id="menuButton" layoutX="1790.0" layoutY="20.0" mnemonicParsing="false" onAction="#onBackToMenu" text="MENU" />
+            <Button id="menuButton" layoutX="1792.0" layoutY="20.0" mnemonicParsing="false" onAction="#onBackToMenu" text="EXIT" />
             <Button id="muteButton" layoutX="1790.0" layoutY="85.0" mnemonicParsing="false" onAction="#onMute" text="MUTE" />
          </children>
          <BorderPane.margin>
