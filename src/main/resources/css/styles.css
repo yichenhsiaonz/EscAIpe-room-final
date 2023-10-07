@@ -1,3 +1,6 @@
+/* ------ menu design ------ */
+
+/* menu buttons */
 #menuButton {
     -fx-background-color: #28969c;
     -fx-border-color: #006b73;
@@ -16,6 +19,15 @@
     -fx-text-fill: #28969c;
 }
 
+/* grid for difficulty and time options */
+#optionsGrid {
+    -fx-background-color: rgb(37, 69, 80);
+    -fx-alignment: center;
+    -fx-padding: 20px;
+    -fx-background-radius: 15px;
+}
+
+/* toggle buttons for difficulty and time */
 .toggle-button {
     -fx-font-family: 'Press Start 2P';
     -fx-background-color: #28969c;
@@ -35,10 +47,12 @@
     -fx-border-width: 5px;
 }
 
+/* time option buttons */
 #timeButton {
     -fx-font-size: 20px;
 }
 
+/* labels */
 #menuLabel {
     -fx-font-family: 'Press Start 2P';
     -fx-font-size: 18px;
@@ -59,17 +73,190 @@
     -fx-font-size: 10px;
 }
 
-#optionsGrid {
-    -fx-background-color: rgb(37, 69, 80);
-    -fx-alignment: center;
-    -fx-padding: 20px;
-    -fx-background-radius: 15px;
-}
-
+/* anchor pane */
 #contentPane {
-    -fx-background-color: rgb(1, 10, 26);
+    -fx-background-color: rgb(0, 9, 25);
 }
 
-#contentPane Text {
-    -fx-fill: white;
+/* ------ main UI design ------ */
+
+/* speech bubble label */
+.bubble-label {
+    -fx-font-family: 'Space Grotesk';
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+}
+
+/* hbox task bar */
+.task-bar {
+    -fx-spacing: 200px;
+    -fx-padding: 10px;
+}
+
+/* timer progress bar */
+.progress-bar {
+    -fx-accent: #2cf3e5;
+}
+
+.progress-bar .track {
+    -fx-background-radius: 50px;
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 50px;
+}
+
+/* power left label */
+.power-label {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-padding: 20px 0 10px 0;
+}
+
+/* time left label */
+.timer-label {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+
+/* hbox for sending messages to AI */
+.send-box {
+    -fx-alignment: top-center;
+    -fx-padding: 0 0 0 100;
+    -fx-spacing: 10px;
+
+}
+
+/* message text field */
+.message-box {
+    -fx-border-color: #006b73;
+    -fx-border-width: 3px;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+}
+
+/* send message button */
+.send-button {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-padding: 10px 10px 5px 10px;
+    -fx-margin: 0 0 0 10px;
+    -fx-pref-width: 150px;
+}
+
+.send-button:hover {
+    -fx-background-color: white;
+    -fx-border-color: #006b73;
+    -fx-text-fill: #28969c;
+}
+
+/* use hint button */
+.hint-button {
+    -fx-background-color: white;
+    -fx-border-color: #006b73;
+    -fx-text-fill: #44c9b9;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-padding: 10px 10px 5px 10px;
+    -fx-margin: 0 0 0 10px
+}
+
+.hint-button:hover {
+    -fx-background-color: #44c9b9;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+}
+
+/* text area for history and hints */
+.text-box {
+    -fx-font-family: 'Space Grotesk';
+    -fx-font-size: 18px;
+    -fx-line-spacing: 5px;
+    -fx-text-fill: black;
+    -fx-border-width: 3px;
+    -fx-border-color: #28969c #28969c transparent #28969c;
+    -fx-background-color: rgba(255, 255, 255, 0.848);
+}
+
+.text-box .prompt-text {
+    -fx-fill: #585858; /* Set the color of the prompt text */
+}
+
+.text-box .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-box .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-box .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+/* text area related button box */
+.button-box {
+    -fx-spacing: 10px;
+}
+
+/* text area related buttons */
+.chat-button {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 15px;
+    -fx-padding: 10px 10px 5px 10px;
+    -fx-margin: 0 0 0 10px
+}
+
+.chat-button:hover {
+    -fx-background-color: white;
+    -fx-border-color: #006b73;
+    -fx-text-fill: #28969c;
+}
+
+/* inventory text label */
+#inventoryLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+/* mute button */
+#muteButton {
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 18px;
+    -fx-padding: 10px 10px 5px 10px;
+}
+
+#muteButton:hover {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-text-fill: #28969c;
 }
