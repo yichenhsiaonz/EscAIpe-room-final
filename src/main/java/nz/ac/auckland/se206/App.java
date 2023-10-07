@@ -120,8 +120,9 @@ public class App extends Application {
     String cssFile = getClass().getResource("/css/styles.css").toExternalForm();
     scene.getStylesheets().add(cssFile);
 
-    // load font
+    // load fonts
     Font.loadFont(getClass().getResource("/fonts/PressStart2P-Regular.ttf").toExternalForm(), 12);
+    Font.loadFont(getClass().getResource("/fonts/SpaceGrotesk-Regular.ttf").toExternalForm(), 12);
 
     // set the background color to black
     scene.setFill(Color.BLACK);

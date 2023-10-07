@@ -23,9 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
-import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
@@ -143,13 +141,13 @@ public class SharedElements {
     // set master hint button text
     if (hints == 0) {
       // disable hints button if no hints left
-      instance.hintButton.setText("No Hints Left");
+      instance.hintButton.setText("NO HINTS LEFT");
       instance.hintButton.setDisable(true);
     } else if (hints < 0) {
       // set hints to unlimited if on easy mode
-      instance.hintButton.setText("Hints Left: Unlimited");
+      instance.hintButton.setText("USE HINT: INFINITE");
     } else {
-      instance.hintButton.setText("Hints Left: " + hints);
+      instance.hintButton.setText("USE HINT: " + hints);
     }
   }
 
@@ -298,7 +296,7 @@ public class SharedElements {
       // create new child chat box
       // bind child chat box text to master chat box
       TextArea chatBoxChild = new TextArea();
-      chatBoxChild.setPrefWidth(330);
+      chatBoxChild.setPrefWidth(350);
       chatBoxChild.setPrefHeight(700);
       chatBoxChild.setEditable(false);
       chatBoxChild.setWrapText(true);
@@ -307,12 +305,15 @@ public class SharedElements {
       chatBoxChild.visibleProperty().bind(chatBox.visibleProperty());
       chatBoxChild.setPromptText("Chat history will appear here");
 
+      // add css to chat box
+      chatBoxChild.getStyleClass().add("text-box");
+
       chatBoxList[i] = chatBoxChild;
 
       // create new child hint box
       // bind child hint box text to master hint box
       TextArea hintBoxChild = new TextArea();
-      hintBoxChild.setPrefWidth(330);
+      hintBoxChild.setPrefWidth(350);
       hintBoxChild.setPrefHeight(700);
       hintBoxChild.setEditable(false);
       hintBoxChild.setWrapText(true);
@@ -320,6 +321,9 @@ public class SharedElements {
       hintBoxChild.textProperty().bind(hintBox.textProperty());
       hintBoxChild.visibleProperty().bind(hintBox.visibleProperty());
       hintBoxChild.setPromptText("Hints given will appear here");
+
+      // add css to hint box
+      hintBoxChild.getStyleClass().add("text-box");
 
       hintBoxList[i] = hintBoxChild;
 
@@ -333,12 +337,11 @@ public class SharedElements {
       hintButtonChild.onActionProperty().bind(hintButton.onActionProperty());
       hintButtonChild.disableProperty().bind(hintButton.disableProperty());
 
-      // add new instance to list
-      hintButtonList[i] = hintButtonChild;
+      // add css to hint button
+      hintButtonChild.getStyleClass().add("hint-button");
 
       // create new child chat label
       Label chatBubbleLabelChild = new Label();
-      chatBubbleLabelChild.setFont(new javafx.scene.text.Font("Courier New", 20));
       chatBubbleLabelChild.setWrapText(true);
       chatBubbleLabelChild.setPrefWidth(1200);
       chatBubbleLabelChild.setMaxWidth(1200);
@@ -346,10 +349,13 @@ public class SharedElements {
       chatBubbleLabelChild.setAlignment(Pos.CENTER);
       chatBubbleLabelChild.textProperty().bind(chatLabel.textProperty());
 
+      // add css to bubble label
+      chatBubbleLabelChild.getStyleClass().add("bubble-label");
+
       StackPane chatBubbleLabelPaneChild = new StackPane();
-      chatBubbleLabelPaneChild.setPrefHeight(216);
+      chatBubbleLabelPaneChild.setPrefHeight(200);
       chatBubbleLabelPaneChild.setAlignment(Pos.CENTER);
-      Image backgroundImage = new Image("images/ChatBubble/bubble-mid.png", 216, 216, false, true);
+      Image backgroundImage = new Image("images/ChatBubble/middle-bubble.png", 216, 200, false, true);
       chatBubbleLabelPaneChild.setBackground(
           new Background(
               new BackgroundImage(
@@ -360,14 +366,16 @@ public class SharedElements {
                   null)));
       chatBubbleLabelPaneChild.setMaxWidth(1200);
 
+      // add css to middle bubble pane
       chatBubbleLabelPaneChild.getChildren().add(chatBubbleLabelChild);
 
-      ImageView leftChatImage = new ImageView("images/ChatBubble/bubble-left.png");
+      ImageView leftChatImage = new ImageView("images/ChatBubble/left-bubble.png");
       leftChatImage.setPreserveRatio(true);
-      leftChatImage.setFitHeight(216);
-      ImageView rightChatImage = new ImageView("images/ChatBubble/bubble-right.png");
+      leftChatImage.setFitHeight(200);
+
+      ImageView rightChatImage = new ImageView("images/ChatBubble/right-bubble.png");
       rightChatImage.setPreserveRatio(true);
-      rightChatImage.setFitHeight(216);
+      rightChatImage.setFitHeight(200);
 
       HBox chatBubbleHorizontalBoxChild = new HBox();
       chatBubbleHorizontalBoxChild.setAlignment(Pos.CENTER_LEFT);
@@ -382,19 +390,28 @@ public class SharedElements {
       Button showChatButtonChild = new Button();
       showChatButtonChild.setPrefWidth(165);
       showChatButtonChild.setPrefHeight(25);
-      showChatButtonChild.setText("Chat History");
+      showChatButtonChild.setText("HISTORY");
       showChatButtonChild.onActionProperty().bind(showChatBox.onActionProperty());
+
+      // add css to show chat button
+      showChatButtonChild.getStyleClass().add("chat-button");
 
       Button showHintButtonChild = new Button();
       showHintButtonChild.setPrefWidth(165);
       showHintButtonChild.setPrefHeight(25);
-      showHintButtonChild.setText("Hints Given");
+      showHintButtonChild.setText("HINT LIST");
       showHintButtonChild.onActionProperty().bind(showHintBox.onActionProperty());
+
+      // add css to show hint button
+      showHintButtonChild.getStyleClass().add("chat-button");
 
       // Power left label
       Label powerLabelChild = new Label();
       powerLabelChild.setText("Power Left:");
       powerLabelChild.setFont(new javafx.scene.text.Font("System", 24));
+
+      // add css to power left label
+      powerLabelChild.getStyleClass().add("power-label");
 
       // create new child timer label and progress bar
       ProgressBar timerProgressBarChild = new ProgressBar();
@@ -403,9 +420,15 @@ public class SharedElements {
       Label timerLabelChild = new Label();
       timerLabelChild.setFont(new javafx.scene.text.Font("System", 24));
 
+      // add css to progress bar
+      timerProgressBarChild.getStyleClass().add("progress-bar");
+
       // bind child timer label and progress bar to master timer label and progress bar
       timerLabelChild.textProperty().bind(timerLabel.textProperty());
       timerProgressBarChild.progressProperty().bind(timerProgressBar.progressProperty());
+
+      // add css to timer label
+      timerLabelChild.getStyleClass().add("timer-label");
 
       HBox buttonBoxChild = new HBox();
       HBox timerHorizontalBoxChild = new HBox();
@@ -413,6 +436,10 @@ public class SharedElements {
 
       // place buttons side by side
       buttonBoxChild.getChildren().addAll(showChatButtonChild, showHintButtonChild);
+
+      // add css to button box holding chat history and show hint buttons
+      buttonBoxChild.getStyleClass().add("button-box");
+
       // place progress bar and label side by side
       timerHorizontalBoxChild.getChildren().addAll(timerProgressBarChild, timerLabelChild);
       // place buttons above header and headver above progress bar and label
@@ -429,78 +456,46 @@ public class SharedElements {
       // bidirectionally bind child message box text to master message box
       TextField messageBoxChild = new TextField();
       messageBoxChild.textProperty().bindBidirectional(messageBox.textProperty());
+      messageBoxChild.setPrefWidth(400);
+      messageBoxChild.setPrefHeight(40);
+      messageBoxChild.setPromptText("Talk to AI-23...");
+
+      // add css to message box
+      messageBoxChild.getStyleClass().add("message-box");
+
       messageBoxChild.onKeyPressedProperty().bind(messageBox.onKeyPressedProperty());
-      messageBoxChild.setPrefWidth(270);
-      messageBoxChild.setPrefHeight(25);
 
       // create new child send button
       // bind child send button click behaviour to master send button
       // bind child send button disable property to master send button
       Button sendMessageChild = new Button();
-      sendMessageChild.setText("Submit");
+      sendMessageChild.setText("SUBMIT");
       sendMessageChild.setPrefWidth(60);
       sendMessageChild.setPrefHeight(25);
       sendMessageChild.onActionProperty().bind(sendMessage.onActionProperty());
       sendMessageChild.disableProperty().bind(sendMessage.disableProperty());
 
+      // add css to send button
+      sendMessageChild.getStyleClass().add("send-button");
+
       // place chat box and send button side by side
       HBox sendBoxChild = new HBox();
-      sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild);
-
-      // send message box container anchor box
-      // use this to position the send message box
-      AnchorPane sendBoxAnchorPane = new AnchorPane(sendBoxChild);
-      sendBoxAnchorPane.setPrefHeight(133);
-      AnchorPane.setTopAnchor(sendBoxChild, 54.0);
-
-      // create return to menu button
-      Button menuButtonChild = new Button();
-      menuButtonChild.setText("Return to Menu");
-      menuButtonChild.setPrefWidth(165);
-      menuButtonChild.setPrefHeight(25);
-      menuButtonChild.setOnAction(
-          event -> {
-            try {
-              TextToSpeechManager.cutOff();
-              GameState.stopAllThreads();
-              App.setRoot(AppUi.MENU);
-            } catch (Exception e) {
-              e.printStackTrace();
-              System.out.println("return to menu error");
-            }
-          });
-
-      // return to menu anchor box
-      // use this to position the button
-      AnchorPane menuAnchorPane = new AnchorPane(menuButtonChild);
-      menuAnchorPane.setPrefHeight(133);
-      AnchorPane.setTopAnchor(menuButtonChild, 54.0);
-
-      // create mute button
-      Button muteButtonChild = new Button();
-      muteButtonChild.setText("Mute");
-      muteButtonChild.setPrefWidth(165);
-      muteButtonChild.setPrefHeight(25);
-      muteButtonChild.setOnAction(
-          event -> {
-            TextToSpeechManager.cutOff();
-            GameState.toggleMuted();
-          });
-
-      // mute button anchor box
-      // use this to position the button
-      AnchorPane muteAnchorPane = new AnchorPane(muteButtonChild);
-      muteAnchorPane.setPrefHeight(133);
-      AnchorPane.setTopAnchor(muteButtonChild, 54.0);
+      sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild, hintButtonChild);
+      
+      // add css to send message hbox
+      sendBoxChild.getStyleClass().add("send-box");
 
       // Place timer / history buttons next to the send message box
       HBox taskBarHorizontalBoxChild = new HBox();
       taskBarHorizontalBoxChild.setPrefSize(1920, 133);
       taskBarHorizontalBoxChild.setBackground(
-          new Background(new BackgroundFill(Color.web("006b5b"), null, null)));
+          new Background(new BackgroundFill(Color.web("010a1a"), null, null)));
       taskBarHorizontalBoxChild
           .getChildren()
-          .addAll(timerAnchorPane, sendBoxAnchorPane, menuAnchorPane, muteAnchorPane);
+          .addAll(timerAnchorPane, sendBoxChild);
+
+      // add css to task bar
+      taskBarHorizontalBoxChild.getStyleClass().add("task-bar");
 
       // add new instance to list
       taskBarHorizontalBoxList[i] = taskBarHorizontalBoxChild;

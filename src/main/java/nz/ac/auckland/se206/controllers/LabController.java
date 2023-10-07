@@ -14,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -61,7 +62,6 @@ public class LabController {
     bottomVerticalBox.getChildren().add(bottom);
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);
-    hintVerticalBox.getChildren().add(SharedElements.getHintButton());
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
 
@@ -219,8 +219,15 @@ public class LabController {
   }
 
   @FXML
-  private void onQuitGame(ActionEvent event) {
-    System.exit(0);
+  private void onBackToMenu(ActionEvent event) throws IOException {
+    GameState.stopAllThreads();
+    App.setRoot(AppUi.MENU);
+  }
+
+  @FXML
+  private void onMute(ActionEvent event) {
+    TextToSpeechManager.cutOff();
+    GameState.toggleMuted();
   }
 
   @FXML

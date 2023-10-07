@@ -113,11 +113,11 @@
                   </Label>
                   <ToggleButton id="timeButton" fx:id="twoButton" mnemonicParsing="false" onAction="#onTwoSelected" prefHeight="74.0" prefWidth="238.0" text="2:00" textAlignment="CENTER" GridPane.rowIndex="1">
                      <toggleGroup>
-                        <ToggleGroup fx:id="level1" />
+                        <ToggleGroup fx:id="time" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton id="timeButton" fx:id="fourButton" mnemonicParsing="false" onAction="#onFourSelected" prefHeight="74.0" prefWidth="238.0" text="4:00" textAlignment="CENTER" toggleGroup="$level1" GridPane.rowIndex="2" />
-                  <ToggleButton id="timeButton" fx:id="sixButton" mnemonicParsing="false" onAction="#onSixSelected" prefHeight="74.0" prefWidth="238.0" text="6:00" textAlignment="CENTER" toggleGroup="$level1" GridPane.rowIndex="3" />
+                  <ToggleButton id="timeButton" fx:id="fourButton" mnemonicParsing="false" onAction="#onFourSelected" prefHeight="74.0" prefWidth="238.0" text="4:00" textAlignment="CENTER" toggleGroup="$time" GridPane.rowIndex="2" />
+                  <ToggleButton id="timeButton" fx:id="sixButton" mnemonicParsing="false" onAction="#onSixSelected" prefHeight="74.0" prefWidth="238.0" text="6:00" textAlignment="CENTER" toggleGroup="$time" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <Label fx:id="errorLabel" alignment="CENTER" layoutX="789.0" layoutY="919.0" prefHeight="28.0" prefWidth="376.0" text="Choose a difficulty and time!" textAlignment="CENTER" visible="false" wrapText="true" />
