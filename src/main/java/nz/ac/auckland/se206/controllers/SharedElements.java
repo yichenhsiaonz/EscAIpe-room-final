@@ -20,9 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
-import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
@@ -316,7 +314,7 @@ public class SharedElements {
       hintButtonChild.disableProperty().bind(hintButton.disableProperty());
 
       // add css to hint button
-      hintButtonChild.getStyleClass().add("chat-button");
+      hintButtonChild.getStyleClass().add("hint-button");
 
       // create new child chat label
       Label chatBubbleLabelChild = new Label();
