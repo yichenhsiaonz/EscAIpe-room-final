@@ -1,6 +1,7 @@
 package nz.ac.auckland.se206.controllers;
 
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,6 +11,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -204,8 +207,21 @@ public class SharedElements {
     timerLabel.textProperty().bind(timerTask.messageProperty());
     timerProgressBar.progressProperty().bind(timerTask.progressProperty());
 
-    // create new master message box
+    // create new master send message field
     messageBox = new TextField();
+    messageBox.setOnKeyPressed(
+        new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent ke) {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+              try {
+                GameState.onMessageSent();
+              } catch (ApiProxyException e) {
+                e.printStackTrace();
+              }
+            }
+          }
+        });
 
     // create new master hint box
     hintBox = new TextArea();
@@ -223,7 +239,6 @@ public class SharedElements {
             GameState.getPuzzleHint();
           } catch (ApiProxyException e) {
             e.printStackTrace();
-            System.out.println("setting up error");
           }
         });
     // create new master send button
@@ -235,7 +250,6 @@ public class SharedElements {
             GameState.onMessageSent();
           } catch (ApiProxyException e) {
             e.printStackTrace();
-            System.out.println("setting up error");
           }
         });
 
@@ -448,6 +462,8 @@ public class SharedElements {
 
       // add css to message box
       messageBoxChild.getStyleClass().add("message-box");
+
+      messageBoxChild.onKeyPressedProperty().bind(messageBox.onKeyPressedProperty());
 
       // create new child send button
       // bind child send button click behaviour to master send button
