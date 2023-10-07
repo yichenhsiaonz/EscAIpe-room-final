@@ -150,6 +150,7 @@ public class GameState {
   }
 
   public static void toggleMuted() {
+    SharedElements.toggleMuteText();
     instance.muted = !instance.muted;
   }
 

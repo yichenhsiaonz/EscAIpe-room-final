@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +47,7 @@ public class KitchenController {
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
+  @FXML private Button muteButton;
 
   private boolean moving = false;
 
@@ -70,6 +72,9 @@ public class KitchenController {
     SharedElements.incremnetLoadedScenes();
     // scale the room to the screen size
     GameState.scaleToScreen(contentPane);
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();

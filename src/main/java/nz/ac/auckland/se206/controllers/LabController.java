@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,6 +40,7 @@ public class LabController {
   @FXML private ImageView doorGlow;
   @FXML private ImageView usbGlow;
   @FXML private ImageView usb;
+  @FXML private Button muteButton;
 
   private boolean moving = false;
   private double startX = 1512;
@@ -64,6 +66,9 @@ public class LabController {
     dialogueHorizontalBox.getChildren().add(chatBubble);
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     GameState.goToInstant(startX, startY, character, running);
     room.setOpacity(0);
