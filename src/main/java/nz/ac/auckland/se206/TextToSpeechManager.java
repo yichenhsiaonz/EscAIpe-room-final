@@ -5,10 +5,12 @@ import nz.ac.auckland.se206.speech.TextToSpeech;
 
 public class TextToSpeechManager {
   private static TextToSpeech textToSpeech = new TextToSpeech();
+  private static Task<Void> task;
 
   public static void speak(String... sentences) {
+    cutOff();
     // Run in a separate thread to avoid blocking the UI thread
-    Task<Void> task =
+    task =
         new Task<Void>() {
           @Override
           protected Void call() throws InterruptedException {
@@ -21,6 +23,13 @@ public class TextToSpeechManager {
   }
 
   public static void cutOff() {
+    if (task != null) {
+      task.setOnSucceeded(null);
+    }
     textToSpeech.stop();
+  }
+
+  public static void setCompletedRunnable(Runnable runnable) {
+    task.setOnSucceeded(e -> runnable.run());
   }
 }

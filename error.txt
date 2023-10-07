@@ -1,16 +1,12 @@
-Oct 04, 2023 11:37:52 PM javafx.fxml.FXMLLoader$ValueElement processValue
+Oct 07, 2023 2:44:14 PM javafx.fxml.FXMLLoader$ValueElement processValue
 WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:37:53 PM javafx.fxml.FXMLLoader$ValueElement processValue
+Oct 07, 2023 2:44:14 PM javafx.fxml.FXMLLoader$ValueElement processValue
 WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:37:58 PM javafx.fxml.FXMLLoader$ValueElement processValue
+Oct 07, 2023 2:44:16 PM javafx.fxml.FXMLLoader$ValueElement processValue
 WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:37:59 PM javafx.fxml.FXMLLoader$ValueElement processValue
+Oct 07, 2023 2:44:17 PM javafx.fxml.FXMLLoader$ValueElement processValue
 WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:37:59 PM javafx.fxml.FXMLLoader$ValueElement processValue
+Oct 07, 2023 2:44:18 PM javafx.fxml.FXMLLoader$ValueElement processValue
 WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:38:00 PM javafx.fxml.FXMLLoader$ValueElement processValue
-WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:38:00 PM javafx.fxml.FXMLLoader$ValueElement processValue
-WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1
-Oct 04, 2023 11:38:00 PM javafx.fxml.FXMLLoader$ValueElement processValue
+Oct 07, 2023 2:44:18 PM javafx.fxml.FXMLLoader$ValueElement processValue
 WARNING: Loading FXML document with JavaFX API of version 20.0.1 by JavaFX runtime of version 18.0.1

@@ -37,6 +37,8 @@ public class LabController {
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
   @FXML private ImageView doorGlow;
+  @FXML private ImageView usbGlow;
+  @FXML private ImageView usb;
 
   private boolean moving = false;
   private double startX = 1512;
@@ -226,6 +228,42 @@ public class LabController {
   private void onMute(ActionEvent event) {
     TextToSpeechManager.cutOff();
     GameState.toggleMuted();
+  }
+
+  @FXML
+  public void onUSBhovered(MouseEvent event) {
+    usbGlow.setVisible(true);
+  }
+
+  @FXML
+  public void onUSBunhovered(MouseEvent event) {
+    usbGlow.setVisible(false);
+  }
+
+  @FXML
+  public void onUSBclicked(MouseEvent event) {
+
+    try {
+      // check if the character is already moving to prevent multiple clicks
+      if (!moving) {
+        moving = true;
+        // move character to usb position
+        double movementDelay =
+            GameState.goTo(usb.getLayoutX(), usb.getLayoutY(), character, running);
+        Runnable goToUsb =
+            () -> {
+              usbGlow.setOpacity(0);
+              usb.setOpacity(0);
+              GameState.addItem(GameState.Items.USB);
+              GameState.foundUSB();
+              moving = false;
+            };
+
+        GameState.delayRun(goToUsb, movementDelay);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void fadeIn() {
