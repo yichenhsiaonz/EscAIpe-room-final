@@ -212,6 +212,7 @@ public class ControlRoomController {
               System.out.println("exit door clicked");
               if (GameState.isExitUnlocked) {
                 // if the exit is unlocked, fade to black for ending scene
+                GameState.playSound("/sounds/gate-open.m4a");
                 fadeBlack();
               } else {
                 // otherwise, display notification in chat
@@ -299,6 +300,7 @@ public class ControlRoomController {
         // set root to the kitchen after delay and enable movement
         Runnable leaveRoom =
             () -> {
+              GameState.playSound("/sounds/door-opening.m4a");
               GameState.fadeOut(room);
               Runnable loadKitchen =
                   () -> {
@@ -350,6 +352,7 @@ public class ControlRoomController {
         // set root to the lab after delay and enable movement
         Runnable leaveRoom =
             () -> {
+              GameState.playSound("/sounds/door-opening.m4a");
               GameState.fadeOut(room);
               Runnable loadLab =
                   () -> {
@@ -469,12 +472,12 @@ public class ControlRoomController {
   private void onBackToMenu(ActionEvent event) throws IOException {
     TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
+    GameState.stopSound();
     App.setRoot(AppUi.MENU);
   }
 
   @FXML
   private void onMute(ActionEvent event) {
-    TextToSpeechManager.cutOff();
     GameState.toggleMuted();
   }
 
@@ -555,6 +558,7 @@ public class ControlRoomController {
 
     // Check if the code is correct
     if (code.equals(GameState.code)) {
+      GameState.playSound("/sounds/unlock.m4a");
       // load the ai text for ending
       endingChatCompletionRequest =
           new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
@@ -883,6 +887,7 @@ public class ControlRoomController {
     printButton.disableProperty().set(true);
     // show the printing message below
     printLabel.setText("Printing...");
+    GameState.playSound("/sounds/printer.m4a");
 
     // hide the printing text after 2 seconds
     // show the finished printing icon

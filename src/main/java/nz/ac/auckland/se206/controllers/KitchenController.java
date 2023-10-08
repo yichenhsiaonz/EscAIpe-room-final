@@ -163,6 +163,7 @@ public class KitchenController {
       // load the control room scene after movement animation is finished
       Runnable leaveRoom =
           () -> {
+            GameState.playSound("/sounds/door-opening.m4a");
             GameState.fadeOut(room);
             Runnable loadControlRoom =
                 () -> {
@@ -226,6 +227,7 @@ public class KitchenController {
             };
         Runnable toastFinish =
             () -> {
+              GameState.playSound("/sounds/toaster.mp3");
               System.out.println("toaster clicked");
               // add toasted bread to inventory
               GameState.addItem(GameState.Items.BREAD_TOASTED);
@@ -341,6 +343,7 @@ public class KitchenController {
         GameState.setPuzzleToast();
         Runnable closedFridgeRunnable =
             () -> {
+              GameState.playSound("/sounds/pick-up-item.m4a");
               // change fridge image to open fridge
               fridgeClosed.setVisible(false);
               fridgeOpen.setVisible(true);
@@ -388,12 +391,12 @@ public class KitchenController {
   private void onBackToMenu(ActionEvent event) throws IOException {
     TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
+    GameState.stopSound();
     App.setRoot(AppUi.MENU);
   }
 
   @FXML
   private void onMute(ActionEvent event) {
-    TextToSpeechManager.cutOff();
     GameState.toggleMuted();
   }
 

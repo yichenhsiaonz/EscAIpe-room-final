@@ -128,6 +128,7 @@ public class LabController {
               if (SharedElements.isPaperPrinted() == false) {
                 SharedElements.appendChat("Printer is empty!");
               } else {
+                GameState.playSound("/sounds/pick-up-item.m4a");
                 // append notification to chat box
                 SharedElements.appendChat("There is a printed piece of paper, you take it.");
                 // add paper to inventory
@@ -181,6 +182,7 @@ public class LabController {
         // set root to control room and allow character to move again after movement delay
         Runnable leaveRoom =
             () -> {
+              GameState.playSound("/sounds/door-opening.m4a");
               GameState.fadeOut(room);
               Runnable loadControlRoom =
                   () -> {
@@ -227,12 +229,12 @@ public class LabController {
   private void onBackToMenu(ActionEvent event) throws IOException {
     TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
+    GameState.stopSound();
     App.setRoot(AppUi.MENU);
   }
 
   @FXML
   private void onMute(ActionEvent event) {
-    TextToSpeechManager.cutOff();
     GameState.toggleMuted();
   }
 
@@ -258,8 +260,9 @@ public class LabController {
             GameState.goTo(usb.getLayoutX(), usb.getLayoutY(), character, running);
         Runnable goToUsb =
             () -> {
-              usbGlow.setOpacity(0);
-              usb.setOpacity(0);
+              GameState.playSound("/sounds/pick-up-item.m4a");
+              room.getChildren().remove(usbGlow);
+              room.getChildren().remove(usb);
               GameState.addItem(GameState.Items.USB);
               GameState.foundUSB();
               moving = false;

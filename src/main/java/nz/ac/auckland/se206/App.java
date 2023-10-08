@@ -3,7 +3,6 @@ package nz.ac.auckland.se206;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
-import java.io.PrintStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -87,8 +86,6 @@ public class App extends Application {
    */
   @Override
   public void start(final Stage stage) throws IOException, ApiProxyException {
-    PrintStream ps = new PrintStream("error.txt");
-    System.setErr(ps);
     // get the window size of the primary screen
     DisplayMode mode =
         GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();

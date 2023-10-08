@@ -22,6 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -59,6 +61,7 @@ public class GameState {
   public static String endingReveal = "";
   public static String usbEndingReveal = "";
   private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
+  private static MediaPlayer mediaPlayer;
 
   public static void newGame() {
     // reset flags
@@ -152,6 +155,10 @@ public class GameState {
   public static void toggleMuted() {
     SharedElements.toggleMuteText();
     instance.muted = !instance.muted;
+    if (instance.muted) {
+      TextToSpeechManager.cutOff();
+      stopSound();
+    }
   }
 
   // get gpt response
@@ -826,6 +833,8 @@ public class GameState {
                   // stop all running threads
                   // show game over screen
                   System.out.println("Timer ended");
+                  TextToSpeechManager.cutOff();
+                  stopSound();
                   stopAllThreads();
                   App.gameOver();
                 };
@@ -862,5 +871,25 @@ public class GameState {
     System.out.println(secondDigits);
     System.out.println(thirdDigits);
     System.out.println(code);
+  }
+
+  public static void playSound(String soundFile) {
+    try {
+      // Stop any currently playing sound
+      stopSound();
+      if (!instance.muted) {
+        Media sound = new Media(GameState.class.getResource(soundFile).toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void stopSound() {
+    if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+      mediaPlayer.stop();
+    }
   }
 }
