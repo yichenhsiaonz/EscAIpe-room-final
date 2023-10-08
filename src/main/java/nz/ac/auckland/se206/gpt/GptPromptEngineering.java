@@ -10,7 +10,7 @@ public class GptPromptEngineering {
         + " There are three rooms, a control room, a kitchen and a lab. You have seen"
         // give the AI information that can hint to the user where the puzzles are
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
-        + " scientists printing paper in the lab. You don't know how to access the"
+        + " scientists using the printer in the lab. You don't know how to access the"
         + " scientists' computer in the control room. You should only respond with"
         // try to prevent the AI from giving the user information that is not in the game
         + " information that is given. In 2"
@@ -27,7 +27,7 @@ public class GptPromptEngineering {
         + " There are three rooms, a control room, a kitchen and a lab. You have seen"
         // give the AI information that can hint to the user where the puzzles are
         + " scientists tinkering with the toaster in the kitchen.You have also seen the"
-        + " scientists printing paper in the lab. You don't know how to access the"
+        + " scientists using the printer in the lab. You don't know how to access the"
         + " scientists' computer in the control room. You should only respond with"
         // try to prevent the AI from giving the user information that is not in the game
         + " the information that is given. In 2"

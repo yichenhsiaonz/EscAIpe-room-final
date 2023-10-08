@@ -61,6 +61,7 @@ public class ControlRoomController {
   @FXML private Circle computerMarker;
   @FXML private Circle keypadMarker;
   @FXML private Circle centerDoorMarker;
+  @FXML private Button muteButton;
 
   // elements of keypad
   @FXML private AnchorPane keyPadAnchorPane;
@@ -117,6 +118,9 @@ public class ControlRoomController {
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);
     SharedElements.incremnetLoadedScenes();
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     // computer initialization
     try {
@@ -463,6 +467,7 @@ public class ControlRoomController {
 
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
+    TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
     App.setRoot(AppUi.MENU);
   }

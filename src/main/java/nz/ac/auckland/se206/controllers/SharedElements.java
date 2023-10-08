@@ -23,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -47,6 +48,18 @@ public class SharedElements {
     chatBubbleList = new HBox[3];
     // create new instances
     instance = new SharedElements();
+  }
+
+  public static Text getMuteText() {
+    return instance.muteText;
+  }
+
+  public static void toggleMuteText() {
+    if (instance.muteText.getText().equals("MUTE")) {
+      instance.muteText.setText("UNMUTE");
+    } else {
+      instance.muteText.setText("MUTE");
+    }
   }
 
   public static TextArea getChatBox() {
@@ -191,12 +204,18 @@ public class SharedElements {
   @FXML private Button hintButton;
   @FXML private Button showChatBox;
   @FXML private Button showHintBox;
+  @FXML private Text muteText;
   @FXML private Label chatLabel;
 
   private int loadedScenes;
   private boolean isPaperPrinted = false;
 
   private SharedElements() throws ApiProxyException {
+
+    // create master mute button text
+    muteText = new Text();
+    muteText.setText("MUTE");
+
     // create new master timer label and progress bar
     timerLabel = new Label();
     timerProgressBar = new ProgressBar();
@@ -355,7 +374,8 @@ public class SharedElements {
       StackPane chatBubbleLabelPaneChild = new StackPane();
       chatBubbleLabelPaneChild.setPrefHeight(200);
       chatBubbleLabelPaneChild.setAlignment(Pos.CENTER);
-      Image backgroundImage = new Image("images/ChatBubble/middle-bubble.png", 216, 200, false, true);
+      Image backgroundImage =
+          new Image("images/ChatBubble/middle-bubble.png", 216, 200, false, true);
       chatBubbleLabelPaneChild.setBackground(
           new Background(
               new BackgroundImage(
@@ -481,7 +501,7 @@ public class SharedElements {
       // place chat box and send button side by side
       HBox sendBoxChild = new HBox();
       sendBoxChild.getChildren().addAll(messageBoxChild, sendMessageChild, hintButtonChild);
-      
+
       // add css to send message hbox
       sendBoxChild.getStyleClass().add("send-box");
 
@@ -490,9 +510,7 @@ public class SharedElements {
       taskBarHorizontalBoxChild.setPrefSize(1920, 133);
       taskBarHorizontalBoxChild.setBackground(
           new Background(new BackgroundFill(Color.web("010a1a"), null, null)));
-      taskBarHorizontalBoxChild
-          .getChildren()
-          .addAll(timerAnchorPane, sendBoxChild);
+      taskBarHorizontalBoxChild.getChildren().addAll(timerAnchorPane, sendBoxChild);
 
       // add css to task bar
       taskBarHorizontalBoxChild.getStyleClass().add("task-bar");

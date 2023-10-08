@@ -122,8 +122,8 @@
                         </AnchorPane>
                </children>
             </VBox>
-            <Button id="menuButton" layoutX="1792.0" layoutY="20.0" mnemonicParsing="false" onAction="#onBackToMenu" text="EXIT" />
-            <Button id="muteButton" layoutX="1790.0" layoutY="85.0" mnemonicParsing="false" onAction="#onMute" text="MUTE" />
+            <Button id="menuButton" layoutY="20.0" mnemonicParsing="false" onAction="#onBackToMenu" text="EXIT" AnchorPane.rightAnchor="20.0" />
+            <Button id="muteButton" fx:id="muteButton" layoutY="85.0" mnemonicParsing="false" onAction="#onMute" text="MUTE" AnchorPane.rightAnchor="20.0" />
          </children>
          <BorderPane.margin>
             <Insets />

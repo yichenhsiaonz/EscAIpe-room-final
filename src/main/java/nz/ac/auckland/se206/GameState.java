@@ -150,6 +150,7 @@ public class GameState {
   }
 
   public static void toggleMuted() {
+    SharedElements.toggleMuteText();
     instance.muted = !instance.muted;
   }
 
@@ -473,7 +474,7 @@ public class GameState {
       return;
     }
     // append message to chat box
-    SharedElements.appendChat("You: " + message + "\n");
+    SharedElements.appendChat("You: " + message);
     // clear message box
     messageBox.clear();
     // send message to gpt

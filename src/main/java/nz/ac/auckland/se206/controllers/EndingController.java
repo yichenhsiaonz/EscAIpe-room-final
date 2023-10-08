@@ -59,6 +59,8 @@ public class EndingController {
         textArea.appendText("AI: " + GameState.endingReveal);
         TextToSpeechManager.speak(GameState.endingReveal);
       } else if (chatCount == 2) { // show win screen
+        // stop tts
+        TextToSpeechManager.cutOff();
         // create black rectangle that covers the entire AnchorPane
         AnchorPane anchorPane = (AnchorPane) nextButton.getParent();
         AnchorPane blackRectangle = new AnchorPane();
@@ -128,6 +130,8 @@ public class EndingController {
         textArea.appendText("AI: " + "*Robot dying noises*");
         TextToSpeechManager.speak("Beep boop beep boop, MALFUNCTION, MALFUNCTION, oof");
       } else if (chatCount == 5) { // show win screen
+        // stop tts
+        TextToSpeechManager.cutOff();
         // create black rectangle that covers the entire AnchorPane
         AnchorPane anchorPane = (AnchorPane) nextButton.getParent();
         AnchorPane blackRectangle = new AnchorPane();
