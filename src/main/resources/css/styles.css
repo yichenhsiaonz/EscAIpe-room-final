@@ -61,6 +61,15 @@
     -fx-line-spacing: 5px;
 }
 
+/* labels */
+#instructionsLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 8px;
+}
+
 #creditsLabel {
     -fx-font-family: 'Press Start 2P';
     -fx-text-fill: white;
@@ -70,7 +79,7 @@
 #errorLabel {
     -fx-font-family: 'Press Start 2P';
     -fx-text-fill: white;
-    -fx-font-size: 10px;
+    -fx-font-size: 12px;
 }
 
 /* anchor pane */

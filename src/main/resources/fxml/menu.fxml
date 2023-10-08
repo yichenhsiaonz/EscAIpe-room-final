@@ -19,7 +19,7 @@
    <center>
       <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="364.0" fitWidth="1028.0" layoutX="584.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="584.0" AnchorPane.topAnchor="61.0">
+            <ImageView fitHeight="364.0" fitWidth="1028.0" layoutX="584.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="584.0" AnchorPane.topAnchor="5.0">
                <image>
                   <Image url="@../images/logo.png" />
                </image>
@@ -57,12 +57,12 @@
                   </Label>
                </children>
             </GridPane>
-            <Label id="menuLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="643.0" layoutY="330.0" prefHeight="53.0" prefWidth="501.0" text="Escape the spaceship before the battery dies out!" textAlignment="CENTER" wrapText="true">
+            <Label id="menuLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="631.0" layoutY="275.0" prefHeight="69.0" prefWidth="525.0" text="Escape the spaceship before the battery dies out!&#10;" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Button id="menuButton" layoutX="920.0" layoutY="947.0" mnemonicParsing="false" onAction="#onStartGame" text="START">
+            <Button id="menuButton" layoutX="920.0" layoutY="985.0" mnemonicParsing="false" onAction="#onStartGame" text="START">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -70,7 +70,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <GridPane id="optionsGrid" alignment="BOTTOM_LEFT" layoutX="560.0" layoutY="458.0" prefHeight="430.0" prefWidth="298.0">
+            <GridPane id="optionsGrid" alignment="BOTTOM_LEFT" layoutX="560.0" layoutY="510.0" prefHeight="430.0" prefWidth="298.0">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="242.60699462890625" />
                </columnConstraints>
@@ -95,7 +95,7 @@
                   <ToggleButton fx:id="hardButton" mnemonicParsing="false" onAction="#onHardSelected" prefHeight="74.0" prefWidth="238.0" text="Hard&#10;0 Hints" textAlignment="CENTER" toggleGroup="$level" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <GridPane id="optionsGrid" alignment="BOTTOM_LEFT" layoutX="1097.0" layoutY="458.0" prefHeight="430.0" prefWidth="298.0">
+            <GridPane id="optionsGrid" alignment="BOTTOM_LEFT" layoutX="1097.0" layoutY="510.0" prefHeight="430.0" prefWidth="298.0">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="242.60699462890625" />
                </columnConstraints>
@@ -120,7 +120,8 @@
                   <ToggleButton id="timeButton" fx:id="sixButton" mnemonicParsing="false" onAction="#onSixSelected" prefHeight="74.0" prefWidth="238.0" text="6:00" textAlignment="CENTER" toggleGroup="$time" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <Label fx:id="errorLabel" alignment="CENTER" layoutX="789.0" layoutY="919.0" prefHeight="28.0" prefWidth="376.0" text="Choose a difficulty and time!" textAlignment="CENTER" visible="false" wrapText="true" />
+            <Label fx:id="errorLabel" alignment="CENTER" layoutX="793.0" layoutY="952.0" prefHeight="28.0" prefWidth="376.0" text="Choose a difficulty and time!" textAlignment="CENTER" visible="false" wrapText="true" />
+            <Label id="instructionsLabel" layoutX="598.0" layoutY="373.0" prefHeight="117.0" prefWidth="753.0" text="Instructions:&#10;Click around the ship to move and explore the rooms. &#10;Hover around the items in the ship to discover the passcode &#10;that will unlock the exit." textAlignment="CENTER" wrapText="true" />
          </children>
          <BorderPane.margin>
             <Insets />
