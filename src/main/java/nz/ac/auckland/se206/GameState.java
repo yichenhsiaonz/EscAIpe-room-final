@@ -832,6 +832,8 @@ public class GameState {
                   // stop all running threads
                   // show game over screen
                   System.out.println("Timer ended");
+                  TextToSpeechManager.cutOff();
+                  stopSound();
                   stopAllThreads();
                   App.gameOver();
                 };
