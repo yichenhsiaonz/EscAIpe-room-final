@@ -24,6 +24,7 @@ import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -60,6 +61,7 @@ public class ControlRoomController {
   @FXML private Circle computerMarker;
   @FXML private Circle keypadMarker;
   @FXML private Circle centerDoorMarker;
+  @FXML private Button muteButton;
 
   // elements of keypad
   @FXML private AnchorPane keyPadAnchorPane;
@@ -116,6 +118,9 @@ public class ControlRoomController {
     inventoryPane.getChildren().add(inventory);
     dialogueHorizontalBox.getChildren().add(chatBubble);
     SharedElements.incremnetLoadedScenes();
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     // computer initialization
     try {
@@ -465,6 +470,7 @@ public class ControlRoomController {
 
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
+    TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
     GameState.stopSound();
     App.setRoot(AppUi.MENU);

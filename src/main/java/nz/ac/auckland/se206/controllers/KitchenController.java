@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Circle;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -45,6 +47,7 @@ public class KitchenController {
   @FXML private ImageView neutralAi;
   @FXML private ImageView loadingAi;
   @FXML private ImageView talkingAi;
+  @FXML private Button muteButton;
 
   private boolean moving = false;
 
@@ -69,6 +72,9 @@ public class KitchenController {
     SharedElements.incremnetLoadedScenes();
     // scale the room to the screen size
     GameState.scaleToScreen(contentPane);
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();
@@ -383,6 +389,7 @@ public class KitchenController {
 
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
+    TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
     GameState.stopSound();
     App.setRoot(AppUi.MENU);

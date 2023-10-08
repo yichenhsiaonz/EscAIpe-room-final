@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
+import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -38,6 +40,7 @@ public class LabController {
   @FXML private ImageView doorGlow;
   @FXML private ImageView usbGlow;
   @FXML private ImageView usb;
+  @FXML private Button muteButton;
 
   private boolean moving = false;
   private double startX = 1512;
@@ -63,6 +66,9 @@ public class LabController {
     dialogueHorizontalBox.getChildren().add(chatBubble);
     SharedElements.incremnetLoadedScenes();
     GameState.scaleToScreen(contentPane);
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     GameState.goToInstant(startX, startY, character, running);
     room.setOpacity(0);
@@ -221,6 +227,7 @@ public class LabController {
 
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
+    TextToSpeechManager.cutOff();
     GameState.stopAllThreads();
     GameState.stopSound();
     App.setRoot(AppUi.MENU);
