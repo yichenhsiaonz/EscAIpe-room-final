@@ -14,7 +14,6 @@ import javafx.scene.shape.Rectangle;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
-import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -223,12 +222,12 @@ public class LabController {
   @FXML
   private void onBackToMenu(ActionEvent event) throws IOException {
     GameState.stopAllThreads();
+    GameState.stopSound();
     App.setRoot(AppUi.MENU);
   }
 
   @FXML
   private void onMute(ActionEvent event) {
-    TextToSpeechManager.cutOff();
     GameState.toggleMuted();
   }
 

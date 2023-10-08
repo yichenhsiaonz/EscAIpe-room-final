@@ -154,6 +154,10 @@ public class GameState {
 
   public static void toggleMuted() {
     instance.muted = !instance.muted;
+    if (instance.muted) {
+      TextToSpeechManager.cutOff();
+      stopSound();
+    }
   }
 
   // get gpt response
@@ -868,13 +872,13 @@ public class GameState {
 
   public static void playSound(String soundFile) {
     try {
-      Media sound = new Media(GameState.class.getResource(soundFile).toExternalForm());
-
       // Stop any currently playing sound
       stopSound();
-
-      mediaPlayer = new MediaPlayer(sound);
-      mediaPlayer.play();
+      if (!instance.muted) {
+        Media sound = new Media(GameState.class.getResource(soundFile).toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
