@@ -96,6 +96,7 @@ public class ControlRoomController {
   private String code = "";
   private ChatCompletionRequest endingChatCompletionRequest;
   private ChatCompletionRequest computerChatCompletionRequest;
+  private boolean firstOpeningTextFile;
 
   private boolean moving = false;
 
@@ -123,6 +124,9 @@ public class ControlRoomController {
     muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
 
     // computer initialization
+
+    firstOpeningTextFile = true;
+
     try {
       computerChatCompletionRequest =
           new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);
@@ -215,8 +219,10 @@ public class ControlRoomController {
                 GameState.playSound("/sounds/gate-open.m4a");
                 fadeBlack();
               } else {
+                String message = "The exit is locked and will not budge";
                 // otherwise, display notification in chat
-                SharedElements.appendChat("The exit is locked and will not budge.");
+                SharedElements.appendChat(message);
+                SharedElements.chatBubbleSpeak(message);
               }
               // enable movement after delay
               moving = false;
@@ -782,13 +788,6 @@ public class ControlRoomController {
             GameState.computerPuzzleHints = false;
             computerSignedInAnchorPane.setVisible(true);
             computerLoginAnchorPane.setVisible(false);
-
-            // Load prompt to congratulate user on solving riddle
-            try {
-              GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()), false);
-            } catch (ApiProxyException e) {
-              e.printStackTrace();
-            }
           }
         });
 
@@ -852,6 +851,23 @@ public class ControlRoomController {
   private void onFocusTextWindowClicked() {
     computerTextWindowAnchorPane.setVisible(true);
     computerTextWindowAnchorPane.toFront();
+    if (firstOpeningTextFile) {
+      String readout = "The code in the text file reads __" + GameState.getSecondDigits() + "__";
+      SharedElements.appendHint(readout);
+      SharedElements.appendChat(readout);
+      SharedElements.chatBubbleSpeak(readout);
+      TextToSpeechManager.setCompletedRunnable(
+          () -> {
+            try {
+              GameState.runGpt(new ChatMessage("user", GptPromptEngineering.solveRiddle()), false);
+            } catch (ApiProxyException e) {
+              e.printStackTrace();
+            }
+          });
+      // Load prompt to congratulate user on solving riddle
+
+      firstOpeningTextFile = false;
+    }
   }
 
   @FXML

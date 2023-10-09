@@ -16,9 +16,6 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
-import nz.ac.auckland.se206.gpt.ChatMessage;
-import nz.ac.auckland.se206.gpt.GptPromptEngineering;
-import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 public class LabController {
   public static LabController instance;
@@ -126,7 +123,9 @@ public class LabController {
               System.out.println("Printer clicked");
 
               if (SharedElements.isPaperPrinted() == false) {
-                SharedElements.appendChat("Printer is empty!");
+                String message = "The printer is empty";
+                SharedElements.appendChat(message);
+                SharedElements.chatBubbleSpeak(message);
               } else {
                 GameState.playSound("/sounds/pick-up-item.m4a");
                 // append notification to chat box
@@ -136,13 +135,6 @@ public class LabController {
                 SharedElements.takePaper();
                 // flag that the paper puzzle has been completed to prevent hints from being shown
                 GameState.paperPuzzleHints = false;
-                // Load prompt to congratulate user on printing paper
-                try {
-                  GameState.runGpt(
-                      new ChatMessage("user", GptPromptEngineering.printPaper()), false);
-                } catch (ApiProxyException e) {
-                  e.printStackTrace();
-                }
               }
 
               moving = false;

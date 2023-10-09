@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,6 +39,10 @@ public class SharedElements {
   private static Button[] hintButtonList = new Button[3];
   private static HBox[] chatBubbleList = new HBox[3];
 
+  /**
+   * This method should be called when a new game is started. It will clear all previous instances
+   * of the SharedElements class and create new instances for the new game.
+   */
   public static void newGame() throws ApiProxyException {
     // clear all previous instances
     taskBarHorizontalBoxList = new HBox[3];
@@ -50,10 +55,16 @@ public class SharedElements {
     instance = new SharedElements();
   }
 
+  /**
+   * Returns the master mute button text.
+   *
+   * @return Text containing the mute button text
+   */
   public static Text getMuteText() {
     return instance.muteText;
   }
 
+  /** Toggles the master mute button text between mute and unmute. */
   public static void toggleMuteText() {
     if (instance.muteText.getText().equals("MUTE")) {
       instance.muteText.setText("UNMUTE");
@@ -62,43 +73,97 @@ public class SharedElements {
     }
   }
 
+  /**
+   * Allocates an instance of a child ChatBox Should not be called again until
+   * incremnetLoadedScenes() is called
+   *
+   * @return TextArea containing the chat box
+   */
   public static TextArea getChatBox() {
     // allocate a dialogue box instance to each scene
     return chatBoxList[instance.loadedScenes];
   }
 
+  /**
+   * Allocates an instance of a child HintBox Should not be called again until
+   * incremnetLoadedScenes() is called
+   *
+   * @return TextArea containing the hint box
+   */
   public static TextArea getHintBox() {
     // allocate a dialogue box instance to each scene
     return hintBoxList[instance.loadedScenes];
   }
 
+  /**
+   * Allocates an instance of a child taskBarHorizontalBox Should not be called again until
+   * incremnetLoadedScenes() is called This is the task bar at the bottom of the screen It contains
+   * the hint list, send message box, the buttons to show the chat history and hint list, and the
+   * button to use a hint
+   *
+   * @return HBox containing the task bar
+   */
   public static HBox getTaskBarBox() {
     // allocate a task bar instance to each scene
     return taskBarHorizontalBoxList[instance.loadedScenes];
   }
 
+  /**
+   * Allocates an instance of a child inventoryVBox Should not be called again until
+   * incremnetLoadedScenes() is called This is the inventory box on the right of the screen It
+   * contains the items the player has collected
+   *
+   * @return VBox containing the inventory box
+   */
   public static VBox getInventoryBox() {
-    System.out.println("getInventoryBox");
     // allocate an inventory instance to each scene
     return inventoryVBoxList[instance.loadedScenes];
   }
 
+  /**
+   * Allocates an instance of a child hintButton Should not be called again until
+   * incremnetLoadedScenes() is called This is the button to use a hint
+   *
+   * @return Button containing the hint button
+   */
   public static Button getHintButton() {
     return hintButtonList[instance.loadedScenes];
   }
 
+  /**
+   * Allocates an instance of a child chatBubble Should not be called again until
+   * incremnetLoadedScenes() is called This is the chat bubble that appears when the AI speaks
+   *
+   * @return HBox containing the chat bubble
+   */
   public static HBox getChatBubble() {
     return chatBubbleList[instance.loadedScenes];
   }
 
+  /**
+   * Increments the number of scenes that have been loaded Should be called after each scene is
+   * loaded This is used to determine which set of children to allocate to each scene
+   */
   public static void incremnetLoadedScenes() {
     instance.loadedScenes++;
   }
 
+  /**
+   * Returns the master message box This is the box where the player types their message to send to
+   * the AI
+   *
+   * @return TextField containing the message box
+   */
   public static TextField getMessageBox() {
     return instance.messageBox;
   }
 
+  /**
+   * Adds items to each inventory child instance
+   *
+   * @param item ImageView array containing three copies of the items to add to each inventory child
+   *     instance
+   */
   public static void addInventoryItem(ImageView[] item) {
     // add item to each inventory instance
     for (int i = 0; i < 3; i++) {
@@ -108,6 +173,12 @@ public class SharedElements {
     }
   }
 
+  /**
+   * Removes items from each inventory child instance
+   *
+   * @param item ImageView array containing three copies of the items to remove from each inventory
+   *     child instance
+   */
   public static void removeInventoryItem(ImageView[] item) {
     // remove item from each inventory instance
     for (int i = 0; i < 3; i++) {
@@ -115,17 +186,39 @@ public class SharedElements {
     }
   }
 
+  /**
+   * Adds text to the master chat box and scrolls each child chat box to the bottom
+   *
+   * @param message String containing the message to add to the master chat box
+   */
   public static void appendChat(String message) {
     // append message to master chat box with a newline below
     instance.chatBox.appendText(message + "\n\n");
-    instance.chatBox.setScrollTop(Double.MAX_VALUE);
+    for (int i = 0; i < 3; i++) {
+      chatBoxList[i].setScrollTop(Double.MAX_VALUE);
+    }
   }
 
+  /**
+   * Adds text to the master hint box and scrolls each child hint box to the bottom
+   *
+   * @param message String containing the message to add to the master hint box
+   */
   public static void appendHint(String message) {
     // append message to master chat box with a newline below
     instance.hintBox.appendText(message + "\n\n");
+    for (int i = 0; i < 3; i++) {
+      hintBoxList[i].setScrollTop(Double.MAX_VALUE);
+    }
   }
 
+  /**
+   * Sets the text of the master chat bubble label and shows each child chat bubble If the game is
+   * not muted, calls the TextToSpeechManager to speak the message and hides each child chat bubble
+   * when the message is finished If the game is muted, hides each child chat bubble after 4 seconds
+   *
+   * @param message String containing the message to set the master chat box to
+   */
   public static void chatBubbleSpeak(String message) {
     for (int i = 0; i < 3; i++) {
       chatBubbleList[i].setVisible(true);
@@ -133,12 +226,6 @@ public class SharedElements {
     instance.chatLabel.setText(message);
     if (!GameState.getMuted()) {
       TextToSpeechManager.speak(message);
-      TextToSpeechManager.setCompletedRunnable(
-          () -> {
-            for (int i = 0; i < 3; i++) {
-              chatBubbleList[i].setVisible(false);
-            }
-          });
     } else {
       GameState.delayRun(
           () -> {
@@ -147,6 +234,12 @@ public class SharedElements {
             }
           },
           4);
+    }
+  }
+
+  public static void hideChatBubble() {
+    for (int i = 0; i < 3; i++) {
+      chatBubbleList[i].setVisible(false);
     }
   }
 
@@ -206,6 +299,8 @@ public class SharedElements {
   @FXML private Button showHintBox;
   @FXML private Text muteText;
   @FXML private Label chatLabel;
+  @FXML private SimpleDoubleProperty chatScrollValue;
+  @FXML private SimpleDoubleProperty hintsScrollValue;
 
   private int loadedScenes;
   private boolean isPaperPrinted = false;
@@ -245,9 +340,17 @@ public class SharedElements {
     // create new master hint box
     hintBox = new TextArea();
     hintBox.setVisible(false);
+
+    // create scroll value for hint box
+    hintsScrollValue = new SimpleDoubleProperty(0.0);
+
     // create new master chat box
     chatBox = new TextArea();
     chatBox.setVisible(false);
+
+    // create scroll value for chat box
+    chatScrollValue = new SimpleDoubleProperty(0.0);
+
     // create new master hint button
     hintButton = new Button();
     // assign script to hint button
@@ -322,6 +425,7 @@ public class SharedElements {
       chatBoxChild.setFocusTraversable(false);
       chatBoxChild.textProperty().bind(chatBox.textProperty());
       chatBoxChild.visibleProperty().bind(chatBox.visibleProperty());
+      chatBoxChild.scrollTopProperty().bindBidirectional(chatScrollValue);
       chatBoxChild.setPromptText("Chat history will appear here");
 
       // add css to chat box
@@ -339,6 +443,7 @@ public class SharedElements {
       hintBoxChild.setFocusTraversable(false);
       hintBoxChild.textProperty().bind(hintBox.textProperty());
       hintBoxChild.visibleProperty().bind(hintBox.visibleProperty());
+      hintBoxChild.scrollTopProperty().bindBidirectional(hintsScrollValue);
       hintBoxChild.setPromptText("Hints given will appear here");
 
       // add css to hint box

@@ -18,9 +18,6 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
-import nz.ac.auckland.se206.gpt.ChatMessage;
-import nz.ac.auckland.se206.gpt.GptPromptEngineering;
-import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /** Controller class for the room view. */
 public class KitchenController {
@@ -229,16 +226,10 @@ public class KitchenController {
             () -> {
               GameState.playSound("/sounds/toaster.mp3");
               System.out.println("toaster clicked");
-              // add toasted bread to inventory
-              GameState.addItem(GameState.Items.BREAD_TOASTED);
               // put notification in chat box
               SharedElements.appendChat("A charred slice of toast pops out of the toaster");
-              // Load prompt to congratulate user on toasting bread
-              try {
-                GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()), false);
-              } catch (ApiProxyException e) {
-                e.printStackTrace();
-              }
+              // add toasted bread to inventory
+              GameState.addItem(GameState.Items.BREAD_TOASTED);
               // flag that the user has toast
               GameState.hasToast = true;
               // flag that the toaster puzzle has been completed
@@ -257,7 +248,9 @@ public class KitchenController {
             () -> {
               System.out.println("toaster clicked");
               // put notification in chat box
-              SharedElements.appendChat("Looks like the toaster is toast.");
+              String message = "Looks like the toaster is toast.";
+              SharedElements.appendChat(message);
+              SharedElements.chatBubbleSpeak(message);
               // allow character to move again
               moving = false;
             };
@@ -267,7 +260,9 @@ public class KitchenController {
             () -> {
               System.out.println("toaster clicked");
               // put notification in chat box
-              SharedElements.appendChat("This toaster looks like it's been tampered with");
+              String message = "This toaster looks like it has been modified";
+              SharedElements.appendChat(message);
+              SharedElements.chatBubbleSpeak(message);
               // allow character to move again
               moving = false;
             };
@@ -305,7 +300,9 @@ public class KitchenController {
           () -> {
             System.out.println("open fridge clicked");
             // put notification in chat box
-            SharedElements.appendChat("There's nothing left in the fridge.");
+            String message = "There's nothing left in the fridge.";
+            SharedElements.appendChat(message);
+            SharedElements.chatBubbleSpeak(message);
             // allow character to move again
             moving = false;
           };
@@ -349,12 +346,12 @@ public class KitchenController {
               fridgeOpen.setVisible(true);
               // change floor hitbox to account for open fridge
               floor.setImage(new Image("images/Kitchen/floorfridgeopen.png"));
+              // put notification in chat box
+              SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
               // flag that the user has bread
               GameState.hasBread = true;
               // add bread to inventory
               GameState.addItem(GameState.Items.BREAD_UNTOASTED);
-              // put notification in chat box
-              SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
               System.out.println("closed fridge clicked");
               // allow character to move again
               moving = false;
