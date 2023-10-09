@@ -126,7 +126,7 @@
                         <AnchorPane fx:id="keyPadAnchorPane" prefHeight="947.0" prefWidth="1920.0" style="-fx-background-color: #000000B3;" visible="false">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6f6f6f" height="553.0" layoutX="800.0" layoutY="259.0" stroke="BLACK" strokeType="INSIDE" width="320.0" />
-                              <Button layoutX="931.0" layoutY="825.0" mnemonicParsing="false" onAction="#onCloseKeypadClicked" prefHeight="38.0" prefWidth="58.0" text="Close">
+                              <Button id="menuButton" layoutX="890.0" layoutY="825.0" mnemonicParsing="false" onAction="#onCloseKeypadClicked" prefHeight="44.0" prefWidth="148.0" stylesheets="@../css/styles.css" text="CLOSE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -358,7 +358,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <Button layoutX="931.0" layoutY="783.0" mnemonicParsing="false" onAction="#onCloseComputer" prefHeight="38.0" prefWidth="58.0" text="Close">
+                              <Button id="menuButton" layoutX="890.0" layoutY="783.0" mnemonicParsing="false" onAction="#onCloseComputer" prefHeight="44.0" prefWidth="148.0" stylesheets="@../css/styles.css" text="CLOSE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
