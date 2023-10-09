@@ -97,8 +97,6 @@ public class ControlRoomController {
   private ChatCompletionRequest endingChatCompletionRequest;
   private ChatCompletionRequest computerChatCompletionRequest;
 
-  private boolean moving = false;
-
   /** Initializes the control room. */
   public void initialize() {
     // get shared elements from the SharedElements class
@@ -155,25 +153,19 @@ public class ControlRoomController {
   private void clickComputer(MouseEvent event) throws IOException {
     System.out.println("computer clicked");
     try {
-      // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to clicked location
-        double movementDelay =
-            GameState.goTo(
-                computerMarker.getLayoutX(), computerMarker.getLayoutY(), character, running);
-        // flag the current puzzle as the computer puzzle for hints
-        // set root to the computer
-        // enable movement after delay
-        Runnable accessComputer =
-            () -> {
-              GameState.setPuzzleComputer();
-              computerAnchorPane.setVisible(true);
-              moving = false;
-            };
+      // move character to clicked location
+      GameState.goTo(computerMarker.getLayoutX(), computerMarker.getLayoutY(), character, running);
+      // flag the current puzzle as the computer puzzle for hints
+      // set root to the computer
+      // enable movement after delay
+      Runnable accessComputer =
+          () -> {
+            GameState.setPuzzleComputer();
+            computerAnchorPane.setVisible(true);
+          };
 
-        GameState.delayRun(accessComputer, movementDelay);
-      }
+      GameState.setOnMovementComplete(accessComputer);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -199,31 +191,25 @@ public class ControlRoomController {
   private void clickExit(MouseEvent event) {
 
     try {
-      // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to center door marker position
-        double movementDelay =
-            GameState.goTo(
-                centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
+      // move character to center door marker position
+      GameState.goTo(
+          centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
 
-        Runnable leaveRoom =
-            () -> {
-              System.out.println("exit door clicked");
-              if (GameState.isExitUnlocked) {
-                // if the exit is unlocked, fade to black for ending scene
-                GameState.playSound("/sounds/gate-open.m4a");
-                fadeBlack();
-              } else {
-                // otherwise, display notification in chat
-                SharedElements.appendChat("The exit is locked and will not budge.");
-              }
-              // enable movement after delay
-              moving = false;
-            };
+      Runnable leaveRoom =
+          () -> {
+            System.out.println("exit door clicked");
+            if (GameState.isExitUnlocked) {
+              // if the exit is unlocked, fade to black for ending scene
+              GameState.playSound("/sounds/gate-open.m4a");
+              fadeBlack();
+            } else {
+              // otherwise, display notification in chat
+              SharedElements.appendChat("The exit is locked and will not budge.");
+            }
+          };
 
-        GameState.delayRun(leaveRoom, movementDelay);
-      }
+      GameState.setOnMovementComplete(leaveRoom);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -251,21 +237,16 @@ public class ControlRoomController {
     System.out.println("keypad clicked");
     try {
       // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to clicked location
-        double movementDelay =
-            GameState.goTo(
-                keypadMarker.getLayoutX(), keypadMarker.getLayoutY(), character, running);
-        // set root to the keypad after delay and enable movement
-        Runnable accessKeypad =
-            () -> {
-              keyPadAnchorPane.setVisible(true);
-              moving = false;
-            };
+      // move character to clicked location
+      GameState.goTo(keypadMarker.getLayoutX(), keypadMarker.getLayoutY(), character, running);
+      // set root to the keypad after delay and enable movement
+      Runnable accessKeypad =
+          () -> {
+            keyPadAnchorPane.setVisible(true);
+          };
 
-        GameState.delayRun(accessKeypad, movementDelay);
-      }
+      GameState.setOnMovementComplete(accessKeypad);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -290,33 +271,28 @@ public class ControlRoomController {
   @FXML
   private void onRightClicked(MouseEvent event) throws IOException {
     try {
-      // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to clicked location
-        double movementDelay =
-            GameState.goTo(
-                rightDoorMarker.getLayoutX(), rightDoorMarker.getLayoutY(), character, running);
-        // set root to the kitchen after delay and enable movement
-        Runnable leaveRoom =
-            () -> {
-              GameState.playSound("/sounds/door-opening.m4a");
-              GameState.fadeOut(room);
-              Runnable loadKitchen =
-                  () -> {
-                    try {
-                      App.setRoot(AppUi.KITCHEN);
-                      KitchenController.instance.fadeIn();
-                    } catch (IOException e) {
-                      e.printStackTrace();
-                    }
-                  };
-              GameState.delayRun(loadKitchen, 1);
-              moving = false;
-            };
+      // move character to clicked location
+      GameState.goTo(
+          rightDoorMarker.getLayoutX(), rightDoorMarker.getLayoutY(), character, running);
+      // set root to the kitchen after delay and enable movement
+      Runnable leaveRoom =
+          () -> {
+            GameState.playSound("/sounds/door-opening.m4a");
+            GameState.fadeOut(room);
+            Runnable loadKitchen =
+                () -> {
+                  try {
+                    App.setRoot(AppUi.KITCHEN);
+                    KitchenController.instance.fadeIn();
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                };
+            GameState.delayRun(loadKitchen, 1);
+          };
 
-        GameState.delayRun(leaveRoom, movementDelay);
-      }
+      GameState.setOnMovementComplete(leaveRoom);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -342,33 +318,26 @@ public class ControlRoomController {
   private void onLeftClicked(MouseEvent event) {
 
     try {
-      // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to clicked location
-        double movementDelay =
-            GameState.goTo(
-                leftDoorMarker.getLayoutX(), leftDoorMarker.getLayoutY(), character, running);
-        // set root to the lab after delay and enable movement
-        Runnable leaveRoom =
-            () -> {
-              GameState.playSound("/sounds/door-opening.m4a");
-              GameState.fadeOut(room);
-              Runnable loadLab =
-                  () -> {
-                    try {
-                      App.setRoot(AppUi.LAB);
-                      LabController.instance.fadeIn();
-                    } catch (IOException e) {
-                      e.printStackTrace();
-                    }
-                  };
-              GameState.delayRun(loadLab, 1);
-              moving = false;
-            };
-
-        GameState.delayRun(leaveRoom, movementDelay);
-      }
+      // move character to clicked location
+      GameState.goTo(leftDoorMarker.getLayoutX(), leftDoorMarker.getLayoutY(), character, running);
+      // set root to the lab after delay and enable movement
+      Runnable leaveRoom =
+          () -> {
+            GameState.playSound("/sounds/door-opening.m4a");
+            GameState.fadeOut(room);
+            Runnable loadLab =
+                () -> {
+                  try {
+                    App.setRoot(AppUi.LAB);
+                    LabController.instance.fadeIn();
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                };
+            GameState.delayRun(loadLab, 1);
+          };
+      GameState.setOnMovementComplete(leaveRoom);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -405,22 +374,14 @@ public class ControlRoomController {
   @FXML
   private void onMoveCharacter(MouseEvent event) {
     // check if the character is already moving to prevent multiple clicks
-    if (!moving) {
-      moving = true;
-      // play click animation
-      GameState.onCharacterMovementClick(event, room);
-      // move character to clicked location
-      double mouseX = event.getX();
-      double mouseY = event.getY();
+    // play click animation
+    GameState.onCharacterMovementClick(event, room);
+    // move character to clicked location
+    double mouseX = event.getX();
+    double mouseY = event.getY();
 
-      double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
-      // resume movement after delay
-      Runnable resumeMoving =
-          () -> {
-            moving = false;
-          };
-      GameState.delayRun(resumeMoving, movementDelay);
-    }
+    GameState.goTo(mouseX, mouseY, character, running);
+    GameState.startMoving();
   }
 
   public void fadeBlack() {
