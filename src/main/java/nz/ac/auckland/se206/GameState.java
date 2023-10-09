@@ -63,6 +63,7 @@ public class GameState {
   public static String usbEndingReveal = "";
   private static HashMap<Items, ImageView[]> inventoryMap = new HashMap<Items, ImageView[]>();
   private static MediaPlayer mediaPlayer;
+  private static boolean moving = false;
 
   public static void newGame() {
     // reset flags
@@ -76,6 +77,7 @@ public class GameState {
     computerPuzzleHints = true;
     isExitUnlocked = false;
     isUsbEnding = false;
+    moving = false;
     // create new instance
     instance = new GameState();
   }
@@ -251,10 +253,17 @@ public class GameState {
 
   // this method runs a translate transition to move the character to a new position
   // and returns the duration of the animation in seconds.
-  // use the delayRun method to run code after the animation is complete.
-  public static double goTo(
+  // use the setOnMovementComplete method to run code after the animation is complete.
+  public static void goTo(
       double destinationX, double destinationY, ImageView character, ImageView running) {
 
+    double durationSeconds;
+
+    // stop moving if already moving
+    if (moving) {
+      stopMoving();
+    }
+    moving = true;
     // Retrieve the character's width and height using fitWidth and fitHeight
     double characterWidth = character.getFitWidth();
     double characterHeight = character.getFitHeight();
@@ -263,37 +272,32 @@ public class GameState {
     double characterX = destinationX - characterWidth / 2; // Adjust for character's width
     double characterY = destinationY - characterHeight; // Adjust for character's height
     if (characterX == character.getTranslateX() && characterY == character.getTranslateY()) {
-      return 0;
+      durationSeconds = 0;
+    } else {
+      // Calculate the distance the character needs to move
+      double distanceToMove =
+          Math.sqrt(
+              Math.pow(characterX - character.getTranslateX(), 2)
+                  + Math.pow(characterY - character.getTranslateY(), 2));
+
+      // Define a constant speed
+      double constantSpeed = 300;
+
+      // Calculate the duration based on constant speed and distance
+      durationSeconds = distanceToMove / constantSpeed;
     }
 
     character.setOpacity(0);
 
-    // Calculate the distance the character needs to move
-    double distanceToMove =
-        Math.sqrt(
-            Math.pow(characterX - character.getTranslateX(), 2)
-                + Math.pow(characterY - character.getTranslateY(), 2));
-
-    // Define a constant speed
-    double constantSpeed = 300;
-
-    // Calculate the duration based on constant speed and distance
-    double durationSeconds = distanceToMove / constantSpeed;
-
     // Create a TranslateTransition to smoothly move the character
-    TranslateTransition transition =
-        new TranslateTransition(Duration.seconds(durationSeconds), character);
-    transition.setToX(characterX);
-    transition.setToY(characterY);
-
-    // Play the animation
-    transition.play();
+    instance.transition = new TranslateTransition(Duration.seconds(durationSeconds), character);
+    instance.transition.setToX(characterX);
+    instance.transition.setToY(characterY);
 
     // Create a TranslateTransition to smoothly move the "running" element
-    TranslateTransition transition2 =
-        new TranslateTransition(Duration.seconds(durationSeconds), running);
-    transition2.setToX(characterX);
-    transition2.setToY(characterY);
+    instance.transition2 = new TranslateTransition(Duration.seconds(durationSeconds), running);
+    instance.transition2.setToX(characterX);
+    instance.transition2.setToY(characterY);
 
     // flip the character and running gif if needed
     if (characterX > character.getTranslateX()) {
@@ -305,16 +309,34 @@ public class GameState {
     }
 
     running.setOpacity(1);
-    // Play the animation
-    transition2.play();
 
-    transition2.setOnFinished(
+    instance.transition2.setOnFinished(
         e -> {
           // Remove the "running" element from the pane when the animation is done
           running.setOpacity(0);
           character.setOpacity(1);
+          moving = false;
         });
-    return durationSeconds;
+  }
+
+  public static void setOnMovementComplete(Runnable runnable) {
+    if (instance.transition != null) {
+      instance.transition.setOnFinished(
+          e -> {
+            runnable.run();
+          });
+    }
+  }
+
+  public static void stopMoving() {
+    setOnMovementComplete(null);
+    instance.transition.stop();
+    instance.transition2.stop();
+  }
+
+  public static void startMoving() {
+    instance.transition.play();
+    instance.transition2.play();
   }
 
   // This method is used to move the character instantly to a new position without changing
@@ -845,6 +867,9 @@ public class GameState {
   private int chosenTime = 240;
   private Thread timerThread;
   private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
+  private Thread movingThread;
+  private TranslateTransition transition;
+  private TranslateTransition transition2;
 
   private ChatCompletionRequest chatBoxChatCompletionRequest =
       new ChatCompletionRequest().setN(1).setTemperature(0.2).setTopP(0.5).setMaxTokens(100);

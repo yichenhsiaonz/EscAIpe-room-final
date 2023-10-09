@@ -39,7 +39,6 @@ public class LabController {
   @FXML private ImageView usb;
   @FXML private Button muteButton;
 
-  private boolean moving = false;
   private double startX = 1512;
   private double startY = 814;
 
@@ -79,22 +78,13 @@ public class LabController {
    */
   @FXML
   public void onMoveCharacter(MouseEvent event) {
-    // check if the character is already moving to prevent multiple clicks
-    if (!moving) {
-      moving = true;
-      // show click animation
-      GameState.onCharacterMovementClick(event, room);
-      // move character to clicked location
-      double mouseX = event.getX();
-      double mouseY = event.getY();
-      double movementDelay = GameState.goTo(mouseX, mouseY, character, running);
-      // allow character to move again after movement delay
-      Runnable resumeMoving =
-          () -> {
-            moving = false;
-          };
-      GameState.delayRun(resumeMoving, movementDelay);
-    }
+    // show click animation
+    GameState.onCharacterMovementClick(event, room);
+    // move character to clicked location
+    double mouseX = event.getX();
+    double mouseY = event.getY();
+    GameState.goTo(mouseX, mouseY, character, running);
+    GameState.startMoving();
   }
 
   /**
@@ -113,35 +103,31 @@ public class LabController {
   public void onPrinterClicked(MouseEvent event) throws IOException {
 
     try {
-      if (!moving) {
-        moving = true;
-        double movementDelay = GameState.goTo(619, 834, character, running);
-        // flag that the current puzzle is the paper puzzle
-        GameState.setPuzzlePaper();
-        Runnable goToPrinter =
-            () -> {
-              System.out.println("Printer clicked");
+      GameState.goTo(619, 834, character, running);
+      // flag that the current puzzle is the paper puzzle
+      GameState.setPuzzlePaper();
+      Runnable goToPrinter =
+          () -> {
+            System.out.println("Printer clicked");
 
-              if (SharedElements.isPaperPrinted() == false) {
-                String message = "The printer is empty";
-                SharedElements.appendChat(message);
-                SharedElements.chatBubbleSpeak(message);
-              } else {
-                GameState.playSound("/sounds/pick-up-item.m4a");
-                // append notification to chat box
-                SharedElements.appendChat("There is a printed piece of paper, you take it.");
-                // add paper to inventory
-                GameState.addItem(GameState.Items.PAPER);
-                SharedElements.takePaper();
-                // flag that the paper puzzle has been completed to prevent hints from being shown
-                GameState.paperPuzzleHints = false;
-              }
+            if (SharedElements.isPaperPrinted() == false) {
+              String message = "The printer is empty";
+              SharedElements.appendChat(message);
+              SharedElements.chatBubbleSpeak(message);
+            } else {
+              GameState.playSound("/sounds/pick-up-item.m4a");
+              // append notification to chat box
+              SharedElements.appendChat("There is a printed piece of paper, you take it.");
+              // add paper to inventory
+              GameState.addItem(GameState.Items.PAPER);
+              SharedElements.takePaper();
+              // flag that the paper puzzle has been completed to prevent hints from being shown
+              GameState.paperPuzzleHints = false;
+            }
+          };
 
-              moving = false;
-            };
-
-        GameState.delayRun(goToPrinter, movementDelay);
-      }
+      GameState.setOnMovementComplete(goToPrinter);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -166,31 +152,27 @@ public class LabController {
   public void onRightClicked(MouseEvent event) throws IOException {
 
     try {
-      // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to door position
-        double movementDelay = GameState.goTo(startX, startY, character, running);
-        // set root to control room and allow character to move again after movement delay
-        Runnable leaveRoom =
-            () -> {
-              GameState.playSound("/sounds/door-opening.m4a");
-              GameState.fadeOut(room);
-              Runnable loadControlRoom =
-                  () -> {
-                    try {
-                      App.setRoot(AppUi.CONTROL_ROOM);
-                      ControlRoomController.instance.fadeIn();
-                    } catch (IOException e) {
-                      e.printStackTrace();
-                    }
-                  };
-              GameState.delayRun(loadControlRoom, 1);
-              moving = false;
-            };
+      // move character to door position
+      GameState.goTo(startX, startY, character, running);
+      // set root to control room and allow character to move again after movement delay
+      Runnable leaveRoom =
+          () -> {
+            GameState.playSound("/sounds/door-opening.m4a");
+            GameState.fadeOut(room);
+            Runnable loadControlRoom =
+                () -> {
+                  try {
+                    App.setRoot(AppUi.CONTROL_ROOM);
+                    ControlRoomController.instance.fadeIn();
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                };
+            GameState.delayRun(loadControlRoom, 1);
+          };
 
-        GameState.delayRun(leaveRoom, movementDelay);
-      }
+      GameState.setOnMovementComplete(leaveRoom);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -244,24 +226,19 @@ public class LabController {
   public void onUSBclicked(MouseEvent event) {
 
     try {
-      // check if the character is already moving to prevent multiple clicks
-      if (!moving) {
-        moving = true;
-        // move character to usb position
-        double movementDelay =
-            GameState.goTo(usb.getLayoutX(), usb.getLayoutY(), character, running);
-        Runnable goToUsb =
-            () -> {
-              GameState.playSound("/sounds/pick-up-item.m4a");
-              room.getChildren().remove(usbGlow);
-              room.getChildren().remove(usb);
-              GameState.addItem(GameState.Items.USB);
-              GameState.foundUSB();
-              moving = false;
-            };
+      // move character to usb position
+      GameState.goTo(usb.getLayoutX(), usb.getLayoutY(), character, running);
+      Runnable goToUsb =
+          () -> {
+            GameState.playSound("/sounds/pick-up-item.m4a");
+            room.getChildren().remove(usbGlow);
+            room.getChildren().remove(usb);
+            GameState.addItem(GameState.Items.USB);
+            GameState.foundUSB();
+          };
 
-        GameState.delayRun(goToUsb, movementDelay);
-      }
+      GameState.setOnMovementComplete(goToUsb);
+      GameState.startMoving();
     } catch (Exception e) {
       e.printStackTrace();
     }
