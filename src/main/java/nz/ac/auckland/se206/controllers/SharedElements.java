@@ -118,7 +118,6 @@ public class SharedElements {
   public static void appendChat(String message) {
     // append message to master chat box with a newline below
     instance.chatBox.appendText(message + "\n\n");
-    instance.chatBox.setScrollTop(Double.MAX_VALUE);
   }
 
   public static void appendHint(String message) {
@@ -324,6 +323,15 @@ public class SharedElements {
       chatBoxChild.visibleProperty().bind(chatBox.visibleProperty());
       chatBoxChild.setPromptText("Chat history will appear here");
 
+      // auto scroll to the bottom when new text added to chat box
+      chatBox
+          .textProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                chatBoxChild.selectPositionCaret(chatBoxChild.getLength());
+                chatBoxChild.deselect();
+              });
+
       // add css to chat box
       chatBoxChild.getStyleClass().add("text-box");
 
@@ -340,6 +348,15 @@ public class SharedElements {
       hintBoxChild.textProperty().bind(hintBox.textProperty());
       hintBoxChild.visibleProperty().bind(hintBox.visibleProperty());
       hintBoxChild.setPromptText("Hints given will appear here");
+
+      // auto scroll to the bottom when new text added to hint box
+      hintBox
+          .textProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                hintBoxChild.selectPositionCaret(hintBoxChild.getLength());
+                hintBoxChild.deselect();
+              });
 
       // add css to hint box
       hintBoxChild.getStyleClass().add("text-box");
