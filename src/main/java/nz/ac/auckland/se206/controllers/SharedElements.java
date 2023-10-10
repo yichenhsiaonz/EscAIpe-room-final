@@ -1,5 +1,10 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +29,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -118,7 +124,6 @@ public class SharedElements {
   public static void appendChat(String message) {
     // append message to master chat box with a newline below
     instance.chatBox.appendText(message + "\n\n");
-    instance.chatBox.setScrollTop(Double.MAX_VALUE);
   }
 
   public static void appendHint(String message) {
@@ -130,7 +135,28 @@ public class SharedElements {
     for (int i = 0; i < 3; i++) {
       chatBubbleList[i].setVisible(true);
     }
-    instance.chatLabel.setText(message);
+
+    // text roll on animation for bubble
+    Platform.runLater(
+        () -> {
+          final IntegerProperty i = new SimpleIntegerProperty(0);
+          Timeline timeline = new Timeline();
+          KeyFrame keyFrame =
+              new KeyFrame(
+                  Duration.seconds(0.01),
+                  event -> {
+                    if (i.get() < message.length()) {
+                      instance.chatLabel.setText(message.substring(0, i.get() + 1));
+                      i.set(i.get() + 1);
+                    } else {
+                      timeline.stop();
+                    }
+                  });
+          timeline.getKeyFrames().add(keyFrame);
+          timeline.setCycleCount(message.length() + 1);
+          timeline.play();
+        });
+        
     if (!GameState.getMuted()) {
       TextToSpeechManager.speak(message);
       TextToSpeechManager.setCompletedRunnable(
@@ -324,6 +350,15 @@ public class SharedElements {
       chatBoxChild.visibleProperty().bind(chatBox.visibleProperty());
       chatBoxChild.setPromptText("Chat history will appear here");
 
+      // auto scroll to the bottom when new text added to chat box
+      chatBox
+          .textProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                chatBoxChild.selectPositionCaret(chatBoxChild.getLength());
+                chatBoxChild.deselect();
+              });
+
       // add css to chat box
       chatBoxChild.getStyleClass().add("text-box");
 
@@ -340,6 +375,15 @@ public class SharedElements {
       hintBoxChild.textProperty().bind(hintBox.textProperty());
       hintBoxChild.visibleProperty().bind(hintBox.visibleProperty());
       hintBoxChild.setPromptText("Hints given will appear here");
+
+      // auto scroll to the bottom when new text added to hint box
+      hintBox
+          .textProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                hintBoxChild.selectPositionCaret(hintBoxChild.getLength());
+                hintBoxChild.deselect();
+              });
 
       // add css to hint box
       hintBoxChild.getStyleClass().add("text-box");

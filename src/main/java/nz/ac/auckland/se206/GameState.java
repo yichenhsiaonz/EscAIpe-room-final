@@ -677,6 +677,8 @@ public class GameState {
           Thread gptThread = new Thread(gptTask);
           gptThread.start();
         } else {
+          Boolean hintFlag = true;
+
           if (toasterPuzzleHints && !instance.toasterLocationShown) {
             hint =
                 "The user used the hint button. There is a modified toaster in the kitchen. Tell"
@@ -699,8 +701,11 @@ public class GameState {
             hint =
                 "The user used the hint button, but you have no more hints to give. Tell them this"
                     + " in one sentence.";
+
+            // ensure response is not added to hint box
+            hintFlag = false;
           }
-          runGpt(new ChatMessage("user", hint), true);
+          runGpt(new ChatMessage("user", hint), hintFlag);
         }
 
         System.out.println(instance.currentPuzzle);
