@@ -260,3 +260,18 @@
     -fx-border-color: transparent;
     -fx-text-fill: #28969c;
 }
+
+#computerLabel {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+}
+
+#passwordField {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+}
+
+#computerButton {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+}
