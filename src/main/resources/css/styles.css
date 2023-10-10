@@ -195,18 +195,19 @@
 }
 
 .text-box .prompt-text {
-    -fx-fill: #585858; /* Set the color of the prompt text */
+    -fx-fill: #585858;
+    /* Set the color of the prompt text */
 }
 
 .text-box .scroll-pane {
     -fx-background-color: transparent;
 }
 
-.text-box .scroll-pane .viewport{
+.text-box .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
 
-.text-box .scroll-pane .content{
+.text-box .scroll-pane .content {
     -fx-background-color: transparent;
 }
 
@@ -274,4 +275,38 @@
 #computerButton {
     -fx-font-family: 'Space Grotesk';
     -fx-text-fill: black;
+}
+
+#keypadNumber {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 40px;
+}
+
+#keypadNumber:hover {
+    -fx-font-size: 40px;
+}
+
+#keypadNumber:pressed {
+    -fx-font-size: 40px;
+}
+
+#keypadChange {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+}
+
+#keypadChange:hover {
+    -fx-font-size: 20px;
+}
+
+#keypadChange:pressed {
+    -fx-font-size: 20px;
+}
+
+#keypadField {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 40px;
 }
