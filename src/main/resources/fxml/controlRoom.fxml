@@ -123,7 +123,7 @@
                               <Circle fx:id="keypadMarker" fill="DODGERBLUE" layoutX="1147.0" layoutY="650.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="centerDoorMarker" fill="DODGERBLUE" layoutX="960.0" layoutY="640.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                               <Circle fx:id="computerMarker" fill="DODGERBLUE" layoutX="637.0" layoutY="694.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
-                        <AnchorPane fx:id="keyPadAnchorPane" prefHeight="947.0" prefWidth="1920.0" style="-fx-background-color: #000000B3;">
+                        <AnchorPane fx:id="keyPadAnchorPane" prefHeight="947.0" prefWidth="1920.0" style="-fx-background-color: #000000B3;" visible="false">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6f6f6f" height="553.0" layoutX="800.0" layoutY="259.0" stroke="BLACK" strokeType="INSIDE" width="320.0" />
                               <Button id="menuButton" layoutX="890.0" layoutY="825.0" mnemonicParsing="false" onAction="#onCloseKeypadClicked" prefHeight="44.0" prefWidth="148.0" stylesheets="@../css/styles.css" text="CLOSE">
@@ -246,12 +246,12 @@
                                        <font>
                                           <Font size="15.0" />
                                        </font></Label>
-                                    <TextField fx:id="inputText" layoutX="285.0" layoutY="369.0" prefHeight="0.0" prefWidth="390.0" promptText="Enter Password">
+                                    <TextField id="passwordField" fx:id="inputText" layoutX="285.0" layoutY="369.0" prefHeight="0.0" prefWidth="390.0" promptText="Enter Password">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </TextField>
-                                    <Button id="computerButton" fx:id="enterButton" layoutX="679.0" layoutY="369.0" mnemonicParsing="false" onAction="#onMessageSent" prefHeight="38.0" prefWidth="74.0" text="Enter">
+                                    <Button id="enterButton" fx:id="enterButton" layoutX="679.0" layoutY="369.0" mnemonicParsing="false" onAction="#onMessageSent" prefHeight="38.0" prefWidth="74.0" text="Enter">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -301,12 +301,12 @@
                                                 <Image url="@../images/Computer/printericon.png" />
                                              </image>
                                           </ImageView>
-                                          <Button id="computerButton" fx:id="printButton" layoutX="311.0" layoutY="310.0" mnemonicParsing="false" onAction="#onPrintButtonClicked" text="Print">
+                                          <Button id="printButton" fx:id="printButton" layoutX="307.0" layoutY="310.0" mnemonicParsing="false" onAction="#onPrintButtonClicked" text="Print">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                              <font>
-                                                <Font size="12.0" />
+                                                <Font size="14.0" />
                                              </font></Button>
                                           <Label id="computerLabel" fx:id="printLabel" alignment="CENTER" layoutX="82.0" layoutY="271.0" prefHeight="30.0" prefWidth="501.0" text="1 File in Queue" textAlignment="CENTER">
                                              <font>

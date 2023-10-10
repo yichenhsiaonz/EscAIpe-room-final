@@ -262,6 +262,8 @@
     -fx-text-fill: #28969c;
 }
 
+/* ------ computer design ------ */
+
 #computerLabel {
     -fx-font-family: 'Space Grotesk';
     -fx-text-fill: black;
@@ -270,12 +272,22 @@
 #passwordField {
     -fx-font-family: 'Space Grotesk';
     -fx-text-fill: black;
+    -fx-font-size: 20px;
 }
 
-#computerButton {
+#enterButton {
     -fx-font-family: 'Space Grotesk';
     -fx-text-fill: black;
+    -fx-font-size: 15px;
 }
+
+#printButton {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+/* ------ keypad design ------ */
 
 #keypadNumber {
     -fx-font-family: 'Space Grotesk';
@@ -283,25 +295,9 @@
     -fx-font-size: 40px;
 }
 
-#keypadNumber:hover {
-    -fx-font-size: 40px;
-}
-
-#keypadNumber:pressed {
-    -fx-font-size: 40px;
-}
-
 #keypadChange {
     -fx-font-family: 'Space Grotesk';
     -fx-text-fill: black;
-    -fx-font-size: 20px;
-}
-
-#keypadChange:hover {
-    -fx-font-size: 20px;
-}
-
-#keypadChange:pressed {
     -fx-font-size: 20px;
 }
 
