@@ -213,6 +213,7 @@ public class KitchenController {
         // run if the user has bread and doesn't have toast
         Runnable putInToast =
             () -> {
+              GameState.playSound("/sounds/timer.mp3");
               System.out.println("toaster clicked");
               // remove bread from inventory
               GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
@@ -223,6 +224,7 @@ public class KitchenController {
             };
         Runnable waitForToast =
             () -> {
+              GameState.playSound("/sounds/timer.mp3");
               SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
             };
         Runnable toastFinish =
