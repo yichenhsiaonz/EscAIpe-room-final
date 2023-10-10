@@ -246,7 +246,7 @@
                                        <font>
                                           <Font size="15.0" />
                                        </font></Label>
-                                    <TextField id="passwordField" fx:id="inputText" layoutX="285.0" layoutY="369.0" prefHeight="0.0" prefWidth="390.0" promptText="Enter Password">
+                                    <TextField id="passwordField" fx:id="inputText" layoutX="285.0" layoutY="369.0" onKeyPressed="#onEnter" prefHeight="0.0" prefWidth="390.0" promptText="Enter Password">
                                        <font>
                                           <Font size="20.0" />
                                        </font>

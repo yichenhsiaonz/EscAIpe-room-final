@@ -14,6 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -816,6 +818,19 @@ public class ControlRoomController {
     ChatMessage msg = new ChatMessage("user", message);
     // send message to gpt
     runGpt(msg, false);
+  }
+
+  /**
+   * Sends the typed message by the user to gpt
+   * when user uses enter key.
+   *
+   * @param event the key event
+   */
+  @FXML
+  private void onEnter(KeyEvent event) throws ApiProxyException, IOException {
+    if (event.getCode().equals(KeyCode.ENTER)) {
+      onMessageSent(null);
+    }
   }
 
   @FXML
