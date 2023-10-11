@@ -1,5 +1,10 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -25,6 +30,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
@@ -194,9 +200,6 @@ public class SharedElements {
   public static void appendChat(String message) {
     // append message to master chat box with a newline below
     instance.chatBox.appendText(message + "\n\n");
-    for (int i = 0; i < 3; i++) {
-      chatBoxList[i].setScrollTop(Double.MAX_VALUE);
-    }
   }
 
   /**
@@ -223,7 +226,28 @@ public class SharedElements {
     for (int i = 0; i < 3; i++) {
       chatBubbleList[i].setVisible(true);
     }
-    instance.chatLabel.setText(message);
+
+    // text roll on animation for bubble
+    Platform.runLater(
+        () -> {
+          final IntegerProperty i = new SimpleIntegerProperty(0);
+          Timeline timeline = new Timeline();
+          KeyFrame keyFrame =
+              new KeyFrame(
+                  Duration.seconds(0.01),
+                  event -> {
+                    if (i.get() < message.length()) {
+                      instance.chatLabel.setText(message.substring(0, i.get() + 1));
+                      i.set(i.get() + 1);
+                    } else {
+                      timeline.stop();
+                    }
+                  });
+          timeline.getKeyFrames().add(keyFrame);
+          timeline.setCycleCount(message.length() + 1);
+          timeline.play();
+        });
+
     if (!GameState.getMuted()) {
       TextToSpeechManager.speak(message);
     } else {
@@ -299,8 +323,8 @@ public class SharedElements {
   @FXML private Button showHintBox;
   @FXML private Text muteText;
   @FXML private Label chatLabel;
-  @FXML private SimpleDoubleProperty chatScrollValue;
-  @FXML private SimpleDoubleProperty hintsScrollValue;
+  @FXML private SimpleDoubleProperty chatScrolDoubleProperty;
+  @FXML private SimpleDoubleProperty hintScrolDoubleProperty;
 
   private int loadedScenes;
   private boolean isPaperPrinted = false;
@@ -341,15 +365,15 @@ public class SharedElements {
     hintBox = new TextArea();
     hintBox.setVisible(false);
 
-    // create scroll value for hint box
-    hintsScrollValue = new SimpleDoubleProperty(0.0);
+    // create new hint scroll property
+    hintScrolDoubleProperty = new SimpleDoubleProperty(0.0);
 
     // create new master chat box
     chatBox = new TextArea();
     chatBox.setVisible(false);
 
-    // create scroll value for chat box
-    chatScrollValue = new SimpleDoubleProperty(0.0);
+    // create new chat scroll property
+    chatScrolDoubleProperty = new SimpleDoubleProperty(0.0);
 
     // create new master hint button
     hintButton = new Button();
@@ -425,8 +449,17 @@ public class SharedElements {
       chatBoxChild.setFocusTraversable(false);
       chatBoxChild.textProperty().bind(chatBox.textProperty());
       chatBoxChild.visibleProperty().bind(chatBox.visibleProperty());
-      chatBoxChild.scrollTopProperty().bindBidirectional(chatScrollValue);
+      chatBoxChild.scrollLeftProperty().bindBidirectional(chatScrolDoubleProperty);
       chatBoxChild.setPromptText("Chat history will appear here");
+
+      // auto scroll to the bottom when new text added to chat box
+      chatBox
+          .textProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                chatBoxChild.selectPositionCaret(chatBoxChild.getLength());
+                chatBoxChild.deselect();
+              });
 
       // add css to chat box
       chatBoxChild.getStyleClass().add("text-box");
@@ -443,8 +476,17 @@ public class SharedElements {
       hintBoxChild.setFocusTraversable(false);
       hintBoxChild.textProperty().bind(hintBox.textProperty());
       hintBoxChild.visibleProperty().bind(hintBox.visibleProperty());
-      hintBoxChild.scrollTopProperty().bindBidirectional(hintsScrollValue);
+      hintBoxChild.scrollTopProperty().bindBidirectional(hintScrolDoubleProperty);
       hintBoxChild.setPromptText("Hints given will appear here");
+
+      // auto scroll to the bottom when new text added to hint box
+      hintBox
+          .textProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                hintBoxChild.selectPositionCaret(hintBoxChild.getLength());
+                hintBoxChild.deselect();
+              });
 
       // add css to hint box
       hintBoxChild.getStyleClass().add("text-box");
