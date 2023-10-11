@@ -204,18 +204,19 @@
 }
 
 .text-box .prompt-text {
-    -fx-fill: #585858; /* Set the color of the prompt text */
+    -fx-fill: #585858;
+    /* Set the color of the prompt text */
 }
 
 .text-box .scroll-pane {
     -fx-background-color: transparent;
 }
 
-.text-box .scroll-pane .viewport{
+.text-box .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
 
-.text-box .scroll-pane .content{
+.text-box .scroll-pane .content {
     -fx-background-color: transparent;
 }
 
@@ -268,4 +269,49 @@
     -fx-background-color: white;
     -fx-border-color: transparent;
     -fx-text-fill: #28969c;
+}
+
+/* ------ computer design ------ */
+
+#computerLabel {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+}
+
+#passwordField {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+}
+
+#enterButton {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 15px;
+}
+
+#printButton {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+/* ------ keypad design ------ */
+
+#keypadNumber {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 40px;
+}
+
+#keypadChange {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+}
+
+#keypadField {
+    -fx-font-family: 'Space Grotesk';
+    -fx-text-fill: black;
+    -fx-font-size: 40px;
 }

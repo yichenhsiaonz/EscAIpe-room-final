@@ -29,6 +29,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.gpt.ChatMessage;
+import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 import nz.ac.auckland.se206.gpt.openai.ChatCompletionRequest;
 import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult;
@@ -400,56 +401,71 @@ public class GameState {
   public static void addItem(Items item) {
     String itemToAdd;
     String itemToAddGlow;
+    String readOut;
     EventHandler<MouseEvent> clickBehaviour;
     // read flag and adjust image and click behaviour accordingly
     switch (item) {
       case BREAD_TOASTED:
         itemToAdd = "/images/Items/breadToasted.png";
         itemToAddGlow = "/images/Items/breadToastedGlow.png";
+        readOut =
+            "It appears that the numbers ____"
+                + instance.thirdDigits
+                + " have been burnt into the toast";
         clickBehaviour =
             (event) -> {
               System.out.println("bread toasted clicked");
-              SharedElements.appendChat(
-                  "it's hard to read, but the numbers "
+              String aiRespone =
+                  "The numbers ____"
                       + instance.thirdDigits
-                      + " are burnt into the toast");
+                      + " are burnt into it. It is still unfit for consumption";
+              SharedElements.appendChat(aiRespone);
+              SharedElements.chatBubbleSpeak(aiRespone);
             };
         break;
       case BREAD_UNTOASTED:
         itemToAdd = "/images/Items/breadUntoasted.png";
         itemToAddGlow = "/images/Items/breadUntoastedGlow.png";
+        readOut = "I do not recommend eating that";
         clickBehaviour =
             (event) -> {
               System.out.println("bread untoasted clicked");
-              SharedElements.appendChat("It looks rather unappetising");
+              String aiRespone = "It is unfit for consumption";
+              SharedElements.appendChat(aiRespone);
+              SharedElements.chatBubbleSpeak(aiRespone);
             };
         break;
       case PAPER:
         itemToAdd = "/images/Items/paper.png";
         itemToAddGlow = "/images/Items/paperGlow.png";
+        readOut = "The numbers " + instance.firstDigits + "____ appear to be of importance";
         clickBehaviour =
             (event) -> {
               System.out.println("paper clicked");
-              SharedElements.appendChat(
-                  "Within the blocks of text, you can make out the numbers "
+              String aiRespone =
+                  "It reads "
                       + instance.firstDigits
-                      + " in bold");
+                      + "____. The rest of the text is irrelevant to our escape";
+              SharedElements.appendChat(aiRespone);
+              SharedElements.chatBubbleSpeak(aiRespone);
             };
         break;
       case USB:
         itemToAdd = "/images/Items/usb.png";
         itemToAddGlow = "/images/Items/usbGlow.png";
+        readOut = "Please refrain from hoarding junk that will not assist in our escape";
         clickBehaviour =
             (event) -> {
               System.out.println("usb clicked");
-              SharedElements.appendChat(
-                  "You're reminded of the times they told you not to stick random USBs into your"
-                      + " computer");
+              String aiRespone = "Why are you still in possesion of that? It is of no use to us";
+              SharedElements.appendChat(aiRespone);
+              SharedElements.chatBubbleSpeak(aiRespone);
             };
         break;
       default:
         itemToAdd = null;
         itemToAddGlow = null;
+        readOut = null;
         clickBehaviour = null;
         break;
     }
@@ -476,6 +492,41 @@ public class GameState {
       SharedElements.addInventoryItem(itemCopies);
       // add list of instances of identical items to the map
       inventoryMapAdd(item, itemCopies);
+
+      // read out the readout and add it to history and hints
+      SharedElements.appendChat(readOut);
+      SharedElements.appendHint(readOut);
+      SharedElements.chatBubbleSpeak(readOut);
+      switch (item) {
+        case BREAD_TOASTED:
+          // Load prompt to congratulate user on toasting bread
+          TextToSpeechManager.hideOnComplete = false;
+          TextToSpeechManager.setCompletedRunnable(
+              () -> {
+                try {
+                  GameState.runGpt(
+                      new ChatMessage("user", GptPromptEngineering.toastBread()), false);
+                } catch (ApiProxyException e) {
+                  e.printStackTrace();
+                }
+              });
+          break;
+        case PAPER:
+          // Load prompt to congratulate user on printing paper
+          TextToSpeechManager.hideOnComplete = false;
+          TextToSpeechManager.setCompletedRunnable(
+              () -> {
+                try {
+                  GameState.runGpt(
+                      new ChatMessage("user", GptPromptEngineering.printPaper()), false);
+                } catch (ApiProxyException e) {
+                  e.printStackTrace();
+                }
+              });
+          break;
+        default:
+          break;
+      }
 
     } catch (Exception e) {
       System.out.println("Error: item not found");
@@ -677,6 +728,8 @@ public class GameState {
           Thread gptThread = new Thread(gptTask);
           gptThread.start();
         } else {
+          Boolean hintFlag = true;
+
           if (toasterPuzzleHints && !instance.toasterLocationShown) {
             hint =
                 "The user used the hint button. There is a modified toaster in the kitchen. Tell"
@@ -699,8 +752,11 @@ public class GameState {
             hint =
                 "The user used the hint button, but you have no more hints to give. Tell them this"
                     + " in one sentence.";
+
+            // ensure response is not added to hint box
+            hintFlag = false;
           }
-          runGpt(new ChatMessage("user", hint), true);
+          runGpt(new ChatMessage("user", hint), hintFlag);
         }
 
         System.out.println(instance.currentPuzzle);
@@ -790,6 +846,7 @@ public class GameState {
   }
 
   public static void fadeOut(AnchorPane room) {
+    room.setMouseTransparent(true);
     Timeline timeline = new Timeline();
     KeyFrame key = new KeyFrame(Duration.millis(1000), new KeyValue(room.opacityProperty(), 0));
     timeline.getKeyFrames().add(key);
@@ -797,6 +854,7 @@ public class GameState {
   }
 
   public static void fadeIn(AnchorPane room) {
+    room.setMouseTransparent(false);
     Timeline timeline = new Timeline();
     KeyFrame key = new KeyFrame(Duration.millis(1000), new KeyValue(room.opacityProperty(), 1));
     timeline.getKeyFrames().add(key);
