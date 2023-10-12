@@ -203,11 +203,13 @@ public class KitchenController {
           };
       Runnable waitForToast =
           () -> {
+            GameState.playSound("/sounds/timer.mp3");
             SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
             GameState.delayRun(toastFinish, 4);
           };
       Runnable putInToast =
           () -> {
+            GameState.playSound("/sounds/timer.mp3");
             System.out.println("toaster clicked");
             // remove bread from inventory
             GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
