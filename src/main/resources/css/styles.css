@@ -315,3 +315,59 @@
     -fx-text-fill: black;
     -fx-font-size: 40px;
 }
+
+#gameOverLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 80px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#congratsMsg {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 70px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#defeatedMsg {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#youWinMsg {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 70px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#wonMsg {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 70px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#butMsg {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}
+
+#someoneMsg {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}

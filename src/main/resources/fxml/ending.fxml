@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -31,17 +32,13 @@
                   <Font size="17.0" />
                </font>
             </Button>
-            <ImageView fx:id="winImage" fitHeight="1123.0" fitWidth="1518.0" layoutX="215.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/Ending/winner.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="trueWin" fitHeight="1123.0" fitWidth="1518.0" layoutX="215.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../images/Ending/true-winner.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="menuButton" layoutX="895.0" layoutY="820.0" mnemonicParsing="false" onAction="#onMenuClicked" text="Back to Menu" visible="false">
+            <Label fx:id="wonMsg" alignment="CENTER" layoutX="525.0" layoutY="229.0" opacity="0.0" prefHeight="249.0" prefWidth="902.0" text="YOU WON!" />
+            <Label fx:id="butMsg" alignment="CENTER" layoutX="217.0" layoutY="419.0" opacity="0.0" prefHeight="173.0" prefWidth="1487.0" text="BUT NOW THE EVIL AI-23 IS FREE TO DESTROY THE EARTH." />
+            <Label fx:id="someoneMsg" alignment="CENTER" layoutX="455.0" layoutY="553.0" opacity="0.0" prefHeight="124.0" prefWidth="1033.0" text=" SOMEONE IS GOING TO HAVE TO STOP IT..." />
+            <Label fx:id="congratsMsg" alignment="CENTER" layoutX="519.0" layoutY="242.0" opacity="0.0" prefHeight="249.0" prefWidth="902.0" text="CONGRATS!" />
+            <Label fx:id="defeatedMsg" alignment="CENTER" layoutX="455.0" layoutY="419.0" opacity="0.0" prefHeight="124.0" prefWidth="1033.0" text="YOU HAVE DEFEATED THE EVIL AI-23!" />
+            <Label fx:id="youWinMsg" alignment="CENTER" layoutX="521.0" layoutY="540.0" opacity="0.0" prefHeight="165.0" prefWidth="901.0" text="YOU WIN!" />
+            <Button fx:id="menuButton" layoutX="845.0" layoutY="811.0" mnemonicParsing="false" onAction="#onMenuClicked" prefHeight="55.0" prefWidth="262.0" text="Back to Menu" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
