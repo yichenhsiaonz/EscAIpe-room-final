@@ -315,3 +315,11 @@
     -fx-text-fill: black;
     -fx-font-size: 40px;
 }
+
+#gameOverLabel {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 80px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-line-spacing: 5px;
+}

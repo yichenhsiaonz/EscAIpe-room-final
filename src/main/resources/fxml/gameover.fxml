@@ -19,7 +19,7 @@
                   <Font name="Bank Gothic Light BT" size="96.0" />
                </font>
             </Label>
-            <Button fx:id="menuButton" layoutX="916.0" layoutY="727.0" mnemonicParsing="false" onAction="#onMenuButtonClicked" opacity="0.0" text="Back to menu" />
+            <Button fx:id="menuButton" layoutX="831.0" layoutY="775.0" mnemonicParsing="false" onAction="#onMenuButtonClicked" opacity="0.0" prefHeight="43.0" prefWidth="260.0" text="Back to menu" />
          </children>
       </AnchorPane>
    </center>
