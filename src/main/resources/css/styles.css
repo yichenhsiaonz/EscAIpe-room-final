@@ -371,3 +371,28 @@
     -fx-alignment: center;
     -fx-line-spacing: 5px;
 }
+
+#endingText {
+    -fx-font-family: 'Space Grotesk';
+    -fx-font-size: 27px;
+    -fx-text-fill: black;
+}
+
+#nextButton {
+    -fx-font-family: 'Press Start 2P';
+    -fx-font-size: 17px;
+    -fx-text-fill: black;
+    -fx-background-color: #28969c;
+    -fx-border-color: #006b73;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 3px;
+    -fx-padding: 10px 10px 5px 10px;
+}
+
+#nextButton:hover {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-text-fill: #28969c;
+}

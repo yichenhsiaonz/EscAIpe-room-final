@@ -206,6 +206,9 @@ public class ControlRoomController {
             System.out.println("exit door clicked");
             if (GameState.isExitUnlocked) {
               // if the exit is unlocked, fade to black for ending scene
+              TextToSpeechManager.cutOff();
+              GameState.stopAllThreads();
+              GameState.stopSound();
               GameState.playSound("/sounds/gate-open.m4a");
               fadeBlack();
             } else {
@@ -781,8 +784,7 @@ public class ControlRoomController {
   }
 
   /**
-   * Sends the typed message by the user to gpt
-   * when user uses enter key.
+   * Sends the typed message by the user to gpt when user uses enter key.
    *
    * @param event the key event
    */
