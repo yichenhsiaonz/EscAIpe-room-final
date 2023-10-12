@@ -22,12 +22,12 @@
                   <Image url="@../images/Ending/shadow-frame.png" />
                </image>
             </ImageView>
-            <TextArea fx:id="textArea" editable="false" layoutX="483.0" layoutY="789.0" prefHeight="211.0" prefWidth="973.0" wrapText="true">
+            <TextArea id="endingText" fx:id="textArea" editable="false" layoutX="483.0" layoutY="789.0" prefHeight="211.0" prefWidth="973.0" stylesheets="@../css/styles.css" wrapText="true">
                <font>
                   <Font size="27.0" />
                </font>
             </TextArea>
-            <Button fx:id="nextButton" layoutX="1391.0" layoutY="1018.0" mnemonicParsing="false" onAction="#onNextClicked" prefHeight="33.0" prefWidth="60.0" text="Next">
+            <Button id="nextButton" fx:id="nextButton" layoutX="1320.0" layoutY="1018.0" mnemonicParsing="false" onAction="#onNextClicked" prefHeight="43.0" prefWidth="131.0" stylesheets="@../css/styles.css" text="NEXT">
                <font>
                   <Font size="17.0" />
                </font>
