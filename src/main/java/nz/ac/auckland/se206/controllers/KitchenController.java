@@ -18,9 +18,6 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
-import nz.ac.auckland.se206.gpt.ChatMessage;
-import nz.ac.auckland.se206.gpt.GptPromptEngineering;
-import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
 /** Controller class for the room view. */
 public class KitchenController {
@@ -190,8 +187,29 @@ public class KitchenController {
     GameState.setPuzzleToast();
     if (GameState.hasBread && !GameState.hasToast) {
       // run if the user has bread and doesn't have toast
+      Runnable toastFinish =
+          () -> {
+            GameState.playSound("/sounds/toaster.mp3");
+            System.out.println("toaster clicked");
+            // put notification in chat box
+            SharedElements.appendChat("A charred slice of toast pops out of the toaster");
+            // add toasted bread to inventory
+            GameState.addItem(GameState.Items.BREAD_TOASTED);
+            // flag that the user has toast
+            GameState.hasToast = true;
+            // flag that the toaster puzzle has been completed
+            // so that no more hints are given for this puzzle
+            GameState.toasterPuzzleHints = false;
+          };
+      Runnable waitForToast =
+          () -> {
+            GameState.playSound("/sounds/timer.mp3");
+            SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
+            GameState.delayRun(toastFinish, 4);
+          };
       Runnable putInToast =
           () -> {
+            GameState.playSound("/sounds/timer.mp3");
             System.out.println("toaster clicked");
             // remove bread from inventory
             GameState.removeItem(GameState.Items.BREAD_UNTOASTED);
@@ -199,45 +217,20 @@ public class KitchenController {
             SharedElements.appendChat("You put a slice of bread in the toaster");
             // flag that the user has no bread
             GameState.hasBread = false;
+            GameState.delayRun(waitForToast, 2);
           };
-      Runnable waitForToast =
-          () -> {
-            SharedElements.appendChat("Sparks fly out of the toaster as it toasts the bread");
-          };
-      Runnable toastFinish =
-          () -> {
-            GameState.playSound("/sounds/toaster.mp3");
-            System.out.println("toaster clicked");
-            // add toasted bread to inventory
-            GameState.addItem(GameState.Items.BREAD_TOASTED);
-            // put notification in chat box
-            SharedElements.appendChat("A charred slice of toast pops out of the toaster");
-            // Load prompt to congratulate user on toasting bread
-            try {
-              GameState.runGpt(new ChatMessage("user", GptPromptEngineering.toastBread()), false);
-            } catch (ApiProxyException e) {
-              e.printStackTrace();
-            }
-            // flag that the user has toast
-            GameState.hasToast = true;
-            // flag that the toaster puzzle has been completed
-            // so that no more hints are given for this puzzle
-            GameState.toasterPuzzleHints = false;
-            // allow character to move again
-          };
-
       GameState.setOnMovementComplete(putInToast);
       GameState.startMoving();
-      GameState.delayRun(waitForToast, 2);
-      GameState.delayRun(toastFinish, 4);
+
     } else if (GameState.hasToast) {
       // run if the user has toast already
       Runnable toasterRunnable =
           () -> {
             System.out.println("toaster clicked");
             // put notification in chat box
-            SharedElements.appendChat("Looks like the toaster is toast.");
-            // allow character to move again
+            String message = "Looks like the toaster is toast.";
+            SharedElements.appendChat(message);
+            SharedElements.chatBubbleSpeak(message);
           };
       GameState.setOnMovementComplete(toasterRunnable);
       GameState.startMoving();
@@ -246,8 +239,9 @@ public class KitchenController {
           () -> {
             System.out.println("toaster clicked");
             // put notification in chat box
-            SharedElements.appendChat("This toaster looks like it's been tampered with");
-            // allow character to move again
+            String message = "This toaster looks like it has been modified";
+            SharedElements.appendChat(message);
+            SharedElements.chatBubbleSpeak(message);
           };
       GameState.setOnMovementComplete(toasterRunnable);
       GameState.startMoving();
@@ -316,14 +310,13 @@ public class KitchenController {
             fridgeOpen.setVisible(true);
             // change floor hitbox to account for open fridge
             floor.setImage(new Image("images/Kitchen/floorfridgeopen.png"));
+            // put notification in chat box
+            SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
             // flag that the user has bread
             GameState.hasBread = true;
             // add bread to inventory
             GameState.addItem(GameState.Items.BREAD_UNTOASTED);
-            // put notification in chat box
-            SharedElements.appendChat("You find a stale loaf of bread in the fridge.");
             System.out.println("closed fridge clicked");
-            // allow character to move again
           };
       GameState.setOnMovementComplete(closedFridgeRunnable);
       GameState.startMoving();

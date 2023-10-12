@@ -1,20 +1,27 @@
 package nz.ac.auckland.se206;
 
 import javafx.concurrent.Task;
+import nz.ac.auckland.se206.controllers.SharedElements;
 import nz.ac.auckland.se206.speech.TextToSpeech;
 
 public class TextToSpeechManager {
   private static TextToSpeech textToSpeech = new TextToSpeech();
   private static Task<Void> task;
+  public static boolean hideOnComplete = false;
 
   public static void speak(String... sentences) {
+    hideOnComplete = false;
     cutOff();
+    hideOnComplete = true;
     // Run in a separate thread to avoid blocking the UI thread
     task =
         new Task<Void>() {
           @Override
           protected Void call() throws InterruptedException {
             textToSpeech.speak(sentences);
+            if (hideOnComplete) {
+              SharedElements.hideChatBubble();
+            }
             return null;
           }
         };
@@ -23,9 +30,6 @@ public class TextToSpeechManager {
   }
 
   public static void cutOff() {
-    if (task != null) {
-      task.setOnSucceeded(null);
-    }
     textToSpeech.stop();
   }
 
