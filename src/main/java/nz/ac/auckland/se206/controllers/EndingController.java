@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,9 +22,13 @@ public class EndingController {
   @FXML private ImageView shadowFrame;
   @FXML private TextArea textArea;
   @FXML private Button nextButton;
-  @FXML private ImageView winImage;
   @FXML private Button menuButton;
-  @FXML private ImageView trueWin;
+  @FXML private Label congratsMsg;
+  @FXML private Label defeatedMsg;
+  @FXML private Label youWinMsg;
+  @FXML private Label wonMsg;
+  @FXML private Label butMsg;
+  @FXML private Label someoneMsg;
 
   private int chatCount = 0;
 
@@ -90,7 +95,9 @@ public class EndingController {
               nextButton.setVisible(false);
 
               // show win screen
-              winImage.setVisible(true);
+              wonMsg.setOpacity(1);
+              butMsg.setOpacity(1);
+              someoneMsg.setOpacity(1);
               menuButton.setVisible(true);
             });
 
@@ -161,7 +168,9 @@ public class EndingController {
               nextButton.setVisible(false);
 
               // show win screen
-              trueWin.setVisible(true);
+              congratsMsg.setOpacity(1);
+              defeatedMsg.setOpacity(1);
+              youWinMsg.setOpacity(1);
               menuButton.setVisible(true);
             });
 
