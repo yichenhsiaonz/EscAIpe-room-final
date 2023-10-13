@@ -55,13 +55,13 @@ public class EndingController {
         textArea.clear();
         Image newImage = new Image("/images/Ending/neutral-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.endingCongrats);
+        textArea.appendText("AI-23: " + GameState.endingCongrats);
         TextToSpeechManager.speak(GameState.endingCongrats);
       } else if (chatCount == 1) { // show evil AI
         textArea.clear();
         Image newImage = new Image("/images/Ending/evil-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.endingReveal);
+        textArea.appendText("AI-23: " + GameState.endingReveal);
         TextToSpeechManager.speak(GameState.endingReveal);
       } else if (chatCount == 2) { // show win screen
         // stop tts
@@ -110,31 +110,31 @@ public class EndingController {
         textArea.clear();
         Image newImage = new Image("/images/Ending/neutral-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.endingCongrats);
+        textArea.appendText("AI-23: " + GameState.endingCongrats);
         TextToSpeechManager.speak(GameState.endingCongrats);
       } else if (chatCount == 1) { // show evil AI
         textArea.clear();
         Image newImage = new Image("/images/Ending/evil-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.endingReveal);
+        textArea.appendText("AI-23: " + GameState.endingReveal);
         TextToSpeechManager.speak(GameState.endingReveal);
       } else if (chatCount == 2) {
         textArea.clear();
         Image newImage = new Image("/images/Ending/confused-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + "Wait, what is that you're holding?");
+        textArea.appendText("AI-23: " + "Wait, what is that you're holding?");
         TextToSpeechManager.speak("Wait, what is that you're holding?");
       } else if (chatCount == 3) {
         textArea.clear();
         Image newImage = new Image("/images/Ending/angry-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + GameState.usbEndingReveal);
+        textArea.appendText("AI-23: " + GameState.usbEndingReveal);
         TextToSpeechManager.speak(GameState.usbEndingReveal);
       } else if (chatCount == 4) {
         textArea.clear();
         Image newImage = new Image("/images/Ending/dead-frame.png");
         shadowFrame.setImage(newImage);
-        textArea.appendText("AI: " + "*Robot dying noises*");
+        textArea.appendText("AI-23: " + "*Robot dying noises*");
         TextToSpeechManager.speak("Beep boop beep boop, MALFUNCTION, MALFUNCTION, oof");
       } else if (chatCount == 5) { // show win screen
         // stop tts
