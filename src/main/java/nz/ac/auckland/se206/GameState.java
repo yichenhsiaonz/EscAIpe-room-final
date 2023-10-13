@@ -198,7 +198,7 @@ public class GameState {
               Platform.runLater(
                   () -> {
                     // append message to chat box
-                    SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                    SharedElements.appendChat("AI-23: " + result.getChatMessage().getContent());
                     SharedElements.chatBubbleSpeak(result.getChatMessage().getContent());
 
                     // if the message is a hint, add it to the hint text
@@ -705,7 +705,8 @@ public class GameState {
                           }
                           SharedElements.enableSendButton();
                           // append hint to chat box
-                          SharedElements.appendChat("AI: " + result.getChatMessage().getContent());
+                          SharedElements.appendChat(
+                              "AI-23: " + result.getChatMessage().getContent());
                           SharedElements.appendHint(result.getChatMessage().getContent());
                           SharedElements.chatBubbleSpeak(result.getChatMessage().getContent());
                         });
