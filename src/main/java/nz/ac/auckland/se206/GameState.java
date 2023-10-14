@@ -82,7 +82,7 @@ public class GameState {
     instance = new GameState();
   }
 
-  public static void foundUSB() {
+  public static void foundUsb() {
     isUsbEnding = true;
   }
 
