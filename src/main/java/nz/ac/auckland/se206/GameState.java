@@ -82,7 +82,7 @@ public class GameState {
     instance = new GameState();
   }
 
-  public static void foundUSB() {
+  public static void foundUsb() {
     isUsbEnding = true;
   }
 
@@ -862,6 +862,26 @@ public class GameState {
     timeline.play();
   }
 
+  public static void playSound(String soundFile) {
+    try {
+      // Stop any currently playing sound
+      stopSound();
+      if (!instance.muted) {
+        Media sound = new Media(GameState.class.getResource(soundFile).toExternalForm());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void stopSound() {
+    if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+      mediaPlayer.stop();
+    }
+  }
+
   private boolean muted = false;
   private String riddleAnswer;
   private String riddle;
@@ -875,7 +895,6 @@ public class GameState {
   private int chosenTime = 240;
   private Thread timerThread;
   private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
-  private Thread movingThread;
   private TranslateTransition transition;
   private TranslateTransition transition2;
 
@@ -955,25 +974,5 @@ public class GameState {
     System.out.println(secondDigits);
     System.out.println(thirdDigits);
     System.out.println(code);
-  }
-
-  public static void playSound(String soundFile) {
-    try {
-      // Stop any currently playing sound
-      stopSound();
-      if (!instance.muted) {
-        Media sound = new Media(GameState.class.getResource(soundFile).toExternalForm());
-        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static void stopSound() {
-    if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
-      mediaPlayer.stop();
-    }
   }
 }

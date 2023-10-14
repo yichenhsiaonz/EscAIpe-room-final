@@ -213,17 +213,17 @@ public class LabController {
   }
 
   @FXML
-  public void onUSBhovered(MouseEvent event) {
+  public void onUsbHovered(MouseEvent event) {
     usbGlow.setVisible(true);
   }
 
   @FXML
-  public void onUSBunhovered(MouseEvent event) {
+  public void onUsbUnhovered(MouseEvent event) {
     usbGlow.setVisible(false);
   }
 
   @FXML
-  public void onUSBclicked(MouseEvent event) {
+  public void onUsbClicked(MouseEvent event) {
 
     try {
       // move character to usb position
@@ -234,7 +234,7 @@ public class LabController {
             room.getChildren().remove(usbGlow);
             room.getChildren().remove(usb);
             GameState.addItem(GameState.Items.USB);
-            GameState.foundUSB();
+            GameState.foundUsb();
           };
 
       GameState.setOnMovementComplete(goToUsb);

@@ -4,8 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -234,6 +234,7 @@ public class SharedElements {
           Timeline timeline = new Timeline();
           KeyFrame keyFrame =
               new KeyFrame(
+                  // sets the duration of the text roll
                   Duration.seconds(0.01),
                   event -> {
                     if (i.get() < message.length()) {
@@ -248,9 +249,11 @@ public class SharedElements {
           timeline.play();
         });
 
+    // if game is not muted, speak message, play without speaking otherwise
     if (!GameState.getMuted()) {
       TextToSpeechManager.speak(message);
     } else {
+      // hide chat bubble after 4 seconds
       GameState.delayRun(
           () -> {
             for (int i = 0; i < 3; i++) {
