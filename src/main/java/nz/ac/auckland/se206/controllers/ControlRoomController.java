@@ -560,7 +560,7 @@ public class ControlRoomController {
 
   /** Returns to the control room screen when exit button clicked. */
   @FXML
-  void onCloseKeypadClicked() throws IOException {
+  private void onCloseKeypadClicked() throws IOException {
     System.out.println("Exit clicked");
 
     keyPadAnchorPane.setVisible(false);

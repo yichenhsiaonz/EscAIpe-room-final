@@ -875,7 +875,6 @@ public class GameState {
   private int chosenTime = 240;
   private Thread timerThread;
   private ArrayList<Thread> runningThreads = new ArrayList<Thread>();
-  private Thread movingThread;
   private TranslateTransition transition;
   private TranslateTransition transition2;
 
