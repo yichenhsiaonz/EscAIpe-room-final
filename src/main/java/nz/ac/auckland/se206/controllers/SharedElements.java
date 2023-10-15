@@ -321,6 +321,48 @@ public class SharedElements {
     return instance.isPaperPrinted;
   }
 
+  /**
+   * This method is called to initalize the different rooms. It fits the elements to the screen
+   * size.
+   *
+   * @param room The room to initialize
+   * @param bottomVerticalBox The task bar box
+   * @param inventoryPane The inventory box
+   * @param dialogueHorizontalBox The chat bubble
+   * @param muteButton The mute button
+   * @param contentPane The content pane
+   */
+  public static void initialize(
+      AnchorPane room,
+      VBox bottomVerticalBox,
+      Pane inventoryPane,
+      HBox dialogueHorizontalBox,
+      Button muteButton,
+      AnchorPane contentPane) {
+    // get shared elements from the SharedElements class
+    HBox bottom = SharedElements.getTaskBarBox();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
+    VBox inventory = SharedElements.getInventoryBox();
+    HBox chatBubble = SharedElements.getChatBubble();
+
+    // add shared elements to the correct places
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
+    bottomVerticalBox.getChildren().add(bottom);
+    inventoryPane.getChildren().add(inventory);
+    dialogueHorizontalBox.getChildren().add(chatBubble);
+    SharedElements.incremnetLoadedScenes();
+    // scale the room to the screen size
+    GameState.scaleToScreen(contentPane);
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
+  }
+
   @FXML private VBox dialogueBox;
   @FXML private HBox sendBox;
   @FXML private Label timerLabel;
@@ -677,47 +719,5 @@ public class SharedElements {
       // add new instance to list
       taskBarHorizontalBoxList[i] = taskBarHorizontalBoxChild;
     }
-  }
-
-  /**
-   * This method is called to initalize the different rooms. It fits the elements to the screen
-   * size.
-   *
-   * @param room The room to initialize
-   * @param bottomVerticalBox The task bar box
-   * @param inventoryPane The inventory box
-   * @param dialogueHorizontalBox The chat bubble
-   * @param muteButton The mute button
-   * @param contentPane The content pane
-   */
-  public static void initialize(
-      AnchorPane room,
-      VBox bottomVerticalBox,
-      Pane inventoryPane,
-      HBox dialogueHorizontalBox,
-      Button muteButton,
-      AnchorPane contentPane) {
-    // get shared elements from the SharedElements class
-    HBox bottom = SharedElements.getTaskBarBox();
-    TextArea chatBox = SharedElements.getChatBox();
-    TextArea hintBox = SharedElements.getHintBox();
-    VBox inventory = SharedElements.getInventoryBox();
-    HBox chatBubble = SharedElements.getChatBubble();
-
-    // add shared elements to the correct places
-    room.getChildren().addAll(chatBox, hintBox);
-    AnchorPane.setBottomAnchor(chatBox, 0.0);
-    AnchorPane.setLeftAnchor(chatBox, 0.0);
-    AnchorPane.setBottomAnchor(hintBox, 0.0);
-    AnchorPane.setLeftAnchor(hintBox, 0.0);
-    bottomVerticalBox.getChildren().add(bottom);
-    inventoryPane.getChildren().add(inventory);
-    dialogueHorizontalBox.getChildren().add(chatBubble);
-    SharedElements.incremnetLoadedScenes();
-    // scale the room to the screen size
-    GameState.scaleToScreen(contentPane);
-
-    // bind the mute button to the GameState muted property
-    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
   }
 }
