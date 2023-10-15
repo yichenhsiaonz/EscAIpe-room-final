@@ -17,6 +17,10 @@ import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
 
+/**
+ * Controller for the lab scene. This class controls the items in the lab and the functionality of
+ * them.
+ */
 public class LabController {
   public static LabController instance;
   @FXML private AnchorPane contentPane;
@@ -42,6 +46,7 @@ public class LabController {
   private double startX = 1512;
   private double startY = 814;
 
+  /** Initalizes the lab scene. This method is called when the game starts. */
   public void initialize() {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
@@ -99,6 +104,11 @@ public class LabController {
     event.consume();
   }
 
+  /**
+   * Handles the click event on the printer.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void onPrinterClicked(MouseEvent event) throws IOException {
 
@@ -222,6 +232,11 @@ public class LabController {
     usbGlow.setVisible(false);
   }
 
+  /**
+   * Handles the click event on the usb.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void onUsbClicked(MouseEvent event) {
 

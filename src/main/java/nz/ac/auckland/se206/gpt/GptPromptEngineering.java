@@ -3,7 +3,7 @@ package nz.ac.auckland.se206.gpt;
 /** Utility class for generating GPT prompt engineering strings. */
 public class GptPromptEngineering {
 
-  /** Generates a GPT prompt engineering string for easy and medium */
+  /** Generates a GPT prompt engineering string for easy and medium. */
   public static String introStringHints() {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
         // tell AI basic information about the game that it can give the user
@@ -20,7 +20,7 @@ public class GptPromptEngineering {
         + " button.";
   }
 
-  /** Generates a GPT prompt engineering string for hard */
+  /** Generates a GPT prompt engineering string for hard. */
   public static String introStringNoHints() {
     return "You are AI-23, a robot trapped with the user in locked spaceship with dying battery."
         // tell AI basic information about the game that it can give the user

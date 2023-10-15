@@ -100,7 +100,7 @@ public class ControlRoomController {
   private ChatCompletionRequest computerChatCompletionRequest;
   private boolean firstOpeningTextFile;
 
-  /** Initializes the control room. */
+  /** This method initializes the control room for when the user first enters it. */
   public void initialize() {
     // get shared elements from the SharedElements class
     HBox bottom = SharedElements.getTaskBarBox();
@@ -241,7 +241,7 @@ public class ControlRoomController {
    * Handles the click event on the keypad.
    *
    * @param event the mouse event
-   * @throws IOException
+   * @throws IOException throws an exception if there is an error loading the keypad view
    */
   @FXML
   private void clickKeypad(MouseEvent event) throws IOException {
@@ -395,6 +395,7 @@ public class ControlRoomController {
     GameState.startMoving();
   }
 
+  /** This method fades the room into black for transitions. */
   public void fadeBlack() {
     // stop timer
     GameState.stopTimer();
@@ -521,7 +522,7 @@ public class ControlRoomController {
   /**
    * Checks if the code is correct.
    *
-   * @throws ApiProxyException
+   * @throws ApiProxyException if there is an error communicating with the API proxy
    */
   @FXML
   private void onEnterClicked() throws ApiProxyException {

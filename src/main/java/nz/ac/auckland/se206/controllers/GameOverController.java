@@ -13,12 +13,14 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 
+/** Controller for the game over scene. */
 public class GameOverController {
   public static GameOverController instance;
   @FXML private AnchorPane contentPane;
   @FXML private Button menuButton;
   @FXML private Label gameOverLabel;
 
+  /** Initalizes the game over scene. */
   public void initialize() {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);
@@ -30,6 +32,7 @@ public class GameOverController {
     App.setRoot(AppUi.MENU);
   }
 
+  /** Shows the game over label and menu button. */
   public void showGameOver() {
     // set the opacity of the game over label and menu button to 0
     gameOverLabel.setOpacity(0);
