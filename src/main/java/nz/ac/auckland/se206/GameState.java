@@ -920,7 +920,7 @@ public class GameState {
   }
 
   /**
-   * Fades out the room.
+   * The method is called when the user clicks to go to another room and the room is faded out of.
    *
    * @param room the room to fade out
    */
@@ -933,7 +933,7 @@ public class GameState {
   }
 
   /**
-   * Fades in the room.
+   * The method is called when the user clicks to go to another room and the room is faded into.
    *
    * @param room the room to fade in
    */
@@ -946,7 +946,8 @@ public class GameState {
   }
 
   /**
-   * Plays a sound file.
+   * This method is called when a sound is played. The path is passed into the method and the sound
+   * is played.
    *
    * @param soundFile the path to the sound file
    */

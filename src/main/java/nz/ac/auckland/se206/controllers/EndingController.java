@@ -64,7 +64,7 @@ public class EndingController {
       TextToSpeechManager.speak(GameState.endingReveal);
     }
     if (!GameState.isUsbEnding) {
-      if (chatCount == 2) { // show win screen
+      if (chatCount == 2) {
         showWinScreen();
       }
 
@@ -88,7 +88,7 @@ public class EndingController {
         shadowFrame.setImage(newImage);
         textArea.appendText("AI-23: " + "*Robot dying noises*");
         TextToSpeechManager.speak("Beep boop beep boop, MALFUNCTION, MALFUNCTION, oof");
-      } else if (chatCount == 5) { // show win screen
+      } else if (chatCount == 5) {
         showWinScreen();
       }
 
