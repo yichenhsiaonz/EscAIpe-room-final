@@ -4,7 +4,6 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -17,6 +16,10 @@ import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.SceneManager.AppUi;
 import nz.ac.auckland.se206.TextToSpeechManager;
 
+/**
+ * Controller for the lab scene. This class controls the items in the lab and the functionality of
+ * them.
+ */
 public class LabController {
   public static LabController instance;
   @FXML private AnchorPane contentPane;
@@ -42,29 +45,10 @@ public class LabController {
   private double startX = 1512;
   private double startY = 814;
 
+  /** Initalizes the lab scene. This method is called when the game starts. */
   public void initialize() {
-    // get shared elements from the SharedElements class
-    HBox bottom = SharedElements.getTaskBarBox();
-    TextArea chatBox = SharedElements.getChatBox();
-    TextArea hintBox = SharedElements.getHintBox();
-    VBox inventory = SharedElements.getInventoryBox();
-    HBox chatBubble = SharedElements.getChatBubble();
-
-    // add shared elements to the correct places
-
-    room.getChildren().addAll(chatBox, hintBox);
-    AnchorPane.setBottomAnchor(chatBox, 0.0);
-    AnchorPane.setLeftAnchor(chatBox, 0.0);
-    AnchorPane.setBottomAnchor(hintBox, 0.0);
-    AnchorPane.setLeftAnchor(hintBox, 0.0);
-    bottomVerticalBox.getChildren().add(bottom);
-    inventoryPane.getChildren().add(inventory);
-    dialogueHorizontalBox.getChildren().add(chatBubble);
-    SharedElements.incremnetLoadedScenes();
-    GameState.scaleToScreen(contentPane);
-
-    // bind the mute button to the GameState muted property
-    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
+    SharedElements.initialize(
+        room, bottomVerticalBox, inventoryPane, dialogueHorizontalBox, muteButton, contentPane);
 
     GameState.goToInstant(startX, startY, character, running);
     room.setOpacity(0);
@@ -99,6 +83,11 @@ public class LabController {
     event.consume();
   }
 
+  /**
+   * Handles the click event on the printer.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void onPrinterClicked(MouseEvent event) throws IOException {
 
@@ -222,6 +211,11 @@ public class LabController {
     usbGlow.setVisible(false);
   }
 
+  /**
+   * Handles the click event on the usb.
+   *
+   * @param event the mouse event
+   */
   @FXML
   public void onUsbClicked(MouseEvent event) {
 

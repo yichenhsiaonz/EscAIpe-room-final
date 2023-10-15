@@ -18,6 +18,7 @@ import nz.ac.auckland.se206.gpt.ChatMessage;
 import nz.ac.auckland.se206.gpt.GptPromptEngineering;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
+/** Controller for the menu scene. This class enables the menu to be reaccessed by the user. */
 public class MenuController {
 
   @FXML private Label creditsLabel;
@@ -27,6 +28,7 @@ public class MenuController {
   private int difficultyValue;
   private int timeValue;
 
+  /** Initalizes the menu for when the user accesses it. */
   public void initialize() {
     // Initialization code goes here
     GameState.scaleToScreen(contentPane);

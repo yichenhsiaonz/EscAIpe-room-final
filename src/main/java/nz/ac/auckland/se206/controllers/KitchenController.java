@@ -4,7 +4,6 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -48,28 +47,8 @@ public class KitchenController {
 
   /** Initializes the room view, it is called when the room loads. */
   public void initialize() {
-    // get shared elements from the SharedElements class
-    HBox bottom = SharedElements.getTaskBarBox();
-    TextArea chatBox = SharedElements.getChatBox();
-    TextArea hintBox = SharedElements.getHintBox();
-    VBox inventory = SharedElements.getInventoryBox();
-    HBox chatBubble = SharedElements.getChatBubble();
-
-    // add shared elements to the correct places
-    room.getChildren().addAll(chatBox, hintBox);
-    AnchorPane.setBottomAnchor(chatBox, 0.0);
-    AnchorPane.setLeftAnchor(chatBox, 0.0);
-    AnchorPane.setBottomAnchor(hintBox, 0.0);
-    AnchorPane.setLeftAnchor(hintBox, 0.0);
-    bottomVerticalBox.getChildren().add(bottom);
-    inventoryPane.getChildren().add(inventory);
-    dialogueHorizontalBox.getChildren().add(chatBubble);
-    SharedElements.incremnetLoadedScenes();
-    // scale the room to the screen size
-    GameState.scaleToScreen(contentPane);
-
-    // bind the mute button to the GameState muted property
-    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
+    SharedElements.initialize(
+        room, bottomVerticalBox, inventoryPane, dialogueHorizontalBox, muteButton, contentPane);
 
     // get door marker position
     int doorMarkerX = (int) doorMarker.getLayoutX();

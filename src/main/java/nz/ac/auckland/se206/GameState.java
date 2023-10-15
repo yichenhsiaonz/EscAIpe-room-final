@@ -38,6 +38,7 @@ import nz.ac.auckland.se206.gpt.openai.ChatCompletionResult.Choice;
 /** Represents the state of the game. */
 public class GameState {
 
+  /** The items that the player can pick up. */
   public enum Items {
     BREAD_TOASTED,
     BREAD_UNTOASTED,
@@ -65,6 +66,7 @@ public class GameState {
   private static MediaPlayer mediaPlayer;
   private static boolean moving = false;
 
+  /** Resets fields to start a new game. */
   public static void newGame() {
     // reset flags
     endingCongrats = "";
@@ -91,6 +93,7 @@ public class GameState {
     inventoryMap.put(item, itemImageView);
   }
 
+  /** This method starts the timer of the game. */
   public static void startTimer() {
     // allocate a thread to the timer
     System.out.println(instance.chosenTime);
@@ -108,6 +111,11 @@ public class GameState {
     instance.timerThread.interrupt();
   }
 
+  /**
+   * This method sets the difficulty of the game for the user.
+   *
+   * @param difficulty the difficulty of the game
+   */
   public static void setDifficulty(int difficulty) {
     // set the difficulty and update the hints button accordingly
     instance.chosenDifficulty = difficulty;
@@ -155,6 +163,7 @@ public class GameState {
     return instance.muted;
   }
 
+  /** This method toggles whether the game is muted or not. */
   public static void toggleMuted() {
     SharedElements.toggleMuteText();
     instance.muted = !instance.muted;
@@ -164,7 +173,14 @@ public class GameState {
     }
   }
 
-  // get gpt response
+  /**
+   * Gets a response from GPT the AI application.
+   *
+   * @param msg the message to send to GPT
+   * @param hintFlag whether the message is a hint
+   * @return the response from GPT
+   * @throws ApiProxyException if there is an error with the API
+   */
   public static ChatMessage runGpt(ChatMessage msg, boolean hintFlag) throws ApiProxyException {
     // get loading image in each room
     List<ImageView> loadingImages = getLoadingIcons();
@@ -235,6 +251,11 @@ public class GameState {
     return gptTask.getValue();
   }
 
+  /**
+   * The method scales the pane to fit the screen of the application.
+   *
+   * @param contentPane the pane to scale
+   */
   public static void scaleToScreen(AnchorPane contentPane) {
     // calculate the scale factor
     double scale = (double) windowWidth / 1920;
@@ -251,9 +272,16 @@ public class GameState {
             verticalMargin, horizontalMargin, verticalMargin, horizontalMargin));
   }
 
-  // this method runs a translate transition to move the character to a new position
-  // and returns the duration of the animation in seconds.
-  // use the setOnMovementComplete method to run code after the animation is complete.
+  /**
+   * This method runs a translate transition to move the character to a new position and returns the
+   * duration of the animation in seconds. Use the setOnMovementComplete method to run code after
+   * the animation is complete.
+   *
+   * @param destinationX the x coordinate of the destination
+   * @param destinationY the y coordinate of the destination
+   * @param character the character to move
+   * @param running the running gif to move
+   */
   public static void goTo(
       double destinationX, double destinationY, ImageView character, ImageView running) {
 
@@ -319,6 +347,11 @@ public class GameState {
         });
   }
 
+  /**
+   * Runs code after the character has finished moving. If null is passed, the code will not run.
+   *
+   * @param runnable the code to run after the animation is complete
+   */
   public static void setOnMovementComplete(Runnable runnable) {
     if (instance.transition != null) {
       instance.transition.setOnFinished(
@@ -328,6 +361,7 @@ public class GameState {
     }
   }
 
+  /** This method stops the character from moving. */
   public static void stopMoving() {
     setOnMovementComplete(null);
     instance.transition.stop();
@@ -339,9 +373,15 @@ public class GameState {
     instance.transition2.play();
   }
 
-  // This method is used to move the character instantly to a new position without changing
-  // direction.
-  // call this method the same way as goTo.
+  /**
+   * This method is used to move the character instantly to a new position without changing
+   * direction. call this method the same way as goTo.
+   *
+   * @param destinationX the x coordinate of the destination
+   * @param destinationY the y coordinate of the destination
+   * @param character the character to move
+   * @param running the running gif to move
+   */
   public static void goToInstant(
       double destinationX, double destinationY, ImageView character, ImageView running) {
     // Retrieve the character's width and height using fitWidth and fitHeight
@@ -362,6 +402,12 @@ public class GameState {
   // put code you want to run after delay in a Runnable and pass it to this method along with the
   // delay
   // in seconds.
+  /**
+   * This method is used to run code after a delay.
+   *
+   * @param runnable the code to run after the delay
+   * @param delay the delay in seconds
+   */
   public static void delayRun(Runnable runnable, double delay) {
     Task<Void> threadTask =
         new Task<Void>() {
@@ -391,6 +437,7 @@ public class GameState {
     thread.start();
   }
 
+  /** Stops all the threads from running. */
   public static void stopAllThreads() {
     // interrupt all running threads
     for (Thread thread : instance.runningThreads) {
@@ -398,6 +445,11 @@ public class GameState {
     }
   }
 
+  /**
+   * This method adds an item to the users inventory.
+   *
+   * @param item the item to be added
+   */
   public static void addItem(Items item) {
     String itemToAdd;
     String itemToAddGlow;
@@ -534,6 +586,11 @@ public class GameState {
     }
   }
 
+  /**
+   * Removes an item from the inventory.
+   *
+   * @param item the item to be removed
+   */
   public static void removeItem(Items item) {
     try {
       // retrieve list of instances of identical items from the map
@@ -545,6 +602,11 @@ public class GameState {
     }
   }
 
+  /**
+   * This method is used when the user sends a message.
+   *
+   * @throws ApiProxyException if there is an error with the API
+   */
   public static void onMessageSent() throws ApiProxyException {
     // get message from text field
     TextField messageBox = SharedElements.getMessageBox();
@@ -582,6 +644,11 @@ public class GameState {
     instance.currentPuzzle = 3;
   }
 
+  /**
+   * This method is used to get a hint for the current puzzle.
+   *
+   * @throws ApiProxyException if there is an error with the API
+   */
   public static void getPuzzleHint() throws ApiProxyException {
     try {
       SharedElements.disableHintsButton();
@@ -812,6 +879,12 @@ public class GameState {
     imageVisibilityTimeline.play();
   }
 
+  /**
+   * This method is used when the user clicks somewhere for the character to move to.
+   *
+   * @param event the mouse event
+   * @param room the room that the user clicked on
+   */
   public static void onCharacterMovementClick(MouseEvent event, AnchorPane room) {
 
     double mouseX = event.getX();
@@ -846,6 +919,11 @@ public class GameState {
     parallelTransition.play();
   }
 
+  /**
+   * Fades out the room.
+   *
+   * @param room the room to fade out
+   */
   public static void fadeOut(AnchorPane room) {
     room.setMouseTransparent(true);
     Timeline timeline = new Timeline();
@@ -854,6 +932,11 @@ public class GameState {
     timeline.play();
   }
 
+  /**
+   * Fades in the room.
+   *
+   * @param room the room to fade in
+   */
   public static void fadeIn(AnchorPane room) {
     room.setMouseTransparent(false);
     Timeline timeline = new Timeline();
@@ -862,6 +945,11 @@ public class GameState {
     timeline.play();
   }
 
+  /**
+   * Plays a sound file.
+   *
+   * @param soundFile the path to the sound file
+   */
   public static void playSound(String soundFile) {
     try {
       // Stop any currently playing sound
@@ -876,6 +964,7 @@ public class GameState {
     }
   }
 
+  /** This method stops the in game sounds from playing. */
   public static void stopSound() {
     if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
       mediaPlayer.stop();

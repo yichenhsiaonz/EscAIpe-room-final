@@ -58,6 +58,7 @@ public class App extends Application {
     }
   }
 
+  /** This method is invoked when time runs out and the player loses the game. */
   public static void gameOver() {
     // get the scene root's node and fade it to transparent
     Timeline timeline = new Timeline();

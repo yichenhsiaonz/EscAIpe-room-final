@@ -26,6 +26,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,6 +36,7 @@ import nz.ac.auckland.se206.GameState;
 import nz.ac.auckland.se206.TextToSpeechManager;
 import nz.ac.auckland.se206.gpt.openai.ApiProxyException;
 
+/** This class is used to store elements that are shared between scenes. */
 public class SharedElements {
 
   private static SharedElements instance;
@@ -80,8 +82,8 @@ public class SharedElements {
   }
 
   /**
-   * Allocates an instance of a child ChatBox Should not be called again until
-   * incremnetLoadedScenes() is called
+   * Allocates an instance of a child ChatBox. Should not be called again until
+   * incremnetLoadedScenes() is called.
    *
    * @return TextArea containing the chat box
    */
@@ -91,8 +93,8 @@ public class SharedElements {
   }
 
   /**
-   * Allocates an instance of a child HintBox Should not be called again until
-   * incremnetLoadedScenes() is called
+   * Allocates an instance of a child HintBox. Should not be called again until
+   * incremnetLoadedScenes() is called.
    *
    * @return TextArea containing the hint box
    */
@@ -102,10 +104,10 @@ public class SharedElements {
   }
 
   /**
-   * Allocates an instance of a child taskBarHorizontalBox Should not be called again until
-   * incremnetLoadedScenes() is called This is the task bar at the bottom of the screen It contains
-   * the hint list, send message box, the buttons to show the chat history and hint list, and the
-   * button to use a hint
+   * Allocates an instance of a child taskBarHorizontalBox. Should not be called again until
+   * incremnetLoadedScenes() is called. This is the task bar at the bottom of the screen. It
+   * contains the hint list, send message box, the buttons to show the chat history and hint list,
+   * and the button to use a hint.
    *
    * @return HBox containing the task bar
    */
@@ -115,9 +117,9 @@ public class SharedElements {
   }
 
   /**
-   * Allocates an instance of a child inventoryVBox Should not be called again until
-   * incremnetLoadedScenes() is called This is the inventory box on the right of the screen It
-   * contains the items the player has collected
+   * Allocates an instance of a child inventoryVBox. Should not be called again until
+   * incremnetLoadedScenes() is called. This is the inventory box on the right of the screen. It
+   * contains the items the player has collected.
    *
    * @return VBox containing the inventory box
    */
@@ -127,8 +129,8 @@ public class SharedElements {
   }
 
   /**
-   * Allocates an instance of a child hintButton Should not be called again until
-   * incremnetLoadedScenes() is called This is the button to use a hint
+   * Allocates an instance of a child hintButton. Should not be called again until
+   * incremnetLoadedScenes() is called This is the button to use a hint.
    *
    * @return Button containing the hint button
    */
@@ -137,8 +139,8 @@ public class SharedElements {
   }
 
   /**
-   * Allocates an instance of a child chatBubble Should not be called again until
-   * incremnetLoadedScenes() is called This is the chat bubble that appears when the AI speaks
+   * Allocates an instance of a child chatBubble. Should not be called again until
+   * incremnetLoadedScenes() is called. This is the chat bubble that appears when the AI speaks.
    *
    * @return HBox containing the chat bubble
    */
@@ -148,7 +150,7 @@ public class SharedElements {
 
   /**
    * Increments the number of scenes that have been loaded Should be called after each scene is
-   * loaded This is used to determine which set of children to allocate to each scene
+   * loaded. This is used to determine which set of children to allocate to each scene.
    */
   public static void incremnetLoadedScenes() {
     instance.loadedScenes++;
@@ -156,7 +158,7 @@ public class SharedElements {
 
   /**
    * Returns the master message box This is the box where the player types their message to send to
-   * the AI
+   * the AI.
    *
    * @return TextField containing the message box
    */
@@ -165,7 +167,7 @@ public class SharedElements {
   }
 
   /**
-   * Adds items to each inventory child instance
+   * Adds items to each inventory child instance.
    *
    * @param item ImageView array containing three copies of the items to add to each inventory child
    *     instance
@@ -180,7 +182,7 @@ public class SharedElements {
   }
 
   /**
-   * Removes items from each inventory child instance
+   * Removes items from each inventory child instance.
    *
    * @param item ImageView array containing three copies of the items to remove from each inventory
    *     child instance
@@ -193,7 +195,7 @@ public class SharedElements {
   }
 
   /**
-   * Adds text to the master chat box and scrolls each child chat box to the bottom
+   * Adds text to the master chat box and scrolls each child chat box to the bottom.
    *
    * @param message String containing the message to add to the master chat box
    */
@@ -203,7 +205,7 @@ public class SharedElements {
   }
 
   /**
-   * Adds text to the master hint box and scrolls each child hint box to the bottom
+   * Adds text to the master hint box and scrolls each child hint box to the bottom.
    *
    * @param message String containing the message to add to the master hint box
    */
@@ -216,9 +218,10 @@ public class SharedElements {
   }
 
   /**
-   * Sets the text of the master chat bubble label and shows each child chat bubble If the game is
+   * Sets the text of the master chat bubble label and shows each child chat bubble. If the game is
    * not muted, calls the TextToSpeechManager to speak the message and hides each child chat bubble
-   * when the message is finished If the game is muted, hides each child chat bubble after 4 seconds
+   * when the message is finished. If the game is muted, hides each child chat bubble after 4
+   * seconds.
    *
    * @param message String containing the message to set the master chat box to
    */
@@ -264,12 +267,18 @@ public class SharedElements {
     }
   }
 
+  /** This method hides the chat bubble for the user. */
   public static void hideChatBubble() {
     for (int i = 0; i < 3; i++) {
       chatBubbleList[i].setVisible(false);
     }
   }
 
+  /**
+   * Sets the text of the hints button to the number of hints left.
+   *
+   * @param hints The number of hints left
+   */
   public static void setHintsText(int hints) {
     // set master hint button text
     if (hints == 0) {
@@ -668,5 +677,47 @@ public class SharedElements {
       // add new instance to list
       taskBarHorizontalBoxList[i] = taskBarHorizontalBoxChild;
     }
+  }
+
+  /**
+   * This method is called to initalize the different rooms. It fits the elements to the screen
+   * size.
+   *
+   * @param room The room to initialize
+   * @param bottomVerticalBox The task bar box
+   * @param inventoryPane The inventory box
+   * @param dialogueHorizontalBox The chat bubble
+   * @param muteButton The mute button
+   * @param contentPane The content pane
+   */
+  public static void initialize(
+      AnchorPane room,
+      VBox bottomVerticalBox,
+      Pane inventoryPane,
+      HBox dialogueHorizontalBox,
+      Button muteButton,
+      AnchorPane contentPane) {
+    // get shared elements from the SharedElements class
+    HBox bottom = SharedElements.getTaskBarBox();
+    TextArea chatBox = SharedElements.getChatBox();
+    TextArea hintBox = SharedElements.getHintBox();
+    VBox inventory = SharedElements.getInventoryBox();
+    HBox chatBubble = SharedElements.getChatBubble();
+
+    // add shared elements to the correct places
+    room.getChildren().addAll(chatBox, hintBox);
+    AnchorPane.setBottomAnchor(chatBox, 0.0);
+    AnchorPane.setLeftAnchor(chatBox, 0.0);
+    AnchorPane.setBottomAnchor(hintBox, 0.0);
+    AnchorPane.setLeftAnchor(hintBox, 0.0);
+    bottomVerticalBox.getChildren().add(bottom);
+    inventoryPane.getChildren().add(inventory);
+    dialogueHorizontalBox.getChildren().add(chatBubble);
+    SharedElements.incremnetLoadedScenes();
+    // scale the room to the screen size
+    GameState.scaleToScreen(contentPane);
+
+    // bind the mute button to the GameState muted property
+    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
   }
 }
