@@ -102,26 +102,8 @@ public class ControlRoomController {
 
   /** This method initializes the control room for when the user first enters it. */
   public void initialize() {
-    // get shared elements from the SharedElements class
-    HBox bottom = SharedElements.getTaskBarBox();
-    TextArea chatBox = SharedElements.getChatBox();
-    TextArea hintBox = SharedElements.getHintBox();
-    VBox inventory = SharedElements.getInventoryBox();
-    HBox chatBubble = SharedElements.getChatBubble();
-
-    // add shared elements to the correct places
-    room.getChildren().addAll(chatBox, hintBox);
-    AnchorPane.setBottomAnchor(chatBox, 0.0);
-    AnchorPane.setLeftAnchor(chatBox, 0.0);
-    AnchorPane.setBottomAnchor(hintBox, 0.0);
-    AnchorPane.setLeftAnchor(hintBox, 0.0);
-    bottomVerticalBox.getChildren().add(bottom);
-    inventoryPane.getChildren().add(inventory);
-    dialogueHorizontalBox.getChildren().add(chatBubble);
-    SharedElements.incremnetLoadedScenes();
-
-    // bind the mute button to the GameState muted property
-    muteButton.textProperty().bind(SharedElements.getMuteText().textProperty());
+    SharedElements.initialize(
+        room, bottomVerticalBox, inventoryPane, dialogueHorizontalBox, muteButton, contentPane);
 
     // computer initialization
 
@@ -141,8 +123,6 @@ public class ControlRoomController {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    GameState.scaleToScreen(contentPane);
 
     GameState.goToInstant(
         centerDoorMarker.getLayoutX(), centerDoorMarker.getLayoutY(), character, running);
