@@ -1,5 +1,9 @@
 # SOFTENG 206 - EscAIpe Room
 
+- This is a point-and-click adventure game created collaboratively with a group of 3.
+- Written in Java using the JavaFX library.
+- incorporates OpenAI's ChatGPT through a provided API wrapper.
+
 ## To setup OpenAI's API
 
 - add in the root of the project (i.e., the same level where `pom.xml` is located) a file named `apiproxy.config`
