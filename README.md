@@ -10,7 +10,7 @@
 
 ## To setup OpenAI's API
 
-- requires a OpenAI GPT API key
+- requires an OpenAI GPT API key
 - add in the root of the project (i.e., the same level where `pom.xml` is located) a file named `apiproxy.config`
 
   ```
