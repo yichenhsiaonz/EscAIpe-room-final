@@ -3,6 +3,7 @@
 - This is a point-and-click adventure game created collaboratively with a group of 3.
 - Written in Java using the JavaFX library.
 - incorporates OpenAI's ChatGPT through a provided API wrapper.
+- API wrapper provided was a proxy through UOA servers, so it's no longer functioning.
 # Screenshots:
 ![Screenshot 2024-01-16 151322](https://github.com/yichenhsiaonz/EscAIpe-room-final/assets/79343535/c9785f2c-9e1d-4fe7-aaee-20b81bdf6683)
 ![Screenshot 2024-01-16 151437](https://github.com/yichenhsiaonz/EscAIpe-room-final/assets/79343535/d782402c-8428-42be-85d7-5bbd99437f3c)
